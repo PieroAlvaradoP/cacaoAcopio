@@ -47,8 +47,6 @@ class AlmacenRepository extends ServiceEntityRepository implements BaseRepositor
             ->orderBy('almacen.nombre', 'ASC')
         ;
 
-        $this->security->configQuery($queryBuilder, true);
-
         Paginator::queryTexts($queryBuilder, $params, ['almacen.nombre']);
 
         return $queryBuilder;

@@ -7,6 +7,7 @@ use Pidia\Apps\Demo\Form\AlmacenType;
 use Pidia\Apps\Demo\Manager\AlmacenManager;
 use Pidia\Apps\Demo\Manager\UsuarioManager;
 use Pidia\Apps\Demo\Security\Access;
+use Pidia\Apps\Demo\Util\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -47,7 +48,6 @@ class AlmacenController extends BaseController
             $item['direccion'] = $objeto->getDireccion();
             $item['empresa'] = $objeto->getEmpresa();
 
-            $item['activo'] = $objeto->activo();
             $data[] = $item;
             unset($item);
         }
@@ -132,7 +132,7 @@ class AlmacenController extends BaseController
     #[Route(path: '/{id}/delete', name: 'almacen_delete_forever', methods: ['POST'])]
     public function deleteForever(Request $request, Almacen $almacen, AlmacenManager $manager): Response
     {
-        $this->denyAccess(Access::MASTER, 'vendedor_index', $almacen);
+        $this->denyAccess(Access::MASTER, 'almacen_index', $almacen);
         if ($this->isCsrfTokenValid('delete_forever'.$almacen->getId(), $request->request->get('_token'))) {
             if ($manager->remove($almacen)) {
                 $this->addFlash('warning', 'Registro eliminado');
@@ -141,6 +141,6 @@ class AlmacenController extends BaseController
             }
         }
 
-        return $this->redirectToRoute('vendedor_index');
+        return $this->redirectToRoute('almacen_index');
     }
 }

@@ -46,8 +46,6 @@ class LoteRepository extends ServiceEntityRepository implements BaseRepository
             ->orderBy('lote.nroLote', 'ASC')
         ;
 
-        $this->security->configQuery($queryBuilder, true);
-
         Paginator::queryTexts($queryBuilder, $params, ['lote.nroLote']);
 
         return $queryBuilder;

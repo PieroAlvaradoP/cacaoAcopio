@@ -5,7 +5,7 @@ namespace Pidia\Apps\Demo\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use Pidia\Apps\Demo\Entity\Empresa;
 use Pidia\Apps\Demo\Form\EmpresaType;
-use Pidia\Apps\Demo\Repository\EmpresaRepository;
+use Pidia\Apps\Demo\Manager\EmpresaManager;
 use Pidia\Apps\Demo\Security\Access;
 use Pidia\Apps\Demo\Util\Paginator;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +17,7 @@ class EmpresaController extends BaseController
 {
     #[Route('/', name: 'empresa_index', defaults: ['page' => '1'], methods: ['GET'])]
     #[Route(path: '/page/{page<[1-9]\d*>}', name: 'empresa_index_paginated', methods: ['GET'])]
-    public function index(Request $request, int $page, EmpresaRepository $manager): Response
+    public function index(Request $request, int $page, EmpresaManager $manager): Response
     {
         $this->denyAccess(Access::LIST, 'empresa_index');
         $paginator = $manager->list($request->query->all(), $page);
@@ -27,60 +27,120 @@ class EmpresaController extends BaseController
         ]);
     }
 
-    #[Route('/new', name: 'empresa_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route(path: '/export', name: 'empresa_export', methods: ['GET'])]
+    public function export(Request $request, EmpresaManager $manager): Response
     {
+        $this->denyAccess(Access::EXPORT, 'empresa_index');
+        $headers = [
+            'nombre' => 'Nombre',
+            'ruc' => 'RUC',
+            'direccion' => 'Dirección',
+            'email' => 'Email',
+        ];
+        $params = Paginator::params($request->query->all());
+        $objetos = $manager->repositorio()->filter($params, false);
+        $data = [];
+        /** @var Empresa $objeto */
+        foreach ($objetos as $objeto) {
+            $item = [];
+            $item['nombre'] = $objeto->getNombre();
+            $item['ruc'] = $objeto->getRuc();
+            $item['direccion'] = $objeto->getDireccion();
+            $item['email'] = $objeto->getEmail();
+
+            $data[] = $item;
+            unset($item);
+        }
+
+        return $manager->export($data, $headers, 'Reporte de Empresas');
+    }
+
+    #[Route('/new', name: 'empresa_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EmpresaManager $manager): Response
+    {
+        $this->denyAccess(Access::NEW, 'empresa_index');
         $empresa = new Empresa();
         $form = $this->createForm(EmpresaType::class, $empresa);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($empresa);
-            $entityManager->flush();
+            $empresa->setPropietario($this->getUser());
+            if ($manager->save($empresa)) {
+                $this->addFlash('success', 'Registro creado!!!');
+            } else {
+                $this->addErrors($manager->errors());
+            }
 
-            return $this->redirectToRoute('empresa_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('empresa_index');
         }
 
-        return $this->renderForm('empresa/new.html.twig', [
+        return $this->render('empresa/new.html.twig', [
             'empresa' => $empresa,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
     #[Route('/{id}', name: 'empresa_show', methods: ['GET'])]
     public function show(Empresa $empresa): Response
     {
+        $this->denyAccess(Access::VIEW, 'empresa_index');
+
         return $this->render('empresa/show.html.twig', [
             'empresa' => $empresa,
         ]);
     }
 
     #[Route('/{id}/edit', name: 'empresa_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Empresa $empresa, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Empresa $empresa, EmpresaManager $manager): Response
     {
+        $this->denyAccess(Access::EDIT, 'empresa_index');
         $form = $this->createForm(EmpresaType::class, $empresa);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            if ($manager->save($empresa)) {
+                $this->addFlash('success', 'Registro actualizado!!!');
+            } else {
+                $this->addErrors($manager->errors());
+            }
 
-            return $this->redirectToRoute('empresa_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('empresa_index', ['id' => $empresa->getId()]);
         }
 
-        return $this->renderForm('empresa/edit.html.twig', [
+        return $this->render('empresa/edit.html.twig', [
             'empresa' => $empresa,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
     #[Route('/{id}', name: 'empresa_delete', methods: ['POST'])]
-    public function delete(Request $request, Empresa $empresa, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Empresa $empresa, EmpresaManager $manager): Response
     {
+        $this->denyAccess(Access::DELETE, 'empresa_index');
         if ($this->isCsrfTokenValid('delete'.$empresa->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($empresa);
-            $entityManager->flush();
+            $empresa->changeActivo();
+            if ($manager->save($empresa)) {
+                $this->addFlash('success', 'Estado ha sido actualizado');
+            } else {
+                $this->addErrors($manager->errors());
+            }
         }
 
-        return $this->redirectToRoute('empresa_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('empresa_index');
+    }
+
+    #[Route(path: '/{id}/delete', name: 'empresa_delete_forever', methods: ['POST'])]
+    public function deleteForever(Request $request, Empresa $empresa, EmpresaManager $manager): Response
+    {
+        $this->denyAccess(Access::MASTER, 'empresa_index', $empresa);
+        if ($this->isCsrfTokenValid('delete_forever'.$empresa->getId(), $request->request->get('_token'))) {
+            if ($manager->remove($empresa)) {
+                $this->addFlash('warning', 'Registro eliminado');
+            } else {
+                $this->addErrors($manager->errors());
+            }
+        }
+
+        return $this->redirectToRoute('empresa_index');
     }
 }

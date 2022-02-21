@@ -47,8 +47,6 @@ class EmpresaRepository extends ServiceEntityRepository implements BaseRepositor
             ->orderBy('empresa.nombre', 'ASC')
         ;
 
-        $this->security->configQuery($queryBuilder, true);
-
         Paginator::queryTexts($queryBuilder, $params, ['empresa.nombre']);
 
         return $queryBuilder;
