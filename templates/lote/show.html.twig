@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lote{% endblock %}
+
+{% block body %}
+    <h1>Lote</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ lote.id }}</td>
+            </tr>
+            <tr>
+                <th>Periodo</th>
+                <td>{{ lote.periodo }}</td>
+            </tr>
+            <tr>
+                <th>NroLote</th>
+                <td>{{ lote.nroLote }}</td>
+            </tr>
+            <tr>
+                <th>PesoNeto</th>
+                <td>{{ lote.pesoNeto }}</td>
+            </tr>
+            <tr>
+                <th>Acopios</th>
+                <td>{{ lote.acopios }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('lote_index') }}">back to list</a>
+
+    <a href="{{ path('lote_edit', {'id': lote.id}) }}">edit</a>
+
+    {{ include('lote/_delete_form.html.twig') }}
+{% endblock %}
