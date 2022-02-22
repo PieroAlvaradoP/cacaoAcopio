@@ -82,4 +82,5 @@ class Almacen
 
         return $this;
     }
+
 }

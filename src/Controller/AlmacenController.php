@@ -5,7 +5,6 @@ namespace Pidia\Apps\Demo\Controller;
 use Pidia\Apps\Demo\Entity\Almacen;
 use Pidia\Apps\Demo\Form\AlmacenType;
 use Pidia\Apps\Demo\Manager\AlmacenManager;
-use Pidia\Apps\Demo\Manager\UsuarioManager;
 use Pidia\Apps\Demo\Security\Access;
 use Pidia\Apps\Demo\Util\Paginator;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +16,7 @@ class AlmacenController extends BaseController
 {
     #[Route(path: '/', name: 'almacen_index', defaults: ['page' => '1'], methods: ['GET'])]
     #[Route(path: '/page/{page<[1-9]\d*>}', name: 'almacen_index_paginated', methods: ['GET'])]
-    public function index(Request $request, int $page, UsuarioManager $manager): Response
+    public function index(Request $request, int $page, AlmacenManager $manager): Response
     {
         $this->denyAccess(Access::LIST, 'almacen_index');
         $paginator = $manager->list($request->query->all(), $page);
@@ -28,7 +27,7 @@ class AlmacenController extends BaseController
     }
 
     #[Route(path: '/export', name: 'almacen_export', methods: ['GET'])]
-    public function export(Request $request, UsuarioManager $manager): Response
+    public function export(Request $request, AlmacenManager $manager): Response
     {
         $this->denyAccess(Access::EXPORT, 'almacen_index');
         $headers = [
