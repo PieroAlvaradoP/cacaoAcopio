@@ -18,16 +18,8 @@
 {% block _socio_proyecciones_entry_widget -%}
     {% import 'macro/action.html.twig' as actions %}
     {{ actions.frm_column(
-        actions.frm_column_field(form.periodo),
-        actions.frm_column_field(form.empresa),
-    ) }}
-    {{ actions.frm_column(
-        actions.frm_column_field_select(form.tipo_cacao),
-<<<<<<< HEAD
-        actions.frm_column_field_number(form.quintales_proyectados)
-=======
-        actions.frm_column_field(form.quintales_proyectados)
->>>>>>> aab057c5f8e520a543d3525ed7cebe818f1faeaf
+        actions.frm_column_field(form.codigoSocio),
+        actions.frm_column_field_select(form.tipoPersona),
     ) }}
 
     <script src = "{{ asset('js/select2.js') }}"></script>

@@ -16,18 +16,16 @@
         {{ action.tbl_start() }}
         {{ action.thead_start() }}
         <tr>
-            {{ action.th('Nombre', true) }}
-            {{ action.th('DNI/RUC', true) }}
-            {{ action.th('Lugar', true) }}
+            {{ action.th('Codigo', true) }}
+            {{ action.th('Tipo de Persona', true) }}
             <th></th>
         </tr>
         {{ action.thead_end() }}
         {{ action.tbody_start() }}
         {% for socios in paginator.results %}
             <tr>
-                <td>{{ socios.nombre }}</td>
-                <td>{{ socios.dni_ruc }}</td>
-                <td>{{ socios.lugar }}</td>
+                <td>{{ socios.codigoSocio }}</td>
+                <td>{{ socios.tipoPersona }}</td>
                 <td class="text-center">{{ socios.activo | yesnocustom | raw }}</td>
                 <td>
                     {% if access.has('view') %}

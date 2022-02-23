@@ -3,24 +3,69 @@
 {{ action.frm_start(form) }}
 
     {{ action.frm_column(
-        action.frm_column_field(form.nombre),
-        action.frm_column_field(form.dni_ruc)
+        action.frm_column_field(form.codigoSocio),
+        action.frm_column_field_select(form.tipoPersona)
+    ) }}
+
+        <div id="natural_module">
+
+            {{ action.frm_column(
+                action.frm_column_field(form.persona.nombres),
+                action.frm_column_field(form.persona.apellidoPaterno),
+            ) }}
+
+            {{ action.frm_column(
+                action.frm_column_field(form.persona.apellidoMaterno),
+                action.frm_column_field_select(form.persona.sexo),
+            ) }}
+
+            {{ action.frm_column(
+                action.frm_column_field_select(form.persona.tipoDocumento),
+                action.frm_column_field(form.persona.telefono)
+            ) }}
+
+            {{ action.frm_column(
+                action.frm_column_field(form.persona.numDocumento),
+                action.frm_column_field_date(form.persona.fechaNacimiento)
+            ) }}
+
+        </div>
+
+        <div id="juridica_module">
+
+            {{ action.frm_column(
+                action.frm_column_field_select(form.persona.tipoEmpresa),
+                action.frm_column_field(form.persona.razonSocial)
+            ) }}
+
+            {{ action.frm_column(
+                action.frm_column_field(form.persona.direccion),
+                action.frm_column_field(form.persona.representanteLegal)
+            ) }}
+
+            {{ action.frm_column(
+                action.frm_column_field(form.persona.dniRepresentante),
+                null,
+                null,
+                null,
+                2
+            ) }}
+
+        </div>
+
+
+
+    {{ action.frm_column(
+        action.frm_column_field(form.persona.ruc),
+        action.frm_column_field_select(form.persona.estadoRuc),
     ) }}
 
     {{ action.frm_column(
-        action.frm_column_field(form.lugar),
+        action.frm_column_field(form.persona.estadoSocio),
         null,
         null,
         null,
         2
-    ) }}
-
-    {{ action.frm_column(
-        action.frm_column_field_collection(form.proyecciones, '', '', '', 2),
-        null,
-        null,
-        null,
-        1
     ) }}
 
     {{ action.frm_column(

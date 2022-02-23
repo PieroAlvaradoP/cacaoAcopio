@@ -4,7 +4,6 @@ namespace Pidia\Apps\Demo\Form;
 
 use Pidia\Apps\Demo\Entity\Socio;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,16 +12,9 @@ class SocioType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nombre')
-            ->add('dni_ruc')
-            ->add('lugar')
-            ->add('proyecciones', CollectionType::class, [
-                'entry_type' => ProyeccionesType::class,
-                'entry_options' => ['label' => false],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-            ])
+            ->add('codigoSocio')
+            ->add('tipoPersona')
+            ->add('persona', PersonaType::class)
         ;
     }
 

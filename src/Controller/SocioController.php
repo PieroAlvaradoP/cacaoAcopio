@@ -2,7 +2,6 @@
 
 namespace Pidia\Apps\Demo\Controller;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Pidia\Apps\Demo\Entity\Socio;
 use Pidia\Apps\Demo\Form\SocioType;
 use Pidia\Apps\Demo\Manager\SocioManager;
@@ -32,9 +31,9 @@ final class SocioController extends BaseController
     {
         $this->denyAccess(Access::EXPORT, 'socio_index');
         $headers = [
-            'nombre' => 'Nombre',
-            'dni_ruc' => 'DNI/RUC',
-            'lugar' => 'Roles',
+            'codigoSocio' => 'Codigo de Socio',
+            'tipoPersona' => 'Tipo de Persona',
+            'nombre' => 'Nombre del Socio',
             'activo' => 'Activo',
         ];
         $params = Paginator::params($request->query->all());
@@ -43,9 +42,9 @@ final class SocioController extends BaseController
         /** @var Socio $objeto */
         foreach ($objetos as $objeto) {
             $item = [];
-            $item['nombre'] = $objeto->getNombre();
-            $item['dni_ruc'] = $objeto->getDniRuc();
-            $item['lugar'] = $objeto->getLugar();
+            $item['codigoSocio'] = $objeto->getCodigoSocio();
+            $item['tipoPersona'] = $objeto->getTipoPersona();
+            $item['nombre'] = $objeto->getPersona();
             $item['activo'] = $objeto->activo();
             $data[] = $item;
             unset($item);
@@ -141,5 +140,4 @@ final class SocioController extends BaseController
 
         return $this->redirectToRoute('socio_index');
     }
-
 }

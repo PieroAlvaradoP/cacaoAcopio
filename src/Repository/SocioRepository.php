@@ -1,5 +1,6 @@
 <?php
 
+
 namespace Pidia\Apps\Demo\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -14,7 +15,7 @@ use Pidia\Apps\Demo\Util\Paginator;
  * @method Socio[]    findAll()
  * @method Socio[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class SocioRepository extends ServiceEntityRepository implements BaseRepository
+class SocioRepository extends ServiceEntityRepository implements \Pidia\Apps\Demo\Repository\BaseRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -43,7 +44,7 @@ class SocioRepository extends ServiceEntityRepository implements BaseRepository
     {
         $queryBuilder = $this->createQueryBuilder('socio')
             ->select('socio')
-            ->orderBy('socio.nombre');
+            ->orderBy('socio.codigoSocio');
 
         Paginator::queryTexts($queryBuilder, $params, ['socio.nombre']);
 

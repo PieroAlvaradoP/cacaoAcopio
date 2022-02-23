@@ -714,7 +714,7 @@
         {{ actions.frm_label(value,'col-sm-' ~ col ~ ' col-4') }}
         <div class="col-sm-{{ 12-col }} col-8">
             <div class="input-group">
-                {{ form_widget(value, {attr: {class: 'js-flatpickr form-control bg-white ' ~ class_widget ~ actions.frm_errors_class(value)} }) }}
+                {{ form_widget(value, {attr: {class: 'js-flatpickr form-control bg-white js-flatpickr-enabled flatpickr-input ' ~ class_widget ~ actions.frm_errors_class(value)} }) }}
                 <div class="input-group-append">
                     <span class="input-group-text">
                         <i class="fa fa-calendar"></i>
@@ -1299,3 +1299,6 @@
 {%- macro spinner(style='primary') -%}
     spinner-grow text-{{ style }}
 {%- endmacro -%}
+
+{# ########## PIERO ################# #}
+
