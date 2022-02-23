@@ -1,0 +1,35 @@
+{% import 'macro/action.html.twig' as action %}
+
+{{ action.frm_start(form) }}
+
+    {{ action.frm_column(
+        action.frm_column_field(form.nombre),
+        action.frm_column_field(form.alias)
+    ) }}
+
+    {{ action.frm_column(
+        action.frm_column_field(form.estado),
+        action.frm_column_field(form.descripcion)
+    ) }}
+
+    {{ action.frm_column(
+        action.frm_column_field(form.fechaInicio),
+        action.frm_column_field(form.fechaFinal)
+    ) }}
+
+    {{ action.frm_column(
+        action.frm_column_field_select(form.producto, '', '', 2),
+        null,
+        null,
+        null,
+        1
+    ) }}
+
+    {{ action.frm_column(
+        action.frm_column_btn(button_label|default('Guardar')),
+        null,
+        null,
+        null,
+        2
+    ) }}
+{{ action.frm_end(form) }}

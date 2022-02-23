@@ -3,9 +3,9 @@
 {% import 'macro/action.html.twig' as action %}
 {% import 'macro/pagination.html.twig' as pagination %}
 
-{% set _title = 'Almacen' %}
+{% set _title = 'Periodo' %}
 {% set _main_title = 'Listado' %}
-{% set _section =  'almacen_index' %}
+{% set _section =  'periodo_index' %}
 
 {% block _breadcrumb %}
     {{ breadcrumb.show(_title) }}
@@ -17,27 +17,37 @@
         {{ action.thead_start() }}
         <tr>
             {{ action.th('Nombre', true) }}
-            {{ action.th('Tipo de Almacen', true) }}
-            {{ action.th('Dirección', true) }}
-            {{ action.th('Empresa', true) }}
+            {{ action.th('Alias', true) }}
+            {{ action.th('Estado', true) }}
+            {{ action.th('Descripción', true) }}
+            {{ action.th('Fecha de Inicio', true) }}
+            {{ action.th('Fecha Final', true) }}
+            {{ action.th('Productos', true) }}
             {{ action.th('Activo', true, 'text-center') }}
             <th></th>
         </tr>
         {{ action.thead_end() }}
         {{ action.tbody_start() }}
-        {% for almacen in paginator.results %}
+        {% for periodo in paginator.results %}
             <tr>
-                <td>{{ almacen.nombre }}</td>
-                <td>{{ almacen.tipoAlmacen }}</td>
-                <td>{{ almacen.direccion }}</td>
-                <td>{{ almacen.empresa }}</td>
-                <td class="text-center">{{ almacen.activo | yesnocustom | raw }}</td>
+                <td>{{ periodo.nombre }}</td>
+                <td>{{ periodo.alias }}</td>
+                <td>{{ periodo.estado }}</td>
+                <td>{{ periodo.descripcion }}</td>
+                <td>{{ periodo.fechaInicio | date('d-m-Y') }}</td>
+                <td>{{ periodo.fechaFinal | date('d-m-Y') }}</td>
+                <td class="d-none d-sm-table-cell">
+                    {% for producto in periodo.producto %}
+                        Cant: {{ producto.nombre }},
+                        P.Uni: {{ producto.alias }},
+                    {% endfor %} </td>
+                <td class="text-center">{{ periodo.activo | yesnocustom | raw }}</td>
                 <td>
                     {% if access.has('view') %}
-                        {{ action.btn_show_link2_ico(path('almacen_show', {'id': almacen.id})) }}
+                        {{ action.btn_show_link2_ico(path('periodo_show', {'id': periodo.id})) }}
                     {% endif %}
-                    {% if access.has('edit', almacen) %}
-                        {{ action.btn_edit_link2_ico(path('almacen_edit', {'id': almacen.id})) }}
+                    {% if access.has('edit', periodo) %}
+                        {{ action.btn_edit_link2_ico(path('periodo_edit', {'id': periodo.id})) }}
                     {% endif %}
                 </td>
             </tr>
@@ -54,7 +64,7 @@
 {% endblock %}
 
 {% block _main_footer %}
-    {% include 'crud/_index_links.html.twig' with {'route_base': 'almacen'} %}
+    {% include 'crud/_index_links.html.twig' with {'route_base': 'periodo'} %}
 {% endblock%}
 
 {% block _main_options %}
@@ -66,11 +76,11 @@
 {% endblock %}
 
 {% block _body_tools_ico %}
-    {% include 'crud/_index_links_tool.html.twig' with {'route_base': 'almacen'}  %}
+    {% include 'crud/_index_links_tool.html.twig' with {'route_base': 'periodo'}  %}
 {% endblock %}
 
 {% block _body_tools %}
-    {% include 'crud/_index_links_ico.html.twig' with {'route_base': 'almacen'}  %}
+    {% include 'crud/_index_links_ico.html.twig' with {'route_base': 'periodo'}  %}
 {% endblock %}
 
 {% block _stylesheets %}
@@ -80,18 +90,18 @@
     <script>
         $(document).ready(function () {
             $(document).on('change', '#filter_size', function () {
-                let route = '{{ path('almacen_index') }}';
+                let route = '{{ path('periodo_index') }}';
                 route = route + "?" + 'n=' + $('#filter_size option:selected').val();
                 route = route + "&" + 'b=' + $('#filter_text').val();
                 window.location = route;
             });
 
             $(document).on('click', '.btn-send', function () {
-                window.location = '{{ path('almacen_index') }}';
+                window.location = '{{ path('periodo_index') }}';
             });
 
             $(document).on('click', '.btn-clean', function () {
-                window.location.href = '{{ path('almacen_index') }}';
+                window.location.href = '{{ path('periodo_index') }}';
             });
         });
     </script>
