@@ -23,14 +23,14 @@
 
 {% form_theme form _self %}
 
-{% block _socio_proyecciones_label -%}
+{% block _socio_estimacion_label -%}
 {% endblock %}
 
-{% block _socio_proyecciones_entry_widget -%}
+{% block _socio_estimacion_entry_widget -%}
     {% import 'macro/action.html.twig' as actions %}
     {{ actions.frm_column(
-        actions.frm_column_field(form.codigoSocio),
-        actions.frm_column_field_select(form.tipoPersona),
+        actions.frm_column_field_select(form.certificacion),
+        actions.frm_column_field_quantity(form.cantidad),
     ) }}
 
     <script src = "{{ asset('js/select2.js') }}"></script>
@@ -68,7 +68,7 @@
         $('#juridica_module').hide();
         jQuery(document).ready(function (){
             Select2();
-            // $('#socio_tipoPersona').val().string()
+            Collection.init('#socio_estimacion')
             $('#socio_tipoPersona').change(function (){
                if($('#socio_tipoPersona').children("option:selected").text()==="Natural"){
                    $('#juridica_module').hide();

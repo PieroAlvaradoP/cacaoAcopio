@@ -2,71 +2,92 @@
 
 {{ action.frm_start(form) }}
 
-    {{ action.frm_column(
-        action.frm_column_field(form.codigoSocio),
-        action.frm_column_field_select(form.tipoPersona)
-    ) }}
-
-        <div id="natural_module">
-
-            {{ action.frm_column(
-                action.frm_column_field(form.persona.nombres),
-                action.frm_column_field(form.persona.apellidoPaterno),
-            ) }}
-
-            {{ action.frm_column(
-                action.frm_column_field(form.persona.apellidoMaterno),
-                action.frm_column_field_select(form.persona.sexo),
-            ) }}
-
-            {{ action.frm_column(
-                action.frm_column_field_select(form.persona.tipoDocumento),
-                action.frm_column_field(form.persona.telefono)
-            ) }}
-
-            {{ action.frm_column(
-                action.frm_column_field(form.persona.numDocumento),
-                action.frm_column_field_date(form.persona.fechaNacimiento)
-            ) }}
-
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#generales" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Generales</button>
+            <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#periodos" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Periodos</button>
         </div>
+    </nav>
 
-        <div id="juridica_module">
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="generales" role="tabpanel" aria-labelledby="nav-home-tab">
+            {{ action.frm_column(
+                action.frm_column_field(form.codigoSocio),
+                action.frm_column_field_select(form.tipoPersona)
+            ) }}
+
+            <div id="natural_module">
+
+                {{ action.frm_column(
+                    action.frm_column_field(form.persona.nombres),
+                    action.frm_column_field(form.persona.apellidoPaterno),
+                ) }}
+
+                {{ action.frm_column(
+                    action.frm_column_field(form.persona.apellidoMaterno),
+                    action.frm_column_field_select(form.persona.sexo),
+                ) }}
+
+                {{ action.frm_column(
+                    action.frm_column_field_select(form.persona.tipoDocumento),
+                    action.frm_column_field(form.persona.telefono)
+                ) }}
+
+                {{ action.frm_column(
+                    action.frm_column_field(form.persona.numDocumento),
+                    action.frm_column_field(form.persona.fechaNacimiento)
+                ) }}
+
+            </div>
+
+            <div id="juridica_module">
+
+                {{ action.frm_column(
+                    action.frm_column_field_select(form.persona.tipoEmpresa),
+                    action.frm_column_field(form.persona.razonSocial)
+                ) }}
+
+                {{ action.frm_column(
+                    action.frm_column_field(form.persona.direccion),
+                    action.frm_column_field(form.persona.representanteLegal)
+                ) }}
+
+                {{ action.frm_column(
+                    action.frm_column_field(form.persona.dniRepresentante),
+                    null,
+                    null,
+                    null,
+                    2
+                ) }}
+
+            </div>
+
+
 
             {{ action.frm_column(
-                action.frm_column_field_select(form.persona.tipoEmpresa),
-                action.frm_column_field(form.persona.razonSocial)
+                action.frm_column_field(form.persona.ruc),
+                action.frm_column_field_select(form.persona.estadoRuc),
             ) }}
 
             {{ action.frm_column(
-                action.frm_column_field(form.persona.direccion),
-                action.frm_column_field(form.persona.representanteLegal)
-            ) }}
-
-            {{ action.frm_column(
-                action.frm_column_field(form.persona.dniRepresentante),
+                action.frm_column_field_select(form.estadoSocio),
                 null,
                 null,
                 null,
                 2
             ) }}
-
         </div>
-
-
-
-    {{ action.frm_column(
-        action.frm_column_field(form.persona.ruc),
-        action.frm_column_field_select(form.persona.estadoRuc),
-    ) }}
-
-    {{ action.frm_column(
-        action.frm_column_field(form.persona.estadoSocio),
-        null,
-        null,
-        null,
-        2
-    ) }}
+        <div class="tab-pane fade" id="periodos" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <h1>Aqui va periodos</h1>
+            {{ action.frm_column(
+                action.frm_column_field_collection(form.estimacion, '', '', '', 2),
+                null,
+                null,
+                null,
+                1
+            ) }}
+        </div>
+    </div>
 
     {{ action.frm_column(
         action.frm_column_btn(button_label|default('Guardar')),

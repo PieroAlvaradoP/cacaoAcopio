@@ -58,9 +58,6 @@ class Persona
     #[ORM\ManyToOne(targetEntity: EstadoRuc::class)]
     private $estadoRuc;
 
-    #[ORM\ManyToOne(targetEntity: EstadoSocio::class)]
-    private $estadoSocio;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -182,18 +179,6 @@ class Persona
     public function setEstadoRuc(?EstadoRuc $estadoRuc): self
     {
         $this->estadoRuc = $estadoRuc;
-
-        return $this;
-    }
-
-    public function getEstadoSocio(): ?EstadoSocio
-    {
-        return $this->estadoSocio;
-    }
-
-    public function setEstadoSocio(?EstadoSocio $estadoSocio): self
-    {
-        $this->estadoSocio = $estadoSocio;
 
         return $this;
     }

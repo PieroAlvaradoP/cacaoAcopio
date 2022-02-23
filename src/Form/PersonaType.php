@@ -4,6 +4,7 @@ namespace Pidia\Apps\Demo\Form;
 
 use Pidia\Apps\Demo\Entity\Persona;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,7 +20,10 @@ class PersonaType extends AbstractType
             ->add('tipoDocumento')
             ->add('numDocumento')
             ->add('telefono')
-            ->add('fechaNacimiento')
+            ->add('fechaNacimiento', DateType::class, [
+                'widget' => 'single_text',
+                'required' => false,
+            ])
             ->add('tipoEmpresa')
             ->add('razonSocial')
             ->add('direccion')
@@ -27,7 +31,6 @@ class PersonaType extends AbstractType
             ->add('dniRepresentante')
             ->add('ruc')
             ->add('estadoRuc')
-            ->add('estadoSocio')
         ;
     }
 

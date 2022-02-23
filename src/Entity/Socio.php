@@ -2,6 +2,8 @@
 
 namespace Pidia\Apps\Demo\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Pidia\Apps\Demo\Entity\Traits\EntityTrait;
@@ -28,93 +30,22 @@ class Socio
     #[ORM\OneToOne(targetEntity: Persona::class, cascade: ['persist', 'remove'])]
     private $persona;
 
-//    #[ORM\Column(type: 'string', length: 50)]
-//    private $nombre;
-//
-//    #[ORM\Column(type: 'string', length: 11)]
-//    private $dni_ruc;
-//
-//    #[ORM\Column(type: 'string', length: 30)]
-//    private $lugar;
-//
-//    #[ORM\OneToMany(mappedBy: 'socio', targetEntity: Proyecciones::class)]
-//    private $proyecciones;
-//
-//    public function __construct()
-//    {
-//        $this->proyecciones = new ArrayCollection();
-//    }
-//
+    #[ORM\ManyToOne(targetEntity: EstadoSocio::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private $estadoSocio;
+
+    #[ORM\OneToMany(mappedBy: 'socio', targetEntity: Estimacion::class, orphanRemoval: true)]
+    private $estimacion;
+
+    public function __construct()
+    {
+        $this->estimacion = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
-//
-//    public function getNombre(): ?string
-//    {
-//        return $this->nombre;
-//    }
-//
-//    public function setNombre(string $nombre): self
-//    {
-//        $this->nombre = $nombre;
-//
-//        return $this;
-//    }
-//
-//    public function getDniRuc(): ?string
-//    {
-//        return $this->dni_ruc;
-//    }
-//
-//    public function setDniRuc(string $dni_ruc): self
-//    {
-//        $this->dni_ruc = $dni_ruc;
-//
-//        return $this;
-//    }
-//
-//    public function getLugar(): ?string
-//    {
-//        return $this->lugar;
-//    }
-//
-//    public function setLugar(string $lugar): self
-//    {
-//        $this->lugar = $lugar;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * @return Collection<int, Proyecciones>
-//     */
-//    public function getProyecciones(): Collection
-//    {
-//        return $this->proyecciones;
-//    }
-//
-//    public function addProyeccione(Proyecciones $proyeccione): self
-//    {
-//        if (!$this->proyecciones->contains($proyeccione)) {
-//            $this->proyecciones[] = $proyeccione;
-//            $proyeccione->setSocio($this);
-//        }
-//
-//        return $this;
-//    }
-//
-//    public function removeProyeccione(Proyecciones $proyeccione): self
-//    {
-//        if ($this->proyecciones->removeElement($proyeccione)) {
-//            // set the owning side to null (unless already changed)
-//            if ($proyeccione->getSocio() === $this) {
-//                $proyeccione->setSocio(null);
-//            }
-//        }
-//
-//        return $this;
-//    }
 
     public function __toString(): string
     {
@@ -154,6 +85,48 @@ class Socio
     public function setPersona(?Persona $persona): self
     {
         $this->persona = $persona;
+
+        return $this;
+    }
+
+    public function getEstadoSocio(): ?EstadoSocio
+    {
+        return $this->estadoSocio;
+    }
+
+    public function setEstadoSocio(?EstadoSocio $estadoSocio): self
+    {
+        $this->estadoSocio = $estadoSocio;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Estimacion>
+     */
+    public function getEstimacion(): Collection
+    {
+        return $this->estimacion;
+    }
+
+    public function addEstimacion(Estimacion $estimacion): self
+    {
+        if (!$this->estimacion->contains($estimacion)) {
+            $this->estimacion[] = $estimacion;
+            $estimacion->setSocio($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEstimacion(Estimacion $estimacion): self
+    {
+        if ($this->estimacion->removeElement($estimacion)) {
+            // set the owning side to null (unless already changed)
+            if ($estimacion->getSocio() === $this) {
+                $estimacion->setSocio(null);
+            }
+        }
 
         return $this;
     }

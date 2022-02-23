@@ -1302,3 +1302,19 @@
 
 {# ########## PIERO ################# #}
 
+{% macro frm_column_field_quantity(value1, class='', class_widget='', col=4) %}
+    {% import _self as actions %}
+    <div class="form-group  row align-items-center {{ class }}">
+        {{ actions.frm_label(value1,'col-sm-'~col) }}
+        <div class="col-sm-{{ 12-col }}">
+            <div class="input-group">
+                {{ form_widget(value1, {attr: {class: 'form-control m-input ' ~ class_widget} }) }}
+                <div class="input-group-prepend d-none d-sm-flex">
+                    <span class="input-group-text">
+                        <i class="fa fa-balance-scale"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endmacro %}
