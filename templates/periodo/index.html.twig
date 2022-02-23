@@ -22,7 +22,7 @@
             {{ action.th('Descripción', true) }}
             {{ action.th('Fecha de Inicio', true) }}
             {{ action.th('Fecha Final', true) }}
-            {{ action.th('productos', true) }}
+            {{ action.th('Productos', true) }}
             {{ action.th('Activo', true, 'text-center') }}
             <th></th>
         </tr>
@@ -34,16 +34,20 @@
                 <td>{{ periodo.alias }}</td>
                 <td>{{ periodo.estado }}</td>
                 <td>{{ periodo.descripcion }}</td>
-                <td>{{ periodo.fechaInicio }}</td>
-                <td>{{ periodo.fechaFinal }}</td>
-                <td>{{ periodo.productos }}</td>
+                <td>{{ periodo.fechaInicio | date('d-m-Y') }}</td>
+                <td>{{ periodo.fechaFinal | date('d-m-Y') }}</td>
+                <td class="d-none d-sm-table-cell">
+                    {% for producto in periodo.producto %}
+                        Cant: {{ producto.nombre }},
+                        P.Uni: {{ producto.alias }},
+                    {% endfor %} </td>
                 <td class="text-center">{{ periodo.activo | yesnocustom | raw }}</td>
                 <td>
                     {% if access.has('view') %}
-                        {{ action.btn_show_link2_ico(path('cliente_show', {'id': periodo.id})) }}
+                        {{ action.btn_show_link2_ico(path('periodo_show', {'id': periodo.id})) }}
                     {% endif %}
                     {% if access.has('edit', periodo) %}
-                        {{ action.btn_edit_link2_ico(path('cliente_edit', {'id': periodo.id})) }}
+                        {{ action.btn_edit_link2_ico(path('periodo_edit', {'id': periodo.id})) }}
                     {% endif %}
                 </td>
             </tr>

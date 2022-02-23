@@ -4,6 +4,8 @@ namespace Pidia\Apps\Demo\Form;
 
 use Pidia\Apps\Demo\Entity\Periodo;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,15 +18,13 @@ class PeriodoType extends AbstractType
             ->add('alias')
             ->add('estado')
             ->add('descripcion')
-            ->add('fechaInicio')
-            ->add('fechaFinal')
-            ->add('productos')
-            ->add('createdAt')
-            ->add('updatedAt')
-            ->add('activo')
-            ->add('uuid')
-            ->add('propietario')
-            ->add('config')
+            ->add('fechaInicio', DateType::class, [
+                'widget' => 'single_text',
+                'required' => false, ])
+            ->add('fechaFinal', DateType::class, [
+                'widget' => 'single_text',
+                'required' => false, ])
+            ->add('producto')
         ;
     }
 

@@ -2,10 +2,12 @@
 
 namespace Pidia\Apps\Demo\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Pidia\Apps\Demo\Entity\Traits\EntityTrait;
 use Pidia\Apps\Demo\Repository\PeriodoRepository;
-use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PeriodoRepository::class)]
 #[HasLifecycleCallbacks]
@@ -35,8 +37,22 @@ class Periodo
     #[ORM\Column(type: 'date')]
     private $fechaFinal;
 
-    #[ORM\Column(type: 'string', length: 50, nullable: true)]
-    private $productos;
+    #[ORM\ManyToMany(targetEntity: Producto::class)]
+    private $producto;
+
+    public function __construct()
+    {
+        $this->producto = new ArrayCollection();
+        $this->fechaInicio = new \DateTime();
+        $this->fechaFinal = new \DateTime();
+////        $this->fechaFinal = date_date_set(\DateTime::ATOM, 2022, 12, 31);
+//        $year = getdate();
+////        $year = (int) date_default_timezone_get();
+////        $anio = date('Y', $year[6]);
+//        $anio = date('Y', (int) $year[6]);
+//        $this->fechaFinal = date_date_set($date = date_create(), (int) $anio, 12, 31);
+////        $this->fechaFinal = date_date_set($date = date_create(), (int) $year[], 12, 31);
+    }
 
     public function getId(): ?int
     {
@@ -115,14 +131,26 @@ class Periodo
         return $this;
     }
 
-    public function getProductos(): ?string
+    /**
+     * @return Collection<int, Producto>
+     */
+    public function getProducto(): Collection
     {
-        return $this->productos;
+        return $this->producto;
     }
 
-    public function setProductos(?string $productos): self
+    public function addProducto(Producto $producto): self
     {
-        $this->productos = $productos;
+        if (!$this->producto->contains($producto)) {
+            $this->producto[] = $producto;
+        }
+
+        return $this;
+    }
+
+    public function removeProducto(Producto $producto): self
+    {
+        $this->producto->removeElement($producto);
 
         return $this;
     }

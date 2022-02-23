@@ -2,7 +2,6 @@
 
 namespace Pidia\Apps\Demo\Controller;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Pidia\Apps\Demo\Entity\Periodo;
 use Pidia\Apps\Demo\Form\PeriodoType;
 use Pidia\Apps\Demo\Manager\PeriodoManager;
