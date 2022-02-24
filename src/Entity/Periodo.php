@@ -44,14 +44,7 @@ class Periodo
     {
         $this->producto = new ArrayCollection();
         $this->fechaInicio = new \DateTime();
-        $this->fechaFinal = new \DateTime();
-////        $this->fechaFinal = date_date_set(\DateTime::ATOM, 2022, 12, 31);
-//        $year = getdate();
-////        $year = (int) date_default_timezone_get();
-////        $anio = date('Y', $year[6]);
-//        $anio = date('Y', (int) $year[6]);
-//        $this->fechaFinal = date_date_set($date = date_create(), (int) $anio, 12, 31);
-////        $this->fechaFinal = date_date_set($date = date_create(), (int) $year[], 12, 31);
+        $this->fechaFinal = date_date_set(date_create(), (int) date('Y'), 12, 31);
     }
 
     public function getId(): ?int
