@@ -23,6 +23,7 @@ class PersonaType extends AbstractType
             ->add('fechaNacimiento', DateType::class, [
                 'widget' => 'single_text',
                 'required' => false,
+                'html5' => false,
             ])
             ->add('tipoEmpresa')
             ->add('razonSocial')

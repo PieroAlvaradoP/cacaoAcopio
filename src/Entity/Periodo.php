@@ -46,7 +46,7 @@ class Periodo
     {
         $this->producto = new ArrayCollection();
         $this->fechaInicio = new DateTime();
-        $this->fechaFinal = date_add(new DateTime(), date_interval_create_from_date_string('1 year'));
+        $this->fechaFinal = date_date_set(date_create(), (int) date('Y'), 12, 31);
     }
 
     public function getId(): ?int
