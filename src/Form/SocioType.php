@@ -17,11 +17,13 @@ class SocioType extends AbstractType
             ->add('tipoPersona')
             ->add('persona', PersonaType::class)
             ->add('estadoSocio')
-            ->add('estimacion', CollectionType::class, [
-                'entry_type' => EstimacionType::class,
+            ->add('socioPeriodo', CollectionType::class, [
+                'entry_type' => SocioPeriodoType::class,
                 'allow_add' => true,
                 'by_reference' => false,
                 'allow_delete' => true,
+                'required' => false,
+                'label' => 'Periodos del socio',
             ])
         ;
     }

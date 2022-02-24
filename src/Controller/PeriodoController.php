@@ -33,11 +33,11 @@ class PeriodoController extends BaseController
         $headers = [
             'nombre' => 'Nombre',
             'alias' => 'Alias',
-            'estado' => 'Estado',
             'descripcion' => 'Descripción',
             'fechaInicio' => 'Fecha de Inicio',
             'fechaFinal' => 'Fecha Final',
             'productos' => 'Productos',
+            'estado' => 'Estado',
         ];
         $params = Paginator::params($request->query->all());
         $objetos = $manager->repositorio()->filter($params, false);
@@ -51,7 +51,7 @@ class PeriodoController extends BaseController
             $item['descripcion'] = $objeto->getDescripcion();
             $item['fechaInicio'] = $objeto->getFechaInicio();
             $item['fechaFinal'] = $objeto->getFechaFinal();
-            $item['productos'] = $objeto->getProductos();
+            $item['productos'] = $objeto->getProducto();
             $data[] = $item;
             unset($item);
         }
@@ -108,7 +108,7 @@ class PeriodoController extends BaseController
                 $this->addErrors($manager->errors());
             }
 
-            return $this->redirectToRoute('categoria_index', ['id' => $periodo->getId()]);
+            return $this->redirectToRoute('periodo_index', ['id' => $periodo->getId()]);
         }
 
         return $this->render('periodo/edit.html.twig', [
@@ -133,7 +133,7 @@ class PeriodoController extends BaseController
         return $this->redirectToRoute('periodo_index');
     }
 
-    #[Route(path: '/{id}/delete', name: 'categoria_delete_forever', methods: ['POST'])]
+    #[Route(path: '/{id}/delete', name: 'periodo_delete_forever', methods: ['POST'])]
     public function deleteForever(Request $request, Periodo $periodo, PeriodoManager $manager): Response
     {
         $this->denyAccess(Access::MASTER, 'periodo_index', $periodo);

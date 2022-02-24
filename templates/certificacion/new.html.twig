@@ -13,14 +13,6 @@
 
 {% form_theme form _self %}
 
-{% block _certificacion_label -%}
-{% endblock %}
-
-{% block _certificacion_entry_widget -%}
-    {% import 'macro/action.html.twig' as actions %}
-    {{ actions.frm_field_two_with_label(form.name,form.route, 'mb-0','form-control-sm') }}
-{%- endblock %}
-
 {% block _main %}
     {{ include('certificacion/_form.html.twig') }}
 {% endblock %}

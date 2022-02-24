@@ -34,12 +34,12 @@ class Socio
     #[ORM\JoinColumn(nullable: false)]
     private $estadoSocio;
 
-    #[ORM\OneToMany(mappedBy: 'socio', targetEntity: Estimacion::class, orphanRemoval: true)]
-    private $estimacion;
+    #[ORM\OneToMany(mappedBy: 'socio', targetEntity: SocioPeriodo::class, orphanRemoval: true)]
+    private $socioPeriodo;
 
     public function __construct()
     {
-        $this->estimacion = new ArrayCollection();
+        $this->socioPeriodo = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -50,7 +50,7 @@ class Socio
     public function __toString(): string
     {
         // TODO: Implement __toString() method.
-        return $this->getNombre();
+        return $this->getPersona()->getNombres().' '.$this->getPersona()->getApellidoPaterno();
     }
 
     public function getCodigoSocio(): ?string
@@ -102,29 +102,29 @@ class Socio
     }
 
     /**
-     * @return Collection<int, Estimacion>
+     * @return Collection<int, SocioPeriodo>
      */
-    public function getEstimacion(): Collection
+    public function getSocioPeriodo(): Collection
     {
-        return $this->estimacion;
+        return $this->socioPeriodo;
     }
 
-    public function addEstimacion(Estimacion $estimacion): self
+    public function addSocioPeriodo(SocioPeriodo $socioPeriodo): self
     {
-        if (!$this->estimacion->contains($estimacion)) {
-            $this->estimacion[] = $estimacion;
-            $estimacion->setSocio($this);
+        if (!$this->socioPeriodo->contains($socioPeriodo)) {
+            $this->socioPeriodo[] = $socioPeriodo;
+            $socioPeriodo->setSocio($this);
         }
 
         return $this;
     }
 
-    public function removeEstimacion(Estimacion $estimacion): self
+    public function removeSocioPeriodo(SocioPeriodo $socioPeriodo): self
     {
-        if ($this->estimacion->removeElement($estimacion)) {
+        if ($this->socioPeriodo->removeElement($socioPeriodo)) {
             // set the owning side to null (unless already changed)
-            if ($estimacion->getSocio() === $this) {
-                $estimacion->setSocio(null);
+            if ($socioPeriodo->getSocio() === $this) {
+                $socioPeriodo->setSocio(null);
             }
         }
 

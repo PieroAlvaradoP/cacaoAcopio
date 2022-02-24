@@ -23,20 +23,50 @@
 
 {% form_theme form _self %}
 
-{% block _socio_estimacion_label -%}
+{% block _socio_socioPeriodo_label -%}
 {% endblock %}
 
-{% block _socio_estimacion_entry_widget -%}
+{% block _socio_socioPeriodo_entry_widget -%}
+    {% import 'macro/breadcrumb.html.twig' as breadcrumb %}
     {% import 'macro/action.html.twig' as actions %}
     {{ actions.frm_column(
-        actions.frm_column_field_select(form.certificacion),
-        actions.frm_column_field_quantity(form.cantidad),
+        actions.frm_column_field_select(form.periodo),
+        null,
+        null,
+        null,
+        2
     ) }}
+    {{ action.frm_column(
+        actions.frm_column_field_collection(form.estimacion),
+        null,
+        null,
+        null,
+        2
+    ) }}
+
+{#    {% block _socio_socioPeriodo_estimacion_entry_widget -%}#}
+{#        {% import 'macro/breadcrumb.html.twig' as breadcrumb %}#}
+{#        {% import 'macro/action.html.twig' as actions %}#}
+{#        {{ actions.frm_column(#}
+{#            actions.frm_column_field_select(form.certificacion),#}
+{#            actions.frm_column_field_quantity(form.cantidad),#}
+{#        ) }}#}
+{#        <script src = "{{ asset('js/select2.js') }}"></script>#}
+{#        <script>#}
+{#            jQuery(document).ready(function (){#}
+{#                Select2();#}
+{#                Flatpickr();#}
+{#            });#}
+{#        </script>#}
+{#    {%- endblock %}#}
 
     <script src = "{{ asset('js/select2.js') }}"></script>
     <script>
         jQuery(document).ready(function (){
             Select2();
+            Collection.init('#socio_socioPeriodo_{{ name }}_estimacion');
+            Collection.propertyIsEnumerable('true');
+            Flatpickr();
         });
     </script>
 {%- endblock %}
@@ -68,7 +98,8 @@
         $('#juridica_module').hide();
         jQuery(document).ready(function (){
             Select2();
-            Collection.init('#socio_estimacion')
+            Collection.init('#socio_socioPeriodo');
+            Flatpickr();
             $('#socio_tipoPersona').change(function (){
                if($('#socio_tipoPersona').children("option:selected").text()==="Natural"){
                    $('#juridica_module').hide();

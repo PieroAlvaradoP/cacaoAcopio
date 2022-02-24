@@ -62,8 +62,6 @@
 
             </div>
 
-
-
             {{ action.frm_column(
                 action.frm_column_field(form.persona.ruc),
                 action.frm_column_field_select(form.persona.estadoRuc),
@@ -78,9 +76,8 @@
             ) }}
         </div>
         <div class="tab-pane fade" id="periodos" role="tabpanel" aria-labelledby="nav-profile-tab">
-            <h1>Aqui va periodos</h1>
             {{ action.frm_column(
-                action.frm_column_field_collection(form.estimacion, '', '', '', 2),
+                action.frm_column_field_collection(form.socioPeriodo, '', '', '', 2),
                 null,
                 null,
                 null,

@@ -24,6 +24,10 @@ class Estimacion
     #[ORM\JoinColumn(nullable: false)]
     private $socio;
 
+    #[ORM\ManyToOne(targetEntity: SocioPeriodo::class, inversedBy: 'estimacion')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $socioPeriodos;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -61,6 +65,18 @@ class Estimacion
     public function setSocio(?Socio $socio): self
     {
         $this->socio = $socio;
+
+        return $this;
+    }
+
+    public function getSocioPeriodos(): ?SocioPeriodo
+    {
+        return $this->socioPeriodos;
+    }
+
+    public function setSocioPeriodos(?SocioPeriodo $socioPeriodos): self
+    {
+        $this->socioPeriodos = $socioPeriodos;
 
         return $this;
     }
