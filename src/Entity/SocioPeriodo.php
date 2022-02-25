@@ -26,9 +26,13 @@ class SocioPeriodo
     #[ORM\JoinColumn(nullable: false)]
     private $socio;
 
+    #[ORM\OneToMany(mappedBy: 'socioPeriodo', targetEntity: Parcela::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private $parcela;
+
     public function __construct()
     {
         $this->estimacion = new ArrayCollection();
+        $this->parcela = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -86,6 +90,36 @@ class SocioPeriodo
     public function setSocio(?Socio $socio): self
     {
         $this->socio = $socio;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Parcela>
+     */
+    public function getParcela(): Collection
+    {
+        return $this->parcela;
+    }
+
+    public function addParcela(Parcela $parcela): self
+    {
+        if (!$this->parcela->contains($parcela)) {
+            $this->parcela[] = $parcela;
+            $parcela->setSocioPeriodo($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParcela(Parcela $parcela): self
+    {
+        if ($this->parcela->removeElement($parcela)) {
+            // set the owning side to null (unless already changed)
+            if ($parcela->getSocioPeriodo() === $this) {
+                $parcela->setSocioPeriodo(null);
+            }
+        }
 
         return $this;
     }

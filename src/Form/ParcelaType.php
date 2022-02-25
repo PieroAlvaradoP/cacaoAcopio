@@ -2,39 +2,39 @@
 
 namespace Pidia\Apps\Demo\Form;
 
-use Pidia\Apps\Demo\Entity\SocioPeriodo;
+use Pidia\Apps\Demo\Entity\AreaParcela;
+use Pidia\Apps\Demo\Entity\Parcela;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SocioPeriodoType extends AbstractType
+class ParcelaType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('periodo')
-            ->add('estimacion', CollectionType::class, [
-            'entry_type' => EstimacionType::class,
-            'label' => 'Estimaciones',
-            'allow_add' => true,
-            'by_reference' => false,
-            'allow_delete' => true,
+            ->add('nombre')
+            ->add('sector')
+            ->add('base')
+            ->add('areaParcela', AreaParcelaType::class, [
+                'label' => 'Area Cacao',
             ])
-            ->add('parcela', CollectionType::class, [
-                'entry_type' => ParcelaType::class,
-                'label' => 'Parcelas',
+            ->add('coordenadas', CollectionType::class, [
+                'entry_type' => CoordenadasType::class,
                 'allow_add' => true,
                 'by_reference' => false,
                 'allow_delete' => true,
-            ])
-            ;
+                'required' => false,
+                'label' => 'Coordenadas',
+            ]);
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => SocioPeriodo::class,
+            'data_class' => Parcela::class,
         ]);
     }
 }

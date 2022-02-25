@@ -37,14 +37,25 @@
         2
     ) }}
     {{ action.frm_column(
-        actions.frm_column_field_collection(form.estimacion,'','','',2),
+        actions.frm_column_field_collection(form.estimacion,'mb-1 p-1','','',2),
+        null,
+        null,
+        null,
+        1
     ) }}
-
+    {{ action.frm_column(
+        actions.frm_column_field_collection(form.parcela,'mb-1 p-1','','',2),
+        null,
+        null,
+        null,
+        1
+    ) }}
     <script src = "{{ asset('js/select2.js') }}"></script>
     <script>
         jQuery(document).ready(function (){
             Select2();
             Collection.init('#{{ form.estimacion.vars.id }}');
+            Collection.init('#{{ form.parcela.vars.id }}');
             Flatpickr();
         });
     </script>
@@ -66,6 +77,83 @@
         });
     </script>
 {%- endblock %}
+
+{% block _socio_socioPeriodo_entry_parcela_entry_widget -%}
+    {% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+    {% import 'macro/action.html.twig' as actions %}
+    {{ actions.frm_column(
+        actions.frm_column_field(form.nombre),
+        null,
+        null,
+        null,
+        2
+    ) }}
+    {{ actions.frm_column(
+        actions.frm_column_field_select(form.base),
+        actions.frm_column_field(form.sector),
+    ) }}
+    {{ actions.frm_column(
+        actions.frm_column_field(form.areaParcela),
+        null,
+        null,
+        null,
+        2
+    ) }}
+    {{ action.frm_column(
+        actions.frm_column_field_collection(form.coordenadas,'','','',2),
+        null,
+        null,
+        null,
+        1
+    ) }}
+    <script src = "{{ asset('js/collection.js') }}"></script>
+    <script src = "{{ asset('js/select2.js') }}"></script>
+    <script src = "{{ asset('js/flatpickr.js') }}" type="text/javascript"></script>
+    <script>
+        jQuery(document).ready(function (){
+            Select2();
+            Flatpickr();
+            Collection.init('#{{ form.coordenadas.vars.id }}');
+        });
+    </script>
+{%- endblock %}
+
+{% block _socio_socioPeriodo_entry_parcela_entry_coordenadas_entry_widget -%}
+    {% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+    {% import 'macro/action.html.twig' as actions %}
+
+    {{ actions.frm_column(
+        actions.frm_column_field(form.latitud,'','',0),
+        actions.frm_column_field(form.longitud,'','',0),
+        actions.frm_column_field(form.altitud,'','',0),
+    ) }}
+
+    <script src = "{{ asset('js/select2.js') }}"></script>
+    <script src = "{{ asset('js/flatpickr.js') }}" type="text/javascript"></script>
+    <script>
+        jQuery(document).ready(function (){
+            Select2();
+            Flatpickr();
+        });
+    </script>
+{%- endblock %}
+{#{% block _socio_socioPeriodo_entry_parcela_entry_areaParcela_entry_widget -%}#}
+{#    {% import 'macro/breadcrumb.html.twig' as breadcrumb %}#}
+{#    {% import 'macro/action.html.twig' as actions %}#}
+{#    {{ actions.frm_column(#}
+{#        actions.frm_column_field(form.total),#}
+{#        actions.frm_column_field(form.produccion),#}
+{#        actions.frm_column_field(form.crecimiento),#}
+{#    ) }}#}
+{#    <script src = "{{ asset('js/select2.js') }}"></script>#}
+{#    <script src = "{{ asset('js/flatpickr.js') }}" type="text/javascript"></script>#}
+{#    <script>#}
+{#        jQuery(document).ready(function (){#}
+{#            Select2();#}
+{#            Flatpickr();#}
+{#        });#}
+{#    </script>#}
+{#{%- endblock %}#}
 
 {% block _main %}
     {{ include('socio/_form.html.twig') }}

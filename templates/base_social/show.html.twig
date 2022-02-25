@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BaseSocial{% endblock %}
+
+{% block body %}
+    <h1>BaseSocial</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ base_social.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ base_social.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Descripcion</th>
+                <td>{{ base_social.descripcion }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('base_social_index') }}">back to list</a>
+
+    <a href="{{ path('base_social_edit', {'id': base_social.id}) }}">edit</a>
+
+    {{ include('base_social/_delete_form.html.twig') }}
+{% endblock %}

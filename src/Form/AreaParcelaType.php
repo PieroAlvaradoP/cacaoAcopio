@@ -2,33 +2,33 @@
 
 namespace Pidia\Apps\Demo\Form;
 
-use Pidia\Apps\Demo\Entity\Coordenadas;
+use Pidia\Apps\Demo\Entity\AreaParcela;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CoordenadasType extends AbstractType
+class AreaParcelaType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('latitud', TextType::class, [
+            ->add('total', TextType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Latitud',
+                    'placeholder' => 'Total',
                 ],
             ])
-            ->add('longitud', TextType::class, [
+            ->add('produccion', TextType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Longitud',
+                    'placeholder' => 'Producción',
                 ],
             ])
-            ->add('altitud', TextType::class, [
+            ->add('crecimiento', TextType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Altitud',
+                    'placeholder' => 'Crecimiento',
                 ],
             ]);
     }
@@ -36,7 +36,7 @@ class CoordenadasType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Coordenadas::class,
+            'data_class' => AreaParcela::class,
         ]);
     }
 }

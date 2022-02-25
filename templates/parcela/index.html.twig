@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Parcela index{% endblock %}
+
+{% block body %}
+    <h1>Parcela index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Sector</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for parcela in parcelas %}
+            <tr>
+                <td>{{ parcela.id }}</td>
+                <td>{{ parcela.nombre }}</td>
+                <td>{{ parcela.sector }}</td>
+                <td>
+                    <a href="{{ path('parcela_show', {'id': parcela.id}) }}">show</a>
+                    <a href="{{ path('parcela_edit', {'id': parcela.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('parcela_new') }}">Create new</a>
+{% endblock %}

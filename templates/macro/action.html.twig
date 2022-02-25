@@ -416,7 +416,7 @@
 
 {% macro frm_field_collection(value, class='', class_widget='', style='') -%}
     {% import _self as actions %}
-    <div class="form-group  {{ class }} row">
+    <div class="form-group mb-1 p-1  {{ class }} row ">
         {% if value.vars.label %}
             {{ actions.frm_label(value) }}
         {% endif %}
@@ -1302,7 +1302,7 @@
 
 {# ########## PIERO ################# #}
 
-{% macro frm_column_field_quantity(value1, class='', class_widget='', col=4) %}
+{% macro frm_column_field_quantity(value1, class='mb-1 p-1', class_widget='', col=4) %}
     {% import _self as actions %}
     <div class="form-group  row align-items-center {{ class }}">
         {{ actions.frm_label(value1,'col-sm-'~col) }}
