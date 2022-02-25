@@ -2,6 +2,7 @@
 
 namespace Pidia\Apps\Demo\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,10 +26,7 @@ class Periodo
     #[ORM\Column(type: 'string', length: 20)]
     private $alias;
 
-    #[ORM\Column(type: 'string', length: 20)]
-    private $estado;
-
-    #[ORM\Column(type: 'string', length: 50, nullable: true)]
+    #[ORM\Column(type: 'text', nullable: true)]
     private $descripcion;
 
     #[ORM\Column(type: 'date')]
@@ -40,10 +38,14 @@ class Periodo
     #[ORM\ManyToMany(targetEntity: Producto::class)]
     private $producto;
 
+    #[ORM\ManyToOne(targetEntity: EstadoPeriodo::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private $estado;
+
     public function __construct()
     {
         $this->producto = new ArrayCollection();
-        $this->fechaInicio = new \DateTime();
+        $this->fechaInicio = new DateTime();
         $this->fechaFinal = date_date_set(date_create(), (int) date('Y'), 12, 31);
     }
 
@@ -72,18 +74,6 @@ class Periodo
     public function setAlias(string $alias): self
     {
         $this->alias = $alias;
-
-        return $this;
-    }
-
-    public function getEstado(): ?string
-    {
-        return $this->estado;
-    }
-
-    public function setEstado(string $estado): self
-    {
-        $this->estado = $estado;
 
         return $this;
     }
@@ -146,5 +136,23 @@ class Periodo
         $this->producto->removeElement($producto);
 
         return $this;
+    }
+
+    public function getEstado(): ?EstadoPeriodo
+    {
+        return $this->estado;
+    }
+
+    public function setEstado(?EstadoPeriodo $estado): self
+    {
+        $this->estado = $estado;
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        // TODO: Implement __toString() method.
+        return $this->getNombre();
     }
 }

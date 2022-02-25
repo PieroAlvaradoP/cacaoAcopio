@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+{% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+{% import 'macro/action.html.twig' as action %}
+
+{% set _title = 'Socio' %}
+{% set _main_title = 'Editar' %}
+{% set _section = 'socio_index' %}
+
+{% block _breadcrumb %}
+    {{ breadcrumb.show2('Socios',_section,'Editar') }}
+{% endblock %}
+
+{% form_theme form _self %}
+
+{% block _socio_proyecciones_label -%}
+{% endblock %}
+
+{% block _socio_proyecciones_entry_widget -%}
+    {% import 'macro/action.html.twig' as actions %}
+    {{ actions.frm_column(
+        actions.frm_column_field(form.codigoSocio),
+        actions.frm_column_field_select(form.tipoPersona),
+    ) }}
+
+    <script src = "{{ asset('js/select2.js') }}"></script>
+    <script>
+        jQuery(document).ready(function (){
+            Select2();
+        });
+    </script>
+{%- endblock %}
+
+{% block _main %}
+    {{ include('socio/_form.html.twig', {'button_label': 'Actualizar'}) }}
+{% endblock %}
+
+{% block _main_tools %}
+    {% include 'crud/_tools_ico.html.twig' %}
+{% endblock %}
+
+{% block _body_tools %}
+    {% include 'crud/_edit_links_ico.html.twig' with {'route_base':'socio','entity': socio} %}
+{% endblock %}
+
+{% block _body_tools_ico %}
+    {% include 'crud/_edit_links_tool.html.twig' with {'route_base':'socio','entity': socio} %}
+{% endblock %}
+
+{% block _main_footer %}
+    {% include 'crud/_edit_links.html.twig' with {'route_base':'socio','entity': socio} %}
+{% endblock %}
+
+{% block _stylesheets %}
+{% endblock %}
+
+{% block _javascripts %}
+    <script src = "{{ asset('js/collection.js') }}"></script>
+    <script src = "{{ asset('js/select2.js') }}"></script>
+    <script>
+        jQuery(document).ready(function (){
+            Select2();
+            Collection.init('#socio_proyecciones')
+        });
+    </script>
+{% endblock %}

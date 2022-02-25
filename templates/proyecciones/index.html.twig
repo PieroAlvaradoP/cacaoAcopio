@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Proyecciones index{% endblock %}
+
+{% block body %}
+    <h1>Proyecciones index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Periodo</th>
+                <th>Empresa</th>
+                <th>Tipo_cacao</th>
+                <th>Quintales_proyectados</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for proyeccione in proyecciones %}
+            <tr>
+                <td>{{ proyeccione.id }}</td>
+                <td>{{ proyeccione.periodo }}</td>
+                <td>{{ proyeccione.empresa }}</td>
+                <td>{{ proyeccione.tipoCacao }}</td>
+                <td>{{ proyeccione.quintalesProyectados }}</td>
+                <td>
+                    <a href="{{ path('proyecciones_show', {'id': proyeccione.id}) }}">show</a>
+                    <a href="{{ path('proyecciones_edit', {'id': proyeccione.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('proyecciones_new') }}">Create new</a>
+{% endblock %}

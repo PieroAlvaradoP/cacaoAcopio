@@ -33,11 +33,11 @@ class PeriodoController extends BaseController
         $headers = [
             'nombre' => 'Nombre',
             'alias' => 'Alias',
-            'estado' => 'Estado',
             'descripcion' => 'Descripción',
             'fechaInicio' => 'Fecha de Inicio',
             'fechaFinal' => 'Fecha Final',
-            'producto' => 'Productos',
+            'productos' => 'Productos',
+            'estado' => 'Estado',
         ];
         $params = Paginator::params($request->query->all());
         $objetos = $manager->repositorio()->filter($params, false);
@@ -51,7 +51,7 @@ class PeriodoController extends BaseController
             $item['descripcion'] = $objeto->getDescripcion();
             $item['fechaInicio'] = $objeto->getFechaInicio();
             $item['fechaFinal'] = $objeto->getFechaFinal();
-            $item['producto'] = $objeto->getProducto();
+            $item['productos'] = $objeto->getProducto();
             $data[] = $item;
             unset($item);
         }

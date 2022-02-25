@@ -1,0 +1,113 @@
+
+{% extends 'base.html.twig' %}
+{% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+{% import 'macro/action.html.twig' as action %}
+
+{% set _title = 'Socio' %}
+{% set _main_title = 'Nuevo' %}
+{% set _section =  'socio_index'%}
+
+{% block _breadcrumb %}
+    {{ breadcrumb.show2(_title,_section,'Nuevo') }}
+{% endblock %}
+
+{% form_theme form _self %}
+
+{% block _config_menus_label -%}
+{% endblock %}
+
+{% block _config_menus_entry_widget -%}
+    {% import 'macro/action.html.twig' as actions %}
+    {{ actions.frm_field_two_with_label(form.name,form.route, 'mb-0','form-control-sm') }}
+{%- endblock %}
+
+{% form_theme form _self %}
+
+{% block _socio_socioPeriodo_label -%}
+{% endblock %}
+
+{% block _socio_socioPeriodo_entry_widget -%}
+    {% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+    {% import 'macro/action.html.twig' as actions %}
+    {{ actions.frm_column(
+        actions.frm_column_field_select(form.periodo),
+        null,
+        null,
+        null,
+        2
+    ) }}
+    {{ action.frm_column(
+        actions.frm_column_field_collection(form.estimacion,'','','',2),
+    ) }}
+
+    <script src = "{{ asset('js/select2.js') }}"></script>
+    <script>
+        jQuery(document).ready(function (){
+            Select2();
+            Collection.init('#{{ form.estimacion.vars.id }}');
+            Flatpickr();
+        });
+    </script>
+{%- endblock %}
+
+{% block _socio_socioPeriodo_entry_estimacion_entry_widget -%}
+    {% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+    {% import 'macro/action.html.twig' as actions %}
+    {{ actions.frm_column(
+        actions.frm_column_field_select(form.certificacion),
+        actions.frm_column_field_quantity(form.cantidad),
+    ) }}
+    <script src = "{{ asset('js/select2.js') }}"></script>
+    <script src = "{{ asset('js/flatpickr.js') }}" type="text/javascript"></script>
+    <script>
+        jQuery(document).ready(function (){
+            Select2();
+            Flatpickr();
+        });
+    </script>
+{%- endblock %}
+
+{% block _main %}
+    {{ include('socio/_form.html.twig') }}
+{% endblock %}
+
+{% block _main_tools %}
+    {% include 'crud/_tools_ico.html.twig' %}
+{% endblock %}
+
+{% block _body_tools %}
+    {% include 'crud/_new_links_ico.html.twig' with {'route_base':'socio'} %}
+{% endblock %}
+
+{% block _body_tools_ico %}
+    {% include 'crud/_new_links_tool.html.twig' with {'route_base': 'socio'}  %}
+{% endblock %}
+
+{% block _main_footer %}
+    {% include 'crud/_new_links.html.twig' with {'route_base':'socio'} %}
+{% endblock %}
+
+{% block _javascripts %}
+    <script src = "{{ asset('js/collection.js') }}"></script>
+    <script src = "{{ asset('js/select2.js') }}"></script>
+    <script src = "{{ asset('js/flatpickr.js') }}" type="text/javascript"></script>
+    <script>
+        $('#juridica_module').hide();
+        jQuery(document).ready(function (){
+            Select2();
+            Collection.init('#socio_socioPeriodo');
+            Flatpickr();
+            $("#socio_persona_fechaNacimiento").flatpickr();
+            $('#socio_tipoPersona').change(function (){
+               if($('#socio_tipoPersona').children("option:selected").text()==="Natural"){
+                   $('#juridica_module').hide();
+                   $('#natural_module').show();
+               } else {
+                   $('#natural_module').hide();
+                   $('#juridica_module').show();
+               }
+            });
+
+        });
+    </script>
+{% endblock %}

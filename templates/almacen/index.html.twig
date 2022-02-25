@@ -16,8 +16,9 @@
         {{ action.tbl_start() }}
         {{ action.thead_start() }}
         <tr>
+            {{ action.th('Tipo', true) }}
             {{ action.th('Nombre', true) }}
-            {{ action.th('Tipo de Almacen', true) }}
+            {{ action.th('Ubicacion', true) }}
             {{ action.th('Dirección', true) }}
             {{ action.th('Empresa', true) }}
             {{ action.th('Activo', true, 'text-center') }}
@@ -29,6 +30,7 @@
             <tr>
                 <td>{{ almacen.nombre }}</td>
                 <td>{{ almacen.tipoAlmacen }}</td>
+                <td>{{ almacen.ubicacion }}</td>
                 <td>{{ almacen.direccion }}</td>
                 <td>{{ almacen.empresa }}</td>
                 <td class="text-center">{{ almacen.activo | yesnocustom | raw }}</td>
@@ -43,7 +45,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">No hay registros</td>
+                <td colspan="12">No hay registros</td>
             </tr>
         {% endfor %}
         {{ action.tbody_end() }}

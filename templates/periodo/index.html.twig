@@ -19,7 +19,6 @@
             {{ action.th('Nombre', true) }}
             {{ action.th('Alias', true) }}
             {{ action.th('Estado', true) }}
-            {{ action.th('Descripción', true) }}
             {{ action.th('Fecha de Inicio', true) }}
             {{ action.th('Fecha Final', true) }}
             {{ action.th('Productos', true) }}
@@ -33,7 +32,6 @@
                 <td>{{ periodo.nombre }}</td>
                 <td>{{ periodo.alias }}</td>
                 <td>{{ periodo.estado }}</td>
-                <td>{{ periodo.descripcion }}</td>
                 <td>{{ periodo.fechaInicio | date('d-m-Y') }}</td>
                 <td>{{ periodo.fechaFinal | date('d-m-Y') }}</td>
                 <td class="d-none d-sm-table-cell">
@@ -53,7 +51,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">No hay registros</td>
+                <td colspan="12">No hay registros</td>
             </tr>
         {% endfor %}
         {{ action.tbody_end() }}

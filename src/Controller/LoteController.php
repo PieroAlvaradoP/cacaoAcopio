@@ -131,7 +131,7 @@ class LoteController extends BaseController
     #[Route(path: '/{id}/delete', name: 'lote_delete_forever', methods: ['POST'])]
     public function deleteForever(Request $request, Lote $lote, LoteManager $manager): Response
     {
-        $this->denyAccess(Access::MASTER, 'cliente_index', $lote);
+        $this->denyAccess(Access::MASTER, 'lote_index', $lote);
         if ($this->isCsrfTokenValid('delete_forever'.$lote->getId(), $request->request->get('_token'))) {
             if ($manager->remove($lote)) {
                 $this->addFlash('warning', 'Registro eliminado');
