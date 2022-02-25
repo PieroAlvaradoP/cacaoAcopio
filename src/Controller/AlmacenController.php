@@ -51,7 +51,7 @@ class AlmacenController extends BaseController
             unset($item);
         }
 
-        return $manager->export($data, $headers, 'Reporte de Usuario');
+        return $manager->export($data, $headers, 'Reporte de Almacenes');
     }
 
     #[Route('/new', name: 'almacen_new', methods: ['GET|POST'])]

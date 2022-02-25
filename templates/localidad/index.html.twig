@@ -3,9 +3,9 @@
 {% import 'macro/action.html.twig' as action %}
 {% import 'macro/pagination.html.twig' as pagination %}
 
-{% set _title = 'Almacen' %}
+{% set _title = 'Localidad' %}
 {% set _main_title = 'Listado' %}
-{% set _section =  'almacen_index' %}
+{% set _section =  'localidad_index' %}
 
 {% block _breadcrumb %}
     {{ breadcrumb.show(_title) }}
@@ -16,36 +16,32 @@
         {{ action.tbl_start() }}
         {{ action.thead_start() }}
         <tr>
-            {{ action.th('Tipo', true) }}
+            {{ action.th('Padre', true) }}
             {{ action.th('Nombre', true) }}
-            {{ action.th('Ubicacion', true) }}
-            {{ action.th('Dirección', true) }}
-            {{ action.th('Empresa', true) }}
+            {{ action.th('Codigo', true) }}
             {{ action.th('Activo', true, 'text-center') }}
             <th></th>
         </tr>
         {{ action.thead_end() }}
         {{ action.tbody_start() }}
-        {% for almacen in paginator.results %}
+        {% for localidad in paginator.results %}
             <tr>
-                <td>{{ almacen.nombre }}</td>
-                <td>{{ almacen.tipoAlmacen }}</td>
-                <td>{{ almacen.ubicacion }}</td>
-                <td>{{ almacen.direccion }}</td>
-                <td>{{ almacen.empresa }}</td>
-                <td class="text-center">{{ almacen.activo | yesnocustom | raw }}</td>
+                <td>{{ localidad.padre }}</td>
+                <td>{{ localidad.nombre }}</td>
+                <td>{{ localidad.codigo }}</td>
+                <td class="text-center">{{ localidad.activo | yesnocustom | raw }}</td>
                 <td>
                     {% if access.has('view') %}
-                        {{ action.btn_show_link2_ico(path('almacen_show', {'id': almacen.id})) }}
+                        {{ action.btn_show_link2_ico(path('localidad_show', {'id': localidad.id})) }}
                     {% endif %}
-                    {% if access.has('edit', almacen) %}
-                        {{ action.btn_edit_link2_ico(path('almacen_edit', {'id': almacen.id})) }}
+                    {% if access.has('edit', localidad) %}
+                        {{ action.btn_edit_link2_ico(path('localidad_edit', {'id': localidad.id})) }}
                     {% endif %}
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="12">No hay registros</td>
+                <td colspan="4">No hay registros</td>
             </tr>
         {% endfor %}
         {{ action.tbody_end() }}
@@ -56,7 +52,7 @@
 {% endblock %}
 
 {% block _main_footer %}
-    {% include 'crud/_index_links.html.twig' with {'route_base': 'almacen'} %}
+    {% include 'crud/_index_links.html.twig' with {'route_base': 'localidad'} %}
 {% endblock%}
 
 {% block _main_options %}
@@ -68,11 +64,11 @@
 {% endblock %}
 
 {% block _body_tools_ico %}
-    {% include 'crud/_index_links_tool.html.twig' with {'route_base': 'almacen'}  %}
+    {% include 'crud/_index_links_tool.html.twig' with {'route_base': 'localidad'}  %}
 {% endblock %}
 
 {% block _body_tools %}
-    {% include 'crud/_index_links_ico.html.twig' with {'route_base': 'almacen'}  %}
+    {% include 'crud/_index_links_ico.html.twig' with {'route_base': 'localidad'}  %}
 {% endblock %}
 
 {% block _stylesheets %}
@@ -82,18 +78,18 @@
     <script>
         $(document).ready(function () {
             $(document).on('change', '#filter_size', function () {
-                let route = '{{ path('almacen_index') }}';
+                let route = '{{ path('localidad_index') }}';
                 route = route + "?" + 'n=' + $('#filter_size option:selected').val();
                 route = route + "&" + 'b=' + $('#filter_text').val();
                 window.location = route;
             });
 
             $(document).on('click', '.btn-send', function () {
-                window.location = '{{ path('almacen_index') }}';
+                window.location = '{{ path('localidad_index') }}';
             });
 
             $(document).on('click', '.btn-clean', function () {
-                window.location.href = '{{ path('almacen_index') }}';
+                window.location.href = '{{ path('localidad_index') }}';
             });
         });
     </script>

@@ -34,7 +34,7 @@ class Socio
     #[ORM\JoinColumn(nullable: false)]
     private $estadoSocio;
 
-    #[ORM\OneToMany(mappedBy: 'socio', targetEntity: SocioPeriodo::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'socio', targetEntity: SocioPeriodo::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $socioPeriodo;
 
     public function __construct()
@@ -50,7 +50,7 @@ class Socio
     public function __toString(): string
     {
         // TODO: Implement __toString() method.
-        return $this->getPersona()->getNombres().' '.$this->getPersona()->getApellidoPaterno();
+        return $this->getPersona()->getNombres() . ' ' . $this->getPersona()->getApellidoPaterno();
     }
 
     public function getCodigoSocio(): ?string

@@ -19,7 +19,7 @@ class SocioPeriodo
     #[ORM\JoinColumn(nullable: false)]
     private $periodo;
 
-    #[ORM\OneToMany(mappedBy: 'socioPeriodos', targetEntity: Estimacion::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'socioPeriodos', targetEntity: Estimacion::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $estimacion;
 
     #[ORM\ManyToOne(targetEntity: Socio::class, inversedBy: 'socioPeriodo')]

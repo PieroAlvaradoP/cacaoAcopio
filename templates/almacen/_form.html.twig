@@ -3,13 +3,29 @@
 {{ action.frm_start(form) }}
 
     {{ action.frm_column(
-        action.frm_column_field(form.Nombre),
-        action.frm_column_field_select(form.tipoAlmacen)
+        action.frm_column_field(form.tipoAlmacen),
+        null,
+        null,
+        null,
+        2
     ) }}
 
     {{ action.frm_column(
-        action.frm_column_field(form.direccion),
+        action.frm_column_field(form.nombre),
+        action.frm_column_field(form.direccion)
+    ) }}
+
+    {{ action.frm_column(
+        action.frm_column_field(form.ubicacion),
         action.frm_column_field_select(form.empresa)
+    ) }}
+
+    {{ action.frm_column(
+        action.frm_column_field_collection(form.saldo, '', '', '', 2),
+        null,
+        null,
+        null,
+        1
     ) }}
 
     {{ action.frm_column(
