@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+{% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+{% import 'macro/action.html.twig' as action %}
+{% import 'macro/pagination.html.twig' as pagination %}
+
+{% set _title = 'Acopio' %}
+{% set _main_title = 'Listado' %}
+{% set _section =  'acopio_index' %}
+
+{% block _breadcrumb %}
+    {{ breadcrumb.show(_title) }}
+{% endblock %}
+
+{% block _main %}
+    <div class="table-responsive">
+        {{ action.tbl_start() }}
+        {{ action.thead_start() }}
+        <tr>
+            {{ action.th('Fecha', true,  'text-center') }}
+            {{ action.th('Periodo', true, 'text-center') }}
+            {{ action.th('Socio', true, 'text-center') }}
+            {{ action.th('Ticket', true, 'text-center') }}
+            {{ action.th('Certificación', true, 'text-center') }}
+            {{ action.th('Almacen', true, 'text-center') }}
+            {{ action.th('Peso Neto', true, 'text-center') }}
+            {{ action.th('Activo', true, 'text-center') }}
+            <th></th>
+        </tr>
+        {{ action.thead_end() }}
+        {{ action.tbody_start() }}
+        {% for acopio in paginator.results %}
+            <tr>
+                <td>{{ acopio.fecha }}</td>
+                <td>{{ acopio.periodo }}</td>
+                <td>{{ acopio.socio }}</td>
+                <td>{{ acopio.ticket }}</td>
+                <td>{{ acopio.certificacion }}</td>
+                <td>{{ acopio.almacen }}</td>
+                <td>{{ acopio.pesoNeto }}</td>
+                <td class="text-center">{{ acopio.activo | yesnocustom | raw }}</td>
+                <td>
+                    {% if access.has('view') %}
+                        {{ action.btn_show_link2_ico(path('acopio_show', {'id': acopio.id})) }}
+                    {% endif %}
+                    {% if access.has('edit', acopio) %}
+                        {{ action.btn_edit_link2_ico(path('acopio_edit', {'id': acopio.id})) }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12">No hay registros</td>
+            </tr>
+        {% endfor %}
+        {{ action.tbody_end() }}
+        {{ action.tbl_end() }}
+    </div>
+
+    {{ pagination.show(paginator, _section) }}
+{% endblock %}
+
+{% block _main_footer %}
+    {% include 'crud/_index_links.html.twig' with {'route_base': 'acopio'} %}
+{% endblock%}
+
+{% block _main_options %}
+    {% include 'crud/_index_filter.html.twig' %}
+{% endblock %}
+
+{% block _main_tools %}
+    {% include 'crud/_tools_ico.html.twig' %}
+{% endblock %}
+
+{% block _body_tools_ico %}
+    {% include 'crud/_index_links_tool.html.twig' with {'route_base': 'acopio'}  %}
+{% endblock %}
+
+{% block _body_tools %}
+    {% include 'crud/_index_links_ico.html.twig' with {'route_base': 'acopio'}  %}
+{% endblock %}
+
+{% block _stylesheets %}
+{% endblock %}
+
+{% block _javascripts %}
+    <script>
+        $(document).ready(function () {
+            $(document).on('change', '#filter_size', function () {
+                let route = '{{ path('acopio_index') }}';
+                route = route + "?" + 'n=' + $('#filter_size option:selected').val();
+                route = route + "&" + 'b=' + $('#filter_text').val();
+                window.location = route;
+            });
+
+            $(document).on('click', '.btn-send', function () {
+                window.location = '{{ path('acopio_index') }}';
+            });
+
+            $(document).on('click', '.btn-clean', function () {
+                window.location.href = '{{ path('acopio_index') }}';
+            });
+        });
+    </script>
+{% endblock %}

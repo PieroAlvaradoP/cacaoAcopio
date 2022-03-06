@@ -1318,6 +1318,7 @@
             {{ _self.frm_errors(value) }}
         </div>
     </div>
+</div>
 {% endmacro %}
 
 {% macro frm_input_group_muestra(value, class='', class_widget='', col=4) %}
@@ -1340,6 +1341,7 @@
             {{ _self.frm_errors(value) }}
         </div>
     </div>
+</div>
 {% endmacro %}
 
 {% macro frm_field_simple(value, class='', class_widget='', col=4) %}
@@ -1362,6 +1364,30 @@
 {#                {% set myclass = value1.vars.attr.class is defined ? myclass ~ value1.vars.attr.class : myclass %}#}
 {#            {% endif %}#}
 {#            {{ form_widget(value1, {attr: {class: (myclass ~ class_widget) | trim} }) }}#}
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro frm_field_and_select2(value1, value2, class_widget='', placeholder='Seleccione...') %}
+    {% import _self as actions %}
+{#    <div class="form-group  row {{ class }}">#}
+    <div class="form-group row mb-1 p-1">
+{#        {{ form_label(value1,label, {label_attr: {class: 'col-lg-4 col-form-label'} }) }}#}
+        {{ actions.frm_label(value1, 'col-sm-4') }}
+{#        <div class="{{ _class_horizontal_widget }}">#}
+        <div class="col-sm-8 col-8">
+            <div class="input-group">
+                <div class="col-sm-8">
+                    {{ form_widget(value1, {attr: {class: 'form-control m-input ' ~ class_widget} }) }}
+                    {{ actions.frm_help(value1) }}
+                    {{ actions.frm_errors(value1) }}
+                </div>
+                <div class="col-sm-4">
+                    {{ form_widget(value2, {attr: {class: 'js-select2 form-control ' ~ class_widget ~ actions.frm_errors_class(value2), 'data-placeholder': placeholder | gtrans} }) }}
+                    {{ actions.frm_help(value2) }}
+                    {{ actions.frm_errors(value2) }}
+                </div>
             </div>
         </div>
     </div>
