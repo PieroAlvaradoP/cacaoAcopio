@@ -3,6 +3,7 @@
 namespace Pidia\Apps\Demo\Form;
 
 use Pidia\Apps\Demo\Entity\Socio;
+use Pidia\Apps\Demo\Entity\SocioPeriodo;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -24,6 +25,8 @@ class SocioType extends AbstractType
                 'allow_delete' => true,
                 'required' => false,
                 'label' => 'Periodos del socio',
+                'prototype_data' => new SocioPeriodo(),
+                'prototype_name' => '__socioPeriodo__',
             ])
         ;
     }

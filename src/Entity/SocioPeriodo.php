@@ -4,8 +4,8 @@ namespace Pidia\Apps\Demo\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Pidia\Apps\Demo\Repository\SocioPeriodosRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Pidia\Apps\Demo\Repository\SocioPeriodosRepository;
 
 #[ORM\Entity(repositoryClass: SocioPeriodosRepository::class)]
 class SocioPeriodo
@@ -27,12 +27,12 @@ class SocioPeriodo
     private $socio;
 
     #[ORM\OneToMany(mappedBy: 'socioPeriodo', targetEntity: Parcela::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
-    private $parcela;
+    private $parcelas;
 
     public function __construct()
     {
         $this->estimacion = new ArrayCollection();
-        $this->parcela = new ArrayCollection();
+        $this->parcelas = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -97,15 +97,15 @@ class SocioPeriodo
     /**
      * @return Collection<int, Parcela>
      */
-    public function getParcela(): Collection
+    public function getParcelas(): Collection
     {
-        return $this->parcela;
+        return $this->parcelas;
     }
 
     public function addParcela(Parcela $parcela): self
     {
-        if (!$this->parcela->contains($parcela)) {
-            $this->parcela[] = $parcela;
+        if (!$this->parcelas->contains($parcela)) {
+            $this->parcelas[] = $parcela;
             $parcela->setSocioPeriodo($this);
         }
 
@@ -114,7 +114,7 @@ class SocioPeriodo
 
     public function removeParcela(Parcela $parcela): self
     {
-        if ($this->parcela->removeElement($parcela)) {
+        if ($this->parcelas->removeElement($parcela)) {
             // set the owning side to null (unless already changed)
             if ($parcela->getSocioPeriodo() === $this) {
                 $parcela->setSocioPeriodo(null);

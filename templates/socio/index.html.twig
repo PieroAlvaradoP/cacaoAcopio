@@ -17,7 +17,10 @@
         {{ action.thead_start() }}
         <tr>
             {{ action.th('Codigo', true) }}
-            {{ action.th('Tipo de Persona', true) }}
+            {{ action.th('DNI/RUC', true) }}
+            {{ action.th('Nombre/Razón Social', true) }}
+            {{ action.th('Estado', true) }}
+            {{ action.th('Activo', true, 'text-center') }}
             <th></th>
         </tr>
         {{ action.thead_end() }}
@@ -25,7 +28,26 @@
         {% for socios in paginator.results %}
             <tr>
                 <td>{{ socios.codigoSocio }}</td>
-                <td>{{ socios.tipoPersona }}</td>
+                <td> {% if socios.tipoPersona == 'Natural'  %}
+                        {{ socios.persona.numDocumento }}
+                    {% else %}
+                        {{ socios.persona.ruc }}
+                    {% endif %}
+                </td>
+                {%- if socios.tipoPersona == 'Natural' -%}
+                    <td>{{ socios.persona.nombres }}</td>
+                {%- else -%}
+                    <td>{{ socios.persona.razonSocial }}</td>
+                {%- endif -%}
+                <td>
+                    {% if socios.estadoSocio == 'Habilitado' %}
+                        <span class="badge badge-success">{{ socios.estadoSocio }}</span>
+                    {% elseif socios.estadoSocio == 'Sancionado' %}
+                        <span class="badge badge-warning">{{ socios.estadoSocio }}</span>
+                    {% else %}
+                        <span class="badge badge-secondary">{{ socios.estadoSocio }}</span>
+                    {% endif %}
+                </td>
                 <td class="text-center">{{ socios.activo | yesnocustom | raw }}</td>
                 <td>
                     {% if access.has('view') %}

@@ -8,7 +8,6 @@ use Pidia\Apps\Demo\Manager\BaseSocialManager;
 use Pidia\Apps\Demo\Repository\BaseSocialRepository;
 use Pidia\Apps\Demo\Security\Access;
 use Pidia\Apps\Demo\Util\Paginator;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -141,5 +140,18 @@ class BaseSocialController extends BaseController
         }
 
         return $this->redirectToRoute('base_social_index');
+    }
+
+    /**
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \Doctrine\ORM\NoResultException
+     */
+    #[Route(path: '/busqueda/localidad', name: 'base_social_busqueda', methods: ['POST'])]
+    public function busqueda(Request $request, BaseSocialRepository $repository): Response
+    {
+        $localidad = (int) $request->request->get('localidad');
+        $result = $repository->getNombrePadre($localidad);
+
+        return $this->json([$result]);
     }
 }

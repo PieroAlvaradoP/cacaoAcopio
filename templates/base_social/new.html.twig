@@ -41,3 +41,24 @@
     {% include 'crud/_new_links.html.twig' with {'route_base':'base_social'} %}
 {% endblock %}
 
+{% block _javascripts %}
+    <script>
+        $(document).ready(function() {
+            $(document).on('change','#base_social_localidad',function (){
+                let $this=$(this);
+                    $.ajax({
+                        type:'POST',
+                        url:'{{ path('base_social_busqueda') }}',
+                        data:{
+                            localidad:$this.val(),
+                        },
+                        success:function (result){
+                            if(result){
+                                console.log(result)
+                            }
+                        }
+                    })
+            })
+        });
+    </script>
+{% endblock %}

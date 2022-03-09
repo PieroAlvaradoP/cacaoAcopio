@@ -10,10 +10,8 @@ use Pidia\Apps\Demo\Repository\ParcelaRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ParcelaRepository::class)]
-#[HasLifecycleCallbacks]
 class Parcela
 {
-    use EntityTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -36,7 +34,7 @@ class Parcela
     #[ORM\OneToMany(mappedBy: 'parcela', targetEntity: Coordenadas::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $coordenadas;
 
-    #[ORM\ManyToOne(targetEntity: SocioPeriodo::class, inversedBy: 'parcela')]
+    #[ORM\ManyToOne(targetEntity: SocioPeriodo::class, inversedBy: 'parcelas')]
     #[ORM\JoinColumn(nullable: false)]
     private $socioPeriodo;
 

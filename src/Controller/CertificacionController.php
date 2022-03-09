@@ -104,7 +104,7 @@ class CertificacionController extends BaseController
             return $this->redirectToRoute('certificacion_index');
         }
 
-        return $this->renderForm('certificacion/edit.html.twig', [
+        return $this->render('certificacion/edit.html.twig', [
             'certificacion' => $certificacion,
             'form' => $form->createView(),
         ]);

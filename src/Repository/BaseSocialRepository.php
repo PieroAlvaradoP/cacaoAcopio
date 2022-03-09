@@ -2,10 +2,11 @@
 
 namespace Pidia\Apps\Demo\Repository;
 
-use Doctrine\ORM\QueryBuilder;
-use Pidia\Apps\Demo\Entity\BaseSocial;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Pidia\Apps\Demo\Entity\BaseSocial;
+use Pidia\Apps\Demo\Entity\Localidad;
 use Pidia\Apps\Demo\Util\Paginator;
 
 /**
@@ -43,13 +44,30 @@ class BaseSocialRepository extends ServiceEntityRepository implements BaseReposi
     {
         $queryBuilder = $this->createQueryBuilder('baseSocial')
             ->select(['baseSocial'])
-            ->orderBy('baseSocial.nombre', 'ASC')
-        ;
+            ->orderBy('baseSocial.nombre', 'ASC');
 
         Paginator::queryTexts($queryBuilder, $params, ['baseSocial.nombre']);
 
         return $queryBuilder;
     }
+
+    /**
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \Doctrine\ORM\NoResultException
+     */
+    public function getNombrePadre(int $id): Localidad
+    {
+        $queryBuilder = $this->createQueryBuilder('baseSocial')
+            ->select('padreLocalidad.nombre as nombre')
+            ->join('baseSocial.localidad', 'localidad')
+            ->join('localidad.padre', 'padreLocalidad')
+            ->where('padreLocalidad.id=:id')
+            ->setParameter('id', $id);
+
+        return $queryBuilder->getQuery()->getOneOrNullResult();
+
+    }
+
 
     // /**
     //  * @return BaseSocial[] Returns an array of BaseSocial objects

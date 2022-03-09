@@ -30,6 +30,130 @@
     </script>
 {%- endblock %}
 
+{% block _socio_socioPeriodo_label -%}
+{% endblock %}
+
+{% block _socio_socioPeriodo_entry_widget -%}
+    {% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+    {% import 'macro/action.html.twig' as actions %}
+    {{ actions.frm_column(
+        actions.frm_column_field_select(form.periodo),
+        null,
+        null,
+        null,
+        2
+    ) }}
+    {{ action.frm_column(
+        actions.frm_column_field_collection(form.estimacion,'mb-1 p-1','','',2),
+        null,
+        null,
+        null,
+        1
+    ) }}
+    {{ action.frm_column(
+        actions.frm_column_field_collection(form.parcelas,'mb-1 p-1','','',2),
+        null,
+        null,
+        null,
+        1
+    ) }}
+    <script>
+        setTimeout(function() {
+            Select2();
+            Collection.init('#{{ form.estimacion.vars.id }}');
+            Collection.init('#{{ form.parcelas.vars.id }}');
+        }, 1000);
+    </script>
+{%- endblock %}
+
+{% block _socio_socioPeriodo_entry_estimacion_entry_widget -%}
+    {% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+    {% import 'macro/action.html.twig' as actions %}
+    {{ actions.frm_column(
+        actions.frm_column_field_select(form.certificacion),
+        actions.frm_column_field_quantity(form.cantidad),
+    ) }}
+    <script>
+        setTimeout(function() {
+            Select2();
+        }, 1000);
+    </script>
+{%- endblock %}
+
+{% block _socio_socioPeriodo_entry_parcelas_entry_widget -%}
+    {% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+    {% import 'macro/action.html.twig' as actions %}
+    {{ actions.frm_column(
+        actions.frm_column_field(form.nombre),
+        null,
+        null,
+        null,
+        2
+    ) }}
+    {{ actions.frm_column(
+        actions.frm_column_field_select(form.base),
+        actions.frm_column_field(form.sector),
+    ) }}
+    {{ actions.frm_column(
+        actions.frm_column_field(form.areaParcela,'','',2),
+        null,
+        null,
+        null,
+        1
+    ) }}
+    {{ action.frm_column(
+        actions.frm_column_field_collection(form.coordenadas,'','','',2),
+        null,
+        null,
+        null,
+        1
+    ) }}
+    <script>
+        setTimeout(function() {
+            Select2();
+            Flatpickr();
+            Collection.init('#{{ form.coordenadas.vars.id }}');
+        }, 1000);
+    </script>
+{%- endblock %}
+
+{% block _socio_socioPeriodo_entry_parcelas_entry_coordenadas_entry_widget -%}
+    {% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+    {% import 'macro/action.html.twig' as actions %}
+
+    {{ actions.frm_column(
+        actions.frm_column_field(form.latitud,'','',0),
+        actions.frm_column_field(form.longitud,'','',0),
+        actions.frm_column_field(form.altitud,'','',0),
+    ) }}
+    <script>
+        setTimeout(function() {
+            Select2();
+            Flatpickr();
+        }, 1000);
+    </script>
+{%- endblock %}
+
+{% block _socio_socioPeriodo_entry_parcelas_entry_areaParcela_widget -%}
+    {% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+    {% import 'macro/action.html.twig' as actions %}
+    {{ actions.frm_column(
+        actions.frm_column_field(form.total,'','',0),
+        actions.frm_column_field(form.produccion,'','',0),
+        actions.frm_column_field(form.crecimiento,'','',0),
+        null,
+        1
+    ) }}
+    <script src = "{{ asset('js/select2.js') }}"></script>
+    <script src = "{{ asset('js/flatpickr.js') }}" type="text/javascript"></script>
+    <script>
+        jQuery(document).ready(function (){
+            Select2();
+            Flatpickr();
+        });
+    </script>
+{%- endblock %}
+
 {% block _main %}
     {{ include('socio/_form.html.twig', {'button_label': 'Actualizar'}) }}
 {% endblock %}
@@ -56,10 +180,19 @@
 {% block _javascripts %}
     <script src = "{{ asset('js/collection.js') }}"></script>
     <script src = "{{ asset('js/select2.js') }}"></script>
+    <script src = "{{ asset('js/flatpickr.js') }}" type="text/javascript"></script>
     <script>
         jQuery(document).ready(function (){
             Select2();
-            Collection.init('#socio_proyecciones')
+            Collection.init('#socio_socioPeriodo');
+            if($('#socio_tipoPersona').children("option:selected").text()==="Natural"){
+                $('#juridica_module').hide();
+                $('#natural_module').show();
+            }else {
+                $('#natural_module').hide();
+                $('#juridica_module').show();
+            }
         });
     </script>
+
 {% endblock %}

@@ -1,34 +1,37 @@
 {% extends 'base.html.twig' %}
+{% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+{% import 'macro/action.html.twig' as action %}
 
-{% block title %}Localidad{% endblock %}
+{% set _title = 'Localidad' %}
+{% set _main_title = 'Mostrar' %}
+{% set _section =  'localidad_index'%}
 
-{% block body %}
-    <h1>Localidad</h1>
+{% block _breadcrumb %}
+    {{ breadcrumb.show2(_title, _section, 'Mostrar') }}
+{% endblock %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ localidad.id }}</td>
-            </tr>
-            <tr>
-                <th>Nombre</th>
-                <td>{{ localidad.nombre }}</td>
-            </tr>
-            <tr>
-                <th>Codigo</th>
-                <td>{{ localidad.codigo }}</td>
-            </tr>
-            <tr>
-                <th>PropietarioId</th>
-                <td>{{ localidad.propietarioId }}</td>
-            </tr>
-        </tbody>
-    </table>
+{% block _main %}
+    {{ action.tbl_start() }}
+    {{ action.tbl_tr('Nombre',localidad.nombre) }}
+    {{ action.tbl_tr('Padre',localidad.padre) }}
+    {{ action.tbl_tr('Codigo',localidad.codigo) }}
+    {% include 'crud/_show_info.html.twig' with {'entity': localidad} %}
+    {{ action.tbl_end() }}
 
-    <a href="{{ path('localidad_index') }}">back to list</a>
+{% endblock %}
 
-    <a href="{{ path('localidad_edit', {'id': localidad.id}) }}">edit</a>
+{% block _main_footer %}
+    {% include 'crud/_show_links.html.twig' with {'route_base':'localidad','entity': localidad} %}
+{% endblock %}
 
-    {{ include('localidad/_delete_form.html.twig') }}
+{% block _main_tools %}
+    {% include 'crud/_tools_ico.html.twig' %}
+{% endblock %}
+
+{% block _body_tools %}
+    {% include 'crud/_show_links_ico.html.twig' with {'route_base':'localidad','entity': localidad} %}
+{% endblock %}
+
+{% block _body_tools_ico %}
+    {% include 'crud/_show_links_tool.html.twig' with {'route_base':'localidad','entity': localidad} %}
 {% endblock %}

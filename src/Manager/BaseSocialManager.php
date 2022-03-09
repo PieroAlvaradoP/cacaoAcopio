@@ -18,5 +18,7 @@ final class BaseSocialManager extends BaseManager
     {
         return $this->manager()->getRepository(BaseSocial::class);
     }
+
+
 }
 
