@@ -1,44 +1,42 @@
 {% extends 'base.html.twig' %}
-{% import 'macro/breadcrumb.html.twig' as breadcrumb %}
-{% import 'macro/action.html.twig' as action %}
 
-{% set _title = 'Configuración' %}
-{% set _main_title = 'Mostrar' %}
-{% set _section =  'socio_index'%}
+{% block title %}Socio{% endblock %}
 
-{% block _breadcrumb %}
-    {{ breadcrumb.show2(_title, _section, 'Mostrar') }}
-{% endblock %}
+{% block body %}
+    <h1>Socio</h1>
 
-{% block _main %}
-    {{ action.tbl_start() }}
-    {{ action.tbl_tr('Nombre ',socio.nombre) }}
-    {{ action.tbl_tr('DNI/RUC ',socio.apellidos) }}
-    {{ action.tbl_tr('Lugar',socio.email) }}
-    <tr>
-        <th>Proyecciones</th>
-        <td>
-            {% for proyecciones in socio.proyecciones %}
-                {{ proyecciones }},
-            {% endfor %}
-        </td>
-    </tr>
-    {% include 'crud/_show_info.html.twig' with {'entity': socio} %}
-    {{ action.tbl_end() }}
-{% endblock %}
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ socio.id }}</td>
+            </tr>
+            <tr>
+                <th>CodigoSocio</th>
+                <td>{{ socio.codigoSocio }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ socio.createdAt ? socio.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ socio.updatedAt ? socio.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Activo</th>
+                <td>{{ socio.activo ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Uuid</th>
+                <td>{{ socio.uuid }}</td>
+            </tr>
+        </tbody>
+    </table>
 
-{% block _main_footer %}
-    {% include 'crud/_show_links.html.twig' with {'route_base':'socio','entity': socio} %}
-{% endblock %}
+    <a href="{{ path('socio_index') }}">back to list</a>
 
-{% block _main_tools %}
-    {% include 'crud/_tools_ico.html.twig' %}
-{% endblock %}
+    <a href="{{ path('socio_edit', {'id': socio.id}) }}">edit</a>
 
-{% block _body_tools %}
-    {% include 'crud/_show_links_ico.html.twig' with {'route_base':'socio','entity': socio} %}
-{% endblock %}
-
-{% block _body_tools_ico %}
-    {% include 'crud/_show_links_tool.html.twig' with {'route_base':'socio','entity': socio} %}
+    {{ include('socio/_delete_form.html.twig') }}
 {% endblock %}

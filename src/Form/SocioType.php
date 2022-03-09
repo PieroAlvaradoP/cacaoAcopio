@@ -3,6 +3,7 @@
 namespace Pidia\Apps\Demo\Form;
 
 use Pidia\Apps\Demo\Entity\Socio;
+use Pidia\Apps\Demo\Entity\SocioPeriodo;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -13,15 +14,19 @@ class SocioType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nombre')
-            ->add('dni_ruc')
-            ->add('lugar')
-            ->add('proyecciones', CollectionType::class, [
-                'entry_type' => ProyeccionesType::class,
-                'entry_options' => ['label' => false],
+            ->add('codigoSocio')
+            ->add('tipoPersona')
+            ->add('persona', PersonaType::class)
+            ->add('estadoSocio')
+            ->add('socioPeriodo', CollectionType::class, [
+                'entry_type' => SocioPeriodoType::class,
                 'allow_add' => true,
-                'allow_delete' => true,
                 'by_reference' => false,
+                'allow_delete' => true,
+                'required' => false,
+                'label' => 'Periodos del socio',
+                'prototype_data' => new SocioPeriodo(),
+                'prototype_name' => '__socioPeriodo__',
             ])
         ;
     }

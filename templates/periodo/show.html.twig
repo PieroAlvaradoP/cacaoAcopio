@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+{% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+{% import 'macro/action.html.twig' as action %}
+
+{% set _title = 'Periodo' %}
+{% set _main_title = 'Mostrar' %}
+{% set _section =  'periodo_index'%}
+
+{% block _breadcrumb %}
+    {{ breadcrumb.show2(_title, _section, 'Mostrar') }}
+{% endblock %}
+
+{% block _main %}
+    {{ action.tbl_start() }}
+    {{ action.tbl_tr('Nombre',periodo.nombre) }}
+    {{ action.tbl_tr('Alias',periodo.alias) }}
+    {{ action.tbl_tr('Estado',periodo.estado) }}
+    {{ action.tbl_tr('Descripción',periodo.descripcion) }}
+    {{ action.tbl_tr('Fecha de Inicio',periodo.fechaInicio) }}
+    {{ action.tbl_tr('Fecha de Fin',periodo.fechaFinal) }}
+    {{ action.tbl_tr('Productos',periodo.producto) }}
+    {% include 'crud/_show_info.html.twig' with {'entity': periodo} %}
+    {{ action.tbl_end() }}
+
+{% endblock %}
+
+{% block _main_footer %}
+    {% include 'crud/_show_links.html.twig' with {'route_base':'periodo','entity': periodo} %}
+{% endblock %}
+
+{% block _main_tools %}
+    {% include 'crud/_tools_ico.html.twig' %}
+{% endblock %}
+
+{% block _body_tools %}
+    {% include 'crud/_show_links_ico.html.twig' with {'route_base':'periodo','entity': periodo} %}
+{% endblock %}
+
+{% block _body_tools_ico %}
+    {% include 'crud/_show_links_tool.html.twig' with {'route_base':'periodo','entity': periodo} %}
+{% endblock %}

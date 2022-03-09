@@ -6,7 +6,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
-use JetBrains\PhpStorm\Pure;
 use Pidia\Apps\Demo\Entity\Traits\EntityTrait;
 use Pidia\Apps\Demo\Repository\SocioRepository;
 
@@ -21,21 +20,26 @@ class Socio
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 50)]
-    private $nombre;
+    #[ORM\Column(type: 'string', length: 10)]
+    private $codigoSocio;
 
-    #[ORM\Column(type: 'string', length: 11)]
-    private $dni_ruc;
+    #[ORM\ManyToOne(targetEntity: TipoPersona::class, inversedBy: 'socios')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $tipoPersona;
 
-    #[ORM\Column(type: 'string', length: 30)]
-    private $lugar;
+    #[ORM\OneToOne(targetEntity: Persona::class, cascade: ['persist', 'remove'])]
+    private $persona;
 
-    #[ORM\OneToMany(mappedBy: 'socio', targetEntity: Proyecciones::class)]
-    private $proyecciones;
+    #[ORM\ManyToOne(targetEntity: EstadoSocio::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private $estadoSocio;
+
+    #[ORM\OneToMany(mappedBy: 'socio', targetEntity: SocioPeriodo::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private $socioPeriodo;
 
     public function __construct()
     {
-        $this->proyecciones = new ArrayCollection();
+        $this->socioPeriodo = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -43,75 +47,88 @@ class Socio
         return $this->id;
     }
 
-    public function getNombre(): ?string
+    public function __toString(): string
     {
-        return $this->nombre;
+        // TODO: Implement __toString() method.
+        return $this->getPersona()->getNombres() . ' ' . $this->getPersona()->getApellidoPaterno();
     }
 
-    public function setNombre(string $nombre): self
+    public function getCodigoSocio(): ?string
     {
-        $this->nombre = $nombre;
+        return $this->codigoSocio;
+    }
+
+    public function setCodigoSocio(string $codigoSocio): self
+    {
+        $this->codigoSocio = $codigoSocio;
 
         return $this;
     }
 
-    public function getDniRuc(): ?string
+    public function getTipoPersona(): ?TipoPersona
     {
-        return $this->dni_ruc;
+        return $this->tipoPersona;
     }
 
-    public function setDniRuc(string $dni_ruc): self
+    public function setTipoPersona(?TipoPersona $tipoPersona): self
     {
-        $this->dni_ruc = $dni_ruc;
+        $this->tipoPersona = $tipoPersona;
 
         return $this;
     }
 
-    public function getLugar(): ?string
+    public function getPersona(): ?Persona
     {
-        return $this->lugar;
+        return $this->persona;
     }
 
-    public function setLugar(string $lugar): self
+    public function setPersona(?Persona $persona): self
     {
-        $this->lugar = $lugar;
+        $this->persona = $persona;
+
+        return $this;
+    }
+
+    public function getEstadoSocio(): ?EstadoSocio
+    {
+        return $this->estadoSocio;
+    }
+
+    public function setEstadoSocio(?EstadoSocio $estadoSocio): self
+    {
+        $this->estadoSocio = $estadoSocio;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, Proyecciones>
+     * @return Collection<int, SocioPeriodo>
      */
-    public function getProyecciones(): Collection
+    public function getSocioPeriodo(): Collection
     {
-        return $this->proyecciones;
+        return $this->socioPeriodo;
     }
 
-    public function addProyeccione(Proyecciones $proyeccione): self
+    public function addSocioPeriodo(SocioPeriodo $socioPeriodo): self
     {
-        if (!$this->proyecciones->contains($proyeccione)) {
-            $this->proyecciones[] = $proyeccione;
-            $proyeccione->setSocio($this);
+        if (!$this->socioPeriodo->contains($socioPeriodo)) {
+            $this->socioPeriodo[] = $socioPeriodo;
+            $socioPeriodo->setSocio($this);
         }
 
         return $this;
     }
 
-    public function removeProyeccione(Proyecciones $proyeccione): self
+    public function removeSocioPeriodo(SocioPeriodo $socioPeriodo): self
     {
-        if ($this->proyecciones->removeElement($proyeccione)) {
+        if ($this->socioPeriodo->removeElement($socioPeriodo)) {
             // set the owning side to null (unless already changed)
-            if ($proyeccione->getSocio() === $this) {
-                $proyeccione->setSocio(null);
+            if ($socioPeriodo->getSocio() === $this) {
+                $socioPeriodo->setSocio(null);
             }
         }
 
         return $this;
     }
 
-    public function __toString(): string
-    {
-        // TODO: Implement __toString() method.
-        return $this->getNombre();
-    }
 }

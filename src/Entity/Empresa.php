@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EmpresaRepository::class)]
 #[HasLifecycleCallbacks]
-class Empresa
+class  Empresa
 {
     use EntityTrait;
     #[ORM\Id]
@@ -80,5 +80,11 @@ class Empresa
         $this->email = $email;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        // TODO: Implement __toString() method.
+        return $this->getRuc().' - '.$this->getNombre();
     }
 }

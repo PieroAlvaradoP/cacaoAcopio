@@ -1,5 +1,6 @@
 <?php
 
+
 namespace Pidia\Apps\Demo\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -43,7 +44,7 @@ class SocioRepository extends ServiceEntityRepository implements BaseRepository
     {
         $queryBuilder = $this->createQueryBuilder('socio')
             ->select('socio')
-            ->orderBy('socio.nombre');
+            ->orderBy('socio.codigoSocio');
 
         Paginator::queryTexts($queryBuilder, $params, ['socio.nombre']);
 
