@@ -1,0 +1,74 @@
+{% import 'macro/action.html.twig' as action %}
+{% import 'macro/action2.html.twig' as action2 %}
+
+{{ action.frm_start(form) }}
+
+    {{ action.frm_column(
+        action.frm_column_field_select(form.periodo),
+        action.frm_column_field_date(form.fecha)
+    ) }}
+
+    {{ action.frm_column(
+        action.frm_column_field_select(form.socio),
+        action.frm_column_field_select(form.certificacion)
+    ) }}
+
+    <div id="socio_info" class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10">
+            <div class="table-responsive ">
+                <table class="table table-sm">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="text-uppercase">
+                                <span class="d-block d-sm-none">Cert.</span>
+                                <span class="d-none d-sm-table-cell">Certificación</span>
+                            </th>
+                            <th class="text-uppercase">
+                                <span class="d-block d-sm-none">Est.</span>
+                                <span class="d-none d-sm-table-cell">Estimado</span>
+                            </th>
+                            <th class="text-uppercase">
+                                <span class="d-block d-sm-none">Acu.</span>
+                                <span class="d-none d-sm-table-cell">Acumulado</span>
+                            </th>
+                            <th class="text-uppercase">Saldo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    {{ action.frm_column(
+        action.frm_column_field_select(form.almacen),
+        action.frm_column_field(form.ticket)
+    ) }}
+
+    {{ action2.frm_column(
+        action2.frm_field_and_select2(form.pesoBruto, form.unidadPesoBruto),
+        action2.frm_field_and_select2(form.cantidad, form.cantidadUnidad)
+    ) }}
+
+    {{ action2.frm_column(
+        action2.frm_column_field(form.tara),
+        action2.frm_field_and_select2(form.taraTotal, form.taraTotalUnidad)
+    ) }}
+
+    {{ action.frm_column(
+        action2.frm_field_and_select2(form.pesoNeto, form.pesoNetoUnidad),
+        action.frm_column_field(form.observaciones)
+    ) }}
+
+
+    {{ action.frm_column(
+        action.frm_column_btn(button_label|default('Guardar')),
+        null,
+        null,
+        null,
+        2
+    ) }}
+{{ action.frm_end(form) }}

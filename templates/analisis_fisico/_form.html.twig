@@ -1,0 +1,33 @@
+{% import 'macro/action2.html.twig' as action2 %}
+    {{ action2.frm_start(form) }}
+    {{ action2.frm_column(
+        action2.frm_column_field_select(form.periodo),
+        action2.frm_column_field(form.fecha)
+    ) }}
+
+    {{ action2.frm_column(
+        action2.frm_column_field(form.ticket),
+        action2.frm_input_group_muestra(form.muestra)
+    ) }}
+
+    {{ action2.frm_column(
+        action2.frm_column_field_number(form.exportable),
+        action2.frm_field_simple(form.exportablePorcentaje)
+    ) }}
+
+    {{ action2.frm_column(
+        action2.frm_column_field_number(form.humedad, '', '', 2),
+        null,
+        null,
+        null,
+        2
+    ) }}
+
+    {{ action2.frm_column(
+        action2.frm_column_btn(button_label|default('Guardar')),
+        null,
+        null,
+        null,
+        2
+    ) }}
+{{ action2.frm_end(form) }}

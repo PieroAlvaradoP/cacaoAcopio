@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+{% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+{% import 'macro/action.html.twig' as action %}
+
+{% set _title = 'Analisis Fisico' %}
+{% set _main_title = 'Nuevo' %}
+{% set _section =  'analisis_fisico_index'%}
+
+{% block _breadcrumb %}
+    {{ breadcrumb.show2(_title,_section,'Nuevo') }}
+{% endblock %}
+
+{% block _main %}
+    {{ include('analisis_fisico/_form.html.twig') }}
+{% endblock %}
+
+{% block _main_tools %}
+    {% include 'crud/_tools_ico.html.twig' %}
+{% endblock %}
+
+{% block _body_tools %}
+    {% include 'crud/_new_links_ico.html.twig' with {'route_base':'analisis_fisico'} %}
+{% endblock %}
+
+{% block _body_tools_ico %}
+    {% include 'crud/_new_links_tool.html.twig' with {'route_base': 'analisis_fisico'}  %}
+{% endblock %}
+
+{% block _main_footer %}
+    {% include 'crud/_new_links.html.twig' with {'route_base':'analisis_fisico'} %}
+{% endblock %}
+
+{% block _javascripts %}
+    <script src="{{ asset('js/select2.js') }}"></script>
+    <script>
+        jQuery(document).ready(function() {
+            Select2();
+            $("#analisis_fisico_exportable").keyup(function (){
+                if($('#analisis_fisico_muestra').empty()){
+                    let $porcen = $("#analisis_fisico_exportable").val();
+                    let $muestra = $("#analisis_fisico_muestra").val();
+                    let $resultadoPorce = $muestra/100*$porcen;
+                    $('#analisis_fisico_exportablePorcentaje').val($resultadoPorce)
+
+                }
+
+            })
+            {#$(document).on('change', '#analisis_fisico_exportable', function (){#}
+            {#    let $porcen = $(this);#}
+            {#    let $muestra = $('#analisis_fisico_muestra');#}
+            {#    if ($porcen.val().length >=2){#}
+            {#        let $resultadoPorce = $muestra.val()/100*$porcen.val();#}
+            {#        alert($resultadoPorce);#}
+            {#        $.ajax({#}
+            {#            type: 'POST',#}
+            {#            url: '{{ path('porcent') }}',#}
+            {#            data: {#}
+            {#                    resul: $resultadoPorce,#}
+            {#            },#}
+            {#            success: function (result){#}
+            {#                $('#analisis_fisico_exportablePorcentaje').val(result.muestraPorcentaje)#}
+            {#            }#}
+            {#        })#}
+
+            {#    }#}
+
+
+            {#})#}
+        });
+    </script>
+{% endblock %}
