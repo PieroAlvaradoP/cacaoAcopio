@@ -18,6 +18,7 @@ class AnalisisFisicoType extends AbstractType
                 'widget' => 'single_text',
                 'required' => false, ])
             ->add('ticket')
+            ->add('certificacion')
             ->add('muestra')
             ->add('exportable')
             ->add('exportablePorcentaje')

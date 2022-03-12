@@ -39,6 +39,10 @@ class AnalisisFisico
     #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
     private $exportablePorcentaje;
 
+    #[ORM\ManyToOne(targetEntity: Certificacion::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private $certificacion;
+
     public function __construct()
     {
         $this->fecha = new \DateTime();
@@ -129,6 +133,18 @@ class AnalisisFisico
     public function setExportablePorcentaje(string $exportablePorcentaje): self
     {
         $this->exportablePorcentaje = $exportablePorcentaje;
+
+        return $this;
+    }
+
+    public function getCertificacion(): ?Certificacion
+    {
+        return $this->certificacion;
+    }
+
+    public function setCertificacion(?Certificacion $certificacion): self
+    {
+        $this->certificacion = $certificacion;
 
         return $this;
     }

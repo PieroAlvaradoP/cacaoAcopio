@@ -730,9 +730,9 @@
 {% macro frm_column_field_number(value, class='', class_widget='') %}
     <div class="form-group row mb-1 p-1 {{ class }} {{ _self.frm_errors_class(value) }}">
         {{ _self.frm_label(value,'col-sm-4 col-4') }}
-        <div class="col-sm-8 col-8">
+        <div class="col-sm-8">
             <div class="input-group">
-                <div class="input-group-prepend">
+                <div class="input-group-prepend d-none d-sm-flex">
                     <span class="input-group-text">
                         <i class="fa fa-calculator"></i>
                     </span>
@@ -1304,7 +1304,7 @@
 
 {# ########## MARCELO ################# #}
 {% macro frm_input_group_with_label(value, label, class='', class_widget='', col=4) %}
-<div class="input-group row mb-1 p-1 {{ class }} {{ _self.frm_errors_class(value) }}">
+<div class="form-group row mb-1 p-1 {{ class }} {{ _self.frm_errors_class(value) }}">
     {{ _self.frm_label(value,'col-sm-' ~ col ~ ' col-4') }}
     <div class="col-sm-8 col-8">
         <div class="input-group">
@@ -1322,49 +1322,46 @@
 {% endmacro %}
 
 {% macro frm_input_group_muestra(value, class='', class_widget='', col=4) %}
-<div class="input-group row mb-1 p-1 {{ class }} {{ _self.frm_errors_class(value) }}">
+<div class="form-group row mb-1 p-1 {{ class }} {{ _self.frm_errors_class(value) }}">
     {{ _self.frm_label(value,'col-sm-' ~ col ~ ' col-4') }}
     <div class="col-sm-8 col-8">
         <div class="input-group">
-            <div class="input-group-prepend">
+            <div class="input-group-prepend ">
                 <span class="input-group-text">
                     <i class="fa fa-balance-scale"></i>
                 </span>
             </div>
-            {{ form_widget(value, {attr: {class: 'form-control ' ~ class_widget ~ _self.frm_errors_class(value)} }) }}
-                <div class="input-group-prepend">
+            <div class="col-sm-8">
+                {{ form_widget(value, {attr: {class: 'form-control ' ~ class_widget ~ _self.frm_errors_class(value)} }) }}
+{#                {{ form_widget(value, {attr: {class: 'form-control '~ class_widget, 'autocomplete':'off'} }) }}#}
+            </div>
+            <div class="input-group-prepend d-none d-sm-flex col-sm-2"">
                     <span class="input-group-text">
                          Gramos
                     </span>
-                </div>
+            </div>
             {{ _self.frm_help(value) }}
             {{ _self.frm_errors(value) }}
         </div>
     </div>
-</div>
+{#</div>#}
 {% endmacro %}
 
 {% macro frm_field_simple(value, class='', class_widget='', col=4) %}
     <div class="form-group row mb-1 p-1 {{ class }} {{ _self.frm_errors_class(value) }}">
         {{ _self.frm_label(value,'col-sm-' ~ col ~ ' col-4') }}
-{#        {{ form_label(value,label, {label_attr: {class: 'col-lg-3 col-form-label'} }) }}#}
-
         <div class="col-sm-8">
             <div class="input-group">
-                <div class="input-group-prepend">
+                <div class="input-group-prepend d-none d-sm-flex"">
                     <span class="input-group-text">
                         <i class="fa fa-balance-scale"></i>
                     </span>
-                </div>
+            </div>
+{#            <div>#}
                 {{ form_widget(value, {attr: {class: 'form-control ' ~ class_widget ~ _self.frm_errors_class(value)} }) }}
                 {{ _self.frm_help(value) }}
                 {{ _self.frm_errors(value) }}
-{#            {% set myclass = 'form-control m-input ' %}#}
-{#            {% if value1 is not null and value1.vars.attr is defined %}#}
-{#                {% set myclass = value1.vars.attr.class is defined ? myclass ~ value1.vars.attr.class : myclass %}#}
-{#            {% endif %}#}
-{#            {{ form_widget(value1, {attr: {class: (myclass ~ class_widget) | trim} }) }}#}
-            </div>
+{#            </div>#}
         </div>
     </div>
 {% endmacro %}
@@ -1379,7 +1376,7 @@
         <div class="col-sm-8 col-8">
             <div class="input-group">
                 <div class="col-sm-8">
-                    {{ form_widget(value1, {attr: {class: 'form-control m-input ' ~ class_widget} }) }}
+                    {{ form_widget(value1, {attr: {class: 'form-control' ~ class_widget} }) }}
                     {{ actions.frm_help(value1) }}
                     {{ actions.frm_errors(value1) }}
                 </div>

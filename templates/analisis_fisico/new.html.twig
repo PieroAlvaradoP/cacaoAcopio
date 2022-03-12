@@ -32,40 +32,43 @@
 
 {% block _javascripts %}
     <script src="{{ asset('js/select2.js') }}"></script>
+    <script src = "{{ asset('js/flatpickr.js') }}" type="text/javascript"></script>
     <script>
         jQuery(document).ready(function() {
             Select2();
+            Flatpickr();
+            $('#analisis_fisico_fecha').flatpickr();
             $("#analisis_fisico_exportable").keyup(function (){
                 if($('#analisis_fisico_muestra').empty()){
                     let $porcen = $("#analisis_fisico_exportable").val();
                     let $muestra = $("#analisis_fisico_muestra").val();
                     let $resultadoPorce = $muestra/100*$porcen;
                     $('#analisis_fisico_exportablePorcentaje').val($resultadoPorce)
+                }
+            })
+
+            $("#analisis_fisico_certificacion").keyup(function () {
+                if($('#analisis_fisico_muestra').empty()) {
+                    let acopio =data.acopio;
+                    let productoNombre = acopio.producto;
+                    var row;
+                    row = `
+                            <tr>
+                                <td>PROVEEEDOR: </td>
+                                <td>${acopio.socioNombre}</td>
+                                 <td>CERTIFICACIÓN: </td>
+                                <td>${acopio.certificacion}</td>
+                            </tr>
+                            <tr>
+                                <td>${productoNombre}PESO NETO:</td>
+                                <td>${acopio.pesoNetoValor}</td>
+                                <td>NUMERO DE SACOS: </td>
+                                <td>${acopio.certificacion}</td>
+                            </tr>
+                     `;
 
                 }
-
             })
-            {#$(document).on('change', '#analisis_fisico_exportable', function (){#}
-            {#    let $porcen = $(this);#}
-            {#    let $muestra = $('#analisis_fisico_muestra');#}
-            {#    if ($porcen.val().length >=2){#}
-            {#        let $resultadoPorce = $muestra.val()/100*$porcen.val();#}
-            {#        alert($resultadoPorce);#}
-            {#        $.ajax({#}
-            {#            type: 'POST',#}
-            {#            url: '{{ path('porcent') }}',#}
-            {#            data: {#}
-            {#                    resul: $resultadoPorce,#}
-            {#            },#}
-            {#            success: function (result){#}
-            {#                $('#analisis_fisico_exportablePorcentaje').val(result.muestraPorcentaje)#}
-            {#            }#}
-            {#        })#}
-
-            {#    }#}
-
-
-            {#})#}
         });
     </script>
 {% endblock %}

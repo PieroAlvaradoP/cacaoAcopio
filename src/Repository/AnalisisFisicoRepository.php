@@ -2,10 +2,10 @@
 
 namespace Pidia\Apps\Demo\Repository;
 
-use Doctrine\ORM\QueryBuilder;
-use Pidia\Apps\Demo\Entity\AnalisisFisico;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Pidia\Apps\Demo\Entity\AnalisisFisico;
 use Pidia\Apps\Demo\Util\Paginator;
 
 /**
@@ -42,6 +42,19 @@ class AnalisisFisicoRepository extends ServiceEntityRepository implements BaseRe
     private function filterQuery(array $params): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder('analisisFisico')
+            ->select(['analisisFisico'])
+            ->join('analisisFisico.config', 'config')
+            ->orderBy('analisisFisico.ticket', 'ASC')
+        ;
+
+        Paginator::queryTexts($queryBuilder, $params, ['analisisFisico.ticket']);
+
+        return $queryBuilder;
+    }
+
+    private function acopioDatos(array $params): QueryBuilder
+    {
+        $queryBuilder = $this->createQueryBuilder('data')
             ->select(['analisisFisico'])
             ->join('analisisFisico.config', 'config')
             ->orderBy('analisisFisico.ticket', 'ASC')

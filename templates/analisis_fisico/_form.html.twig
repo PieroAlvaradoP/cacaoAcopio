@@ -1,8 +1,17 @@
 {% import 'macro/action2.html.twig' as action2 %}
     {{ action2.frm_start(form) }}
+
+
     {{ action2.frm_column(
-        action2.frm_column_field_select(form.periodo),
-        action2.frm_column_field(form.fecha)
+        action2.frm_column_field_select(form.periodo,'', '', 4),
+        null,
+        null,
+        null,
+        2
+    ) }}
+    {{ action2.frm_column(
+        action2.frm_column_field(form.fecha),
+        action2.frm_column_field_select(form.certificacion),
     ) }}
 
     {{ action2.frm_column(
@@ -10,13 +19,26 @@
         action2.frm_input_group_muestra(form.muestra)
     ) }}
 
+    <div id="socio_info" class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10">
+            <div class="table-responsive">
+                <table class="table table-sm-2">
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
     {{ action2.frm_column(
         action2.frm_column_field_number(form.exportable),
         action2.frm_field_simple(form.exportablePorcentaje)
     ) }}
 
     {{ action2.frm_column(
-        action2.frm_column_field_number(form.humedad, '', '', 2),
+        action2.frm_column_field_number(form.humedad, '', '', 4),
         null,
         null,
         null,

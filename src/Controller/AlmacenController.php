@@ -103,7 +103,7 @@ class AlmacenController extends BaseController
                 $this->addErrors($manager->errors());
             }
 
-            return $this->redirectToRoute('almacen_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('almacen_index', ['id' => $almacen->getId()]);
         }
 
         return $this->render('almacen/edit.html.twig', [
