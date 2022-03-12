@@ -50,4 +50,7 @@ class SocioRepository extends ServiceEntityRepository implements BaseRepository
 
         return $queryBuilder;
     }
+
+
+
 }

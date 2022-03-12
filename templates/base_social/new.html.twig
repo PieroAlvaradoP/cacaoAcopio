@@ -42,23 +42,13 @@
 {% endblock %}
 
 {% block _javascripts %}
+    <script src = "{{ asset('js/collection.js') }}"></script>
+    <script src = "{{ asset('js/select2.js') }}"></script>
+    <script src = "{{ asset('js/flatpickr.js') }}" type="text/javascript"></script>
     <script>
-        $(document).ready(function() {
-            $(document).on('change','#base_social_localidad',function (){
-                let $this=$(this);
-                    $.ajax({
-                        type:'POST',
-                        url:'{{ path('base_social_busqueda') }}',
-                        data:{
-                            localidad:$this.val(),
-                        },
-                        success:function (result){
-                            if(result){
-                                console.log(result)
-                            }
-                        }
-                    })
-            })
+        jQuery(document).ready(function (){
+            Select2();
+            Flatpickr();
         });
     </script>
 {% endblock %}

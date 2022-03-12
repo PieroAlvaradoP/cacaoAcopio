@@ -3,6 +3,8 @@
 namespace Pidia\Apps\Demo\Form;
 
 use Pidia\Apps\Demo\Entity\Acopio;
+use Pidia\Apps\Demo\Entity\Socio;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -26,14 +28,17 @@ class AcopioType extends AbstractType
             ->add('pesoNeto')
             ->add('observaciones')
             ->add('periodo')
-            ->add('socio')
+            ->add('socio', EntityType::class, [
+                'class' => Socio::class,
+                'placeholder' => 'Seleccione...',
+                'required' => true,
+            ])
             ->add('certificacion')
             ->add('almacen')
             ->add('unidadPesoBruto')
             ->add('cantidadUnidad')
             ->add('taraTotalUnidad')
-            ->add('pesoNetoUnidad')
-        ;
+            ->add('pesoNetoUnidad');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

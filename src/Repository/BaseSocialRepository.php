@@ -45,56 +45,10 @@ class BaseSocialRepository extends ServiceEntityRepository implements BaseReposi
         $queryBuilder = $this->createQueryBuilder('baseSocial')
             ->select(['baseSocial'])
             ->orderBy('baseSocial.nombre', 'ASC');
-
         Paginator::queryTexts($queryBuilder, $params, ['baseSocial.nombre']);
 
         return $queryBuilder;
     }
 
-    /**
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     * @throws \Doctrine\ORM\NoResultException
-     */
-    public function getNombrePadre(int $id): Localidad
-    {
-        $queryBuilder = $this->createQueryBuilder('baseSocial')
-            ->select('padreLocalidad.nombre as nombre')
-            ->join('baseSocial.localidad', 'localidad')
-            ->join('localidad.padre', 'padreLocalidad')
-            ->where('padreLocalidad.id=:id')
-            ->setParameter('id', $id);
 
-        return $queryBuilder->getQuery()->getOneOrNullResult();
-
-    }
-
-
-    // /**
-    //  * @return BaseSocial[] Returns an array of BaseSocial objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?BaseSocial
-    {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

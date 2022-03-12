@@ -18,7 +18,7 @@ class Localidad
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\ManyToOne(targetEntity: self::class)]
+    #[ORM\ManyToOne(targetEntity: Localidad::class)]
     private $padre;
 
     #[ORM\Column(type: 'string', length: 100)]

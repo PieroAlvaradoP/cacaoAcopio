@@ -2,10 +2,10 @@
 
 namespace Pidia\Apps\Demo\Repository;
 
-use Doctrine\ORM\QueryBuilder;
-use Pidia\Apps\Demo\Entity\Acopio;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Pidia\Apps\Demo\Entity\Acopio;
 use Pidia\Apps\Demo\Util\Paginator;
 
 /**
@@ -44,8 +44,7 @@ class AcopioRepository extends ServiceEntityRepository implements BaseRepository
         $queryBuilder = $this->createQueryBuilder('acopio')
             ->select(['acopio'])
             ->join('acopio.config', 'config')
-            ->orderBy('acopio.socio', 'ASC')
-        ;
+            ->orderBy('acopio.socio', 'ASC');
 
         Paginator::queryTexts($queryBuilder, $params, ['acopio.socio']);
 
