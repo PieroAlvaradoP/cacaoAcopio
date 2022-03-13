@@ -51,7 +51,7 @@
                     // let $taraTotal = parseFloat($('#acopio_pesoBruto')) * parseFloat($('#acopio_cantidad'));
                     let $pesoNeto = $pesoBruto - $taraTotal;
 
-                    console.log($taraTotal)
+                    // console.log($taraTotal)
 
                     $('#acopio_taraTotal').val($taraTotal);
                     $('#acopio_pesoNeto').val($pesoNeto)
@@ -77,6 +77,33 @@
                         }
                         console.log(response.data);
                         let data=response.data;
+
+                        // var table = document.getElementById("cuerpo_tabla_socio");//toma la tabla base
+                        // var tablaAux = table
+                        // var bTable = table.getElementsByTagName("tbody")
+                        var row;
+                        row = `
+                            <tr>
+                                <td>${data.estimacion[0].nombre}</td>
+                                <td>${data.estimacion[0].cantidad}</td>
+                                <td>Holi</td>
+                                <td>Holi x2/td>
+                            </tr>
+                        `;
+                        // table.appendChild(row)
+                        //
+                        // $('#tabla_socio').table(table);
+                        // tablaAux.crea
+                        // $("#cuerpo_tabla_socio").append(row)
+                        if ($("#cuerpo_tabla_socio").empty()){
+                            $("#cuerpo_tabla_socio").append(row)
+
+                        }
+                        else {
+                            $("#cuerpo_tabla_socio").deleteRow(0)
+                            $("#cuerpo_tabla_socio").append(row)
+                        }
+
                         // console.log(data.estimacion[0].nombre);
                         // console.log(data.estimacion[0].cantidad);
                     }
