@@ -3,19 +3,13 @@
 {{ action.frm_start(form) }}
 
     {{ action.frm_column(
-        action.frm_column_field_select(form.padre),
         action.frm_column_field(form.nombre),
-        null,
-        null,
-        2
+        action.frm_column_field_select(form.localidad)
     ) }}
 
     {{ action.frm_column(
-        action.frm_column_field(form.codigo),
-        null,
-        null,
-        null,
-        2
+        action.frm_column_field_select(form.almacenAcopio),
+        action.frm_column_field(form.descripcion)
     ) }}
 
     {{ action.frm_column(

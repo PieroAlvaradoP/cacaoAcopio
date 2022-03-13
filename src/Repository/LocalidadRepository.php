@@ -43,10 +43,10 @@ class LocalidadRepository extends ServiceEntityRepository implements BaseReposit
     {
         $queryBuilder = $this->createQueryBuilder('localidad')
             ->select(['localidad'])
-            ->orderBy('localidad.nombre', 'ASC')
+            ->orderBy('localidad.id', 'ASC')
         ;
 
-        Paginator::queryTexts($queryBuilder, $params, ['localidad.nombre']);
+        Paginator::queryTexts($queryBuilder, $params, ['localidad.id']);
 
         return $queryBuilder;
     }

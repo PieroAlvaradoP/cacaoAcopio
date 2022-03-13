@@ -2,6 +2,8 @@
 
 namespace Pidia\Apps\Demo\Repository;
 
+use Doctrine\DBAL\Query;
+use Doctrine\ORM\NonUniqueResultException;
 use Pidia\Apps\Demo\Entity\Estimacion;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -18,6 +20,25 @@ class EstimacionRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Estimacion::class);
     }
+
+    public function findEstimaciones(int $idSocio): ?array
+    {
+        try {
+            return $this->createQueryBuilder('estimacion')
+                ->select(['certificacion.nombre', 'estimacion.cantidad'])
+                ->join('estimacion.certificacion', 'certificacion')
+                ->join('estimacion.socioPeriodos', 'periodo')
+                ->andWhere('periodo.socio=:idSocio')
+                ->setParameter('idSocio', $idSocio)
+                ->getQuery()
+                ->getArrayResult();
+
+        } catch (NonUniqueResultException) {
+        }
+
+        return null;
+    }
+
 
     // /**
     //  * @return Estimacion[] Returns an array of Estimacion objects

@@ -2,10 +2,10 @@
 
 namespace Pidia\Apps\Demo\Controller;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Pidia\Apps\Demo\Entity\Acopio;
 use Pidia\Apps\Demo\Form\AcopioType;
 use Pidia\Apps\Demo\Manager\AcopioManager;
+use Pidia\Apps\Demo\Repository\AcopioRepository;
 use Pidia\Apps\Demo\Security\Access;
 use Pidia\Apps\Demo\Util\Paginator;
 use Symfony\Component\HttpFoundation\Request;

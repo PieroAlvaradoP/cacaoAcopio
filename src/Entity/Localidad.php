@@ -18,7 +18,7 @@ class Localidad
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\ManyToOne(targetEntity: self::class)]
+    #[ORM\ManyToOne(targetEntity: Localidad::class)]
     private $padre;
 
     #[ORM\Column(type: 'string', length: 100)]
@@ -68,9 +68,16 @@ class Localidad
         return $this;
     }
 
+
     public function __toString(): string
     {
-        // TODO: Implement __toString() method.
-        return $this->getNombre();
+        $completo = $this->getNombre();
+        $padre = $this->getPadre();
+        while ($padre && $padre->getPadre()) {
+            $completo = $padre->getNombre().' - '.$completo;
+            $padre = $padre->getPadre();
+        }
+
+        return $completo;
     }
 }

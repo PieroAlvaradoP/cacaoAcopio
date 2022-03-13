@@ -113,7 +113,7 @@ class Acopio
         return $this->socio;
     }
 
-    public function setSocio(?Socio $socio): self
+    public function setSocio(Socio $socio): self
     {
         $this->socio = $socio;
 

@@ -20,10 +20,6 @@ class Estimacion
     #[ORM\Column(type: 'decimal', precision: 5, scale: 2)]
     private $cantidad;
 
-    #[ORM\ManyToOne(targetEntity: Socio::class, inversedBy: 'estimacion')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $socio;
-
     #[ORM\ManyToOne(targetEntity: SocioPeriodo::class, inversedBy: 'estimacion')]
     #[ORM\JoinColumn(nullable: false)]
     private $socioPeriodos;

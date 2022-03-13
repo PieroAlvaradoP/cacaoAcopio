@@ -22,6 +22,10 @@ class Coordenadas
     #[ORM\Column(type: 'string', length: 30, nullable: true)]
     private $altitud;
 
+    #[ORM\ManyToOne(targetEntity: Parcela::class, inversedBy: 'coordenadas')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $parcela;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +63,18 @@ class Coordenadas
     public function setAltitud(?string $altitud): self
     {
         $this->altitud = $altitud;
+
+        return $this;
+    }
+
+    public function getParcela(): ?Parcela
+    {
+        return $this->parcela;
+    }
+
+    public function setParcela(?Parcela $parcela): self
+    {
+        $this->parcela = $parcela;
 
         return $this;
     }

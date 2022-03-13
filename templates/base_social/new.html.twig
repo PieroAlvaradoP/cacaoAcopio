@@ -3,9 +3,9 @@
 {% import 'macro/action.html.twig' as action %}
 
 
-{% set _title = 'Periodo' %}
+{% set _title = 'Base Social' %}
 {% set _main_title = 'Nuevo' %}
-{% set _section = 'periodo_index'%}
+{% set _section =  'base_social_index'%}
 
 {% block _breadcrumb %}
     {{ breadcrumb.show2(_title,_section,'Nuevo') }}
@@ -13,16 +13,16 @@
 
 {% form_theme form _self %}
 
-{% block _periodo_label -%}
+{% block _config_menus_label -%}
 {% endblock %}
 
-{% block _periodo_entry_widget -%}
+{% block _config_menus_entry_widget -%}
     {% import 'macro/action.html.twig' as actions %}
     {{ actions.frm_field_two_with_label(form.name,form.route, 'mb-0','form-control-sm') }}
 {%- endblock %}
 
 {% block _main %}
-    {{ include('periodo/_form.html.twig') }}
+    {{ include('base_social/_form.html.twig') }}
 {% endblock %}
 
 {% block _main_tools %}
@@ -30,24 +30,25 @@
 {% endblock %}
 
 {% block _body_tools %}
-    {% include 'crud/_new_links_ico.html.twig' with {'route_base':'periodo'} %}
+    {% include 'crud/_new_links_ico.html.twig' with {'route_base':'base_social'} %}
 {% endblock %}
 
 {% block _body_tools_ico %}
-    {% include 'crud/_new_links_tool.html.twig' with {'route_base': 'periodo'}  %}
+    {% include 'crud/_new_links_tool.html.twig' with {'route_base': 'base_social'}  %}
 {% endblock %}
 
 {% block _main_footer %}
-    {% include 'crud/_new_links.html.twig' with {'route_base':'periodo'} %}
+    {% include 'crud/_new_links.html.twig' with {'route_base':'base_social'} %}
 {% endblock %}
 
 {% block _javascripts %}
+    <script src = "{{ asset('js/collection.js') }}"></script>
     <script src = "{{ asset('js/select2.js') }}"></script>
+    <script src = "{{ asset('js/flatpickr.js') }}" type="text/javascript"></script>
     <script>
         jQuery(document).ready(function (){
             Select2();
-            $('#periodo_fechaInicio').flatpickr();
-            $('#periodo_fechaFinal').flatpickr();
+            Flatpickr();
         });
     </script>
 {% endblock %}

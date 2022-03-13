@@ -3,9 +3,9 @@
 {% import 'macro/action.html.twig' as action %}
 {% import 'macro/pagination.html.twig' as pagination %}
 
-{% set _title = 'Lote' %}
+{% set _title = 'base_social' %}
 {% set _main_title = 'Listado' %}
-{% set _section =  'lote_index' %}
+{% set _section =  'base_social_index' %}
 
 {% block _breadcrumb %}
     {{ breadcrumb.show(_title) }}
@@ -16,28 +16,26 @@
         {{ action.tbl_start() }}
         {{ action.thead_start() }}
         <tr>
-            {{ action.th('Periodo', true) }}
-            {{ action.th('Nro. Lote', true) }}
-            {{ action.th('Peso Neto', true) }}
-            {{ action.th('Acopios', true) }}
+            {{ action.th('Nombre', true) }}
+            {{ action.th('Localidad', true) }}
+            {{ action.th('Almacen', true) }}
             {{ action.th('Activo', true, 'text-center') }}
             <th></th>
         </tr>
         {{ action.thead_end() }}
         {{ action.tbody_start() }}
-        {% for lote in paginator.results %}
+        {% for base_social in paginator.results %}
             <tr>
-                <td>{{ lote.periodo }}</td>
-                <td>{{ lote.nroLote }}</td>
-                <td>{{ lote.pesoNeto }}</td>
-                <td>{{ lote.acopios }}</td>
-                <td class="text-center">{{ lote.activo | yesnocustom | raw }}</td>
+                <td>{{ base_social.nombre }}</td>
+                <td>{{ base_social.localidad }}</td>
+                <td>{{ base_social.almacenAcopio }}</td>
+                <td class="text-center">{{ base_social.activo | yesnocustom | raw }}</td>
                 <td>
                     {% if access.has('view') %}
-                        {{ action.btn_show_link2_ico(path('cliente_show', {'id': lote.id})) }}
+                        {{ action.btn_show_link2_ico(path('base_social_show', {'id': base_social.id})) }}
                     {% endif %}
-                    {% if access.has('edit', lote) %}
-                        {{ action.btn_edit_link2_ico(path('cliente_edit', {'id': lote.id})) }}
+                    {% if access.has('edit', base_social) %}
+                        {{ action.btn_edit_link2_ico(path('base_social_edit', {'id': base_social.id})) }}
                     {% endif %}
                 </td>
             </tr>
@@ -54,7 +52,7 @@
 {% endblock %}
 
 {% block _main_footer %}
-    {% include 'crud/_index_links.html.twig' with {'route_base': 'lote'} %}
+    {% include 'crud/_index_links.html.twig' with {'route_base': 'base_social'} %}
 {% endblock%}
 
 {% block _main_options %}
@@ -66,11 +64,11 @@
 {% endblock %}
 
 {% block _body_tools_ico %}
-    {% include 'crud/_index_links_tool.html.twig' with {'route_base': 'lote'}  %}
+    {% include 'crud/_index_links_tool.html.twig' with {'route_base': 'base_social'}  %}
 {% endblock %}
 
 {% block _body_tools %}
-    {% include 'crud/_index_links_ico.html.twig' with {'route_base': 'lote'}  %}
+    {% include 'crud/_index_links_ico.html.twig' with {'route_base': 'base_social'}  %}
 {% endblock %}
 
 {% block _stylesheets %}
@@ -80,18 +78,18 @@
     <script>
         $(document).ready(function () {
             $(document).on('change', '#filter_size', function () {
-                let route = '{{ path('lote_index') }}';
+                let route = '{{ path('base_social_index') }}';
                 route = route + "?" + 'n=' + $('#filter_size option:selected').val();
                 route = route + "&" + 'b=' + $('#filter_text').val();
                 window.location = route;
             });
 
             $(document).on('click', '.btn-send', function () {
-                window.location = '{{ path('lote_index') }}';
+                window.location = '{{ path('base_social_index') }}';
             });
 
             $(document).on('click', '.btn-clean', function () {
-                window.location.href = '{{ path('lote_index') }}';
+                window.location.href = '{{ path('base_social_index') }}';
             });
         });
     </script>

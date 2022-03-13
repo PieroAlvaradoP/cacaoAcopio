@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Parcela{% endblock %}
+
+{% block body %}
+    <h1>Parcela</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ parcela.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ parcela.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Sector</th>
+                <td>{{ parcela.sector }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('parcela_index') }}">back to list</a>
+
+    <a href="{{ path('parcela_edit', {'id': parcela.id}) }}">edit</a>
+
+    {{ include('parcela/_delete_form.html.twig') }}
+{% endblock %}

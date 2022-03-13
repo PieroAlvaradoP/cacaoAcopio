@@ -5,20 +5,21 @@ namespace Pidia\Apps\Demo\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-use Pidia\Apps\Demo\Entity\Acopio;
+use Pidia\Apps\Demo\Entity\BaseSocial;
+use Pidia\Apps\Demo\Entity\Localidad;
 use Pidia\Apps\Demo\Util\Paginator;
 
 /**
- * @method Acopio|null find($id, $lockMode = null, $lockVersion = null)
- * @method Acopio|null findOneBy(array $criteria, array $orderBy = null)
- * @method Acopio[]    findAll()
- * @method Acopio[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method BaseSocial|null find($id, $lockMode = null, $lockVersion = null)
+ * @method BaseSocial|null findOneBy(array $criteria, array $orderBy = null)
+ * @method BaseSocial[]    findAll()
+ * @method BaseSocial[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class AcopioRepository extends ServiceEntityRepository implements BaseRepository
+class BaseSocialRepository extends ServiceEntityRepository implements BaseRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Acopio::class);
+        parent::__construct($registry, BaseSocial::class);
     }
 
     public function findLatest(array $params): Paginator
@@ -41,13 +42,13 @@ class AcopioRepository extends ServiceEntityRepository implements BaseRepository
 
     private function filterQuery(array $params): QueryBuilder
     {
-        $queryBuilder = $this->createQueryBuilder('acopio')
-            ->select(['acopio'])
-            ->join('acopio.config', 'config')
-            ->orderBy('acopio.socio', 'ASC');
-
-        Paginator::queryTexts($queryBuilder, $params, ['acopio.socio']);
+        $queryBuilder = $this->createQueryBuilder('baseSocial')
+            ->select(['baseSocial'])
+            ->orderBy('baseSocial.nombre', 'ASC');
+        Paginator::queryTexts($queryBuilder, $params, ['baseSocial.nombre']);
 
         return $queryBuilder;
     }
+
+
 }
