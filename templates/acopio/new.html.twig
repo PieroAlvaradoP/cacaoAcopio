@@ -62,6 +62,9 @@
                 let $periodo=$('#acopio_periodo').val();
                 let $certificacion=$('#acopio_certificacion').val();
                 console.log($this.val());
+
+                let $info = $('#socio_info').find('tbody');
+                $info.html('');
                 $.ajax({
                     type:'POST',
                     url:'{{ path('estimacion_socio_ajax') }}',
@@ -75,37 +78,22 @@
                             Notify.warning(response.message)
                             return false
                         }
-                        console.log(response.data);
+                        // console.log(response.data);
                         let data=response.data;
 
-                        // var table = document.getElementById("cuerpo_tabla_socio");//toma la tabla base
-                        // var tablaAux = table
-                        // var bTable = table.getElementsByTagName("tbody")
-                        var row;
-                        row = `
-                            <tr>
-                                <td>${data.estimacion[0].nombre}</td>
-                                <td>${data.estimacion[0].cantidad}</td>
-                                <td>Holi</td>
-                                <td>Holi x2/td>
-                            </tr>
-                        `;
-                        // table.appendChild(row)
-                        //
-                        // $('#tabla_socio').table(table);
-                        // tablaAux.crea
-                        // $("#cuerpo_tabla_socio").append(row)
-                        if ($("#cuerpo_tabla_socio").empty()){
-                            $("#cuerpo_tabla_socio").append(row)
+                        for(let i = 0, total = data.length; i< total; i++){
+                            // let acumulado = (null == data[i].acumulado) ? 0.00 : parseFloat(data[i].acumulado).toFixed(2)
+                            var row = `
+                                <tr>
+                                    <td>${data.estimacion[i].nombre}</td>
+                                    <td>${parseFloat(data.estimacion[i].cantidad).toFixed(2)}</td>
+                                    <td>Holi</td>
+                                    <td>Holi x2</td>
+                                </tr>
+                            `;
+                            $info.append($row);
 
                         }
-                        else {
-                            $("#cuerpo_tabla_socio").deleteRow(0)
-                            $("#cuerpo_tabla_socio").append(row)
-                        }
-
-                        // console.log(data.estimacion[0].nombre);
-                        // console.log(data.estimacion[0].cantidad);
                     }
                 })
             })
