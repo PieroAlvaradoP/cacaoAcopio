@@ -2,14 +2,14 @@
 
 namespace Pidia\Apps\Demo\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Pidia\Apps\Demo\Entity\Traits\EntityTrait;
-use Pidia\Apps\Demo\Repository\EmpresaTransporteRepository;
+use Pidia\Apps\Demo\Repository\MarcaVehiculoRepository;
+use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: EmpresaTransporteRepository::class)]
+#[ORM\Entity(repositoryClass: MarcaVehiculoRepository::class)]
 #[HasLifecycleCallbacks]
-class EmpresaTransporte
+class MarcaVehiculo
 {
     use EntityTrait;
 
@@ -18,11 +18,8 @@ class EmpresaTransporte
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 100)]
+    #[ORM\Column(type: 'string', length: 50)]
     private $nombre;
-
-    #[ORM\Column(type: 'string', length: 11)]
-    private $ruc;
 
     public function getId(): ?int
     {
@@ -41,21 +38,9 @@ class EmpresaTransporte
         return $this;
     }
 
-    public function getRuc(): ?string
-    {
-        return $this->ruc;
-    }
-
-    public function setRuc(string $ruc): self
-    {
-        $this->ruc = $ruc;
-
-        return $this;
-    }
-
-
     public function __toString(): string
     {
+        // TODO: Implement __toString() method.
         return $this->getNombre();
     }
 }

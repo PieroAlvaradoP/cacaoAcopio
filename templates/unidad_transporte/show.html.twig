@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}UnidadTransporte{% endblock %}
+
+{% block body %}
+    <h1>UnidadTransporte</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ unidad_transporte.id }}</td>
+            </tr>
+            <tr>
+                <th>NumEjes</th>
+                <td>{{ unidad_transporte.numEjes }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_unidad_transporte_index') }}">back to list</a>
+
+    <a href="{{ path('app_unidad_transporte_edit', {'id': unidad_transporte.id}) }}">edit</a>
+
+    {{ include('unidad_transporte/_delete_form.html.twig') }}
+{% endblock %}

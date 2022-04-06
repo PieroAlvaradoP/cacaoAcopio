@@ -1,0 +1,26 @@
+<?php
+
+namespace Pidia\Apps\Demo\Form;
+
+use Pidia\Apps\Demo\Entity\TipoVehiculo;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+class TipoVehiculoType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('tipoVehiculo')
+            ->add('siglas')
+        ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => TipoVehiculo::class,
+        ]);
+    }
+}

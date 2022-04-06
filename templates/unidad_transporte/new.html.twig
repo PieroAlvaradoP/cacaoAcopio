@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+{% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+{% import 'macro/action.html.twig' as action %}
+
+{% set _title = 'Unidad de Transporte' %}
+{% set _main_title = 'Nuevo' %}
+{% set _section =  'unidad_transporte_index'%}
+
+{% block _breadcrumb %}
+    {{ breadcrumb.show2(_title,_section,'Nuevo') }}
+{% endblock %}
+
+{% form_theme form _self %}
+
+
+{% block _unidad_transporte_label -%}
+{% endblock %}
+
+{% block _config_menus_entry_widget -%}
+    {% import 'macro/action.html.twig' as actions %}
+    {{ actions.frm_field_two_with_label(form.name,form.route, 'mb-0','form-control-sm') }}
+{%- endblock %}
+
+{% block _unidad_transporte_placas_label -%}
+{% endblock %}
+
+{% block _unidad_transporte_placas_entry_widget -%}
+    {% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+    {% import 'macro/action.html.twig' as actions %}
+    {{ actions.frm_column(
+        actions.frm_column_field(form.numPlaca),
+        actions.frm_column_field_select(form.marca),
+    ) }}
+    {{ actions.frm_column(
+        actions.frm_column_field(form.constanciaInscripcion),
+        actions.frm_column_field(form.yearFabricacion),
+    ) }}
+{%- endblock %}
+
+{% block _main %}
+    {{ include('unidad_transporte/_form.html.twig') }}
+{% endblock %}
+
+{% block _main_tools %}
+    {% include 'crud/_tools_ico.html.twig' %}
+{% endblock %}
+
+{% block _body_tools %}
+    {% include 'crud/_new_links_ico.html.twig' with {'route_base':'unidad_transporte'} %}
+{% endblock %}
+
+{% block _body_tools_ico %}
+    {% include 'crud/_new_links_tool.html.twig' with {'route_base': 'unidad_transporte'}  %}
+{% endblock %}
+
+{% block _main_footer %}
+    {% include 'crud/_new_links.html.twig' with {'route_base':'unidad_transporte'} %}
+{% endblock %}
+
+{% block _javascripts %}
+    <script src = "{{ asset('js/collection.js') }}"></script>
+    <script src="{{ asset('js/select2.js') }}"></script>
+    <script>
+        jQuery(document).ready(function (){
+            Select2();
+            Collection.init('#unidad_transporte_placas');
+        });
+    </script>
+{% endblock %}

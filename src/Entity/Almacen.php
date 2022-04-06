@@ -38,7 +38,7 @@ class Almacen
     #[ORM\JoinColumn(nullable: false)]
     private $ubicacion;
 
-    #[ORM\OneToMany(mappedBy: 'almacen', targetEntity: Saldo::class, cascade: ['persist', 'remove']), ]
+    #[ORM\OneToMany(mappedBy: 'almacen', targetEntity: Saldo::class, cascade: ['persist', 'remove'])]
     private $saldo;
 
     public function __construct()
