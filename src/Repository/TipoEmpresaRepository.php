@@ -2,9 +2,11 @@
 
 namespace Pidia\Apps\Demo\Repository;
 
+use Doctrine\ORM\QueryBuilder;
 use Pidia\Apps\Demo\Entity\TipoEmpresa;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Pidia\Apps\Demo\Util\Paginator;
 
 /**
  * @method TipoEmpresa|null find($id, $lockMode = null, $lockVersion = null)
@@ -12,39 +14,39 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method TipoEmpresa[]    findAll()
  * @method TipoEmpresa[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TipoEmpresaRepository extends ServiceEntityRepository
+class TipoEmpresaRepository extends ServiceEntityRepository implements BaseRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, TipoEmpresa::class);
     }
 
-    // /**
-    //  * @return TipoEmpresa[] Returns an array of TipoEmpresa objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findLatest(array $params): Paginator
     {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $queryBuilder = $this->filterQuery($params);
 
-    /*
-    public function findOneBySomeField($value): ?TipoEmpresa
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return Paginator::create($queryBuilder, $params);
     }
-    */
+
+    public function filter(array $params, bool $inArray = true): array
+    {
+        $queryBuilder = $this->filterQuery($params);
+
+        if (true === $inArray) {
+            return $queryBuilder->getQuery()->getArrayResult();
+        }
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    private function filterQuery(array $params): QueryBuilder
+    {
+        $queryBuilder = $this->createQueryBuilder('tipo_empresa')
+            ->select(['tipo_empresa'])
+            ->orderBy('tipo_empresa.tipoEmpresa', 'ASC');
+
+        Paginator::queryTexts($queryBuilder, $params, ['tipo_empresa.tipoEmpresa']);
+
+        return $queryBuilder;
+    }
 }

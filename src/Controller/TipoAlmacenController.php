@@ -47,7 +47,7 @@ class TipoAlmacenController extends BaseController
             unset($item);
         }
 
-        return $manager->export($data, $headers, 'Reporte de Tipos de Almacenes');
+        return $manager->export($data, $headers, 'Reporte de Tipos de Almacen');
     }
 
     #[Route('/new', name: 'tipo_almacen_new', methods: ['GET|POST'])]

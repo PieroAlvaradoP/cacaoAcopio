@@ -3,11 +3,16 @@
 namespace Pidia\Apps\Demo\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Pidia\Apps\Demo\Entity\Traits\EntityTrait;
 use Pidia\Apps\Demo\Repository\TipoDocumentoRepository;
 
 #[ORM\Entity(repositoryClass: TipoDocumentoRepository::class)]
+#[HasLifecycleCallbacks]
 class TipoDocumento
 {
+    use EntityTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
