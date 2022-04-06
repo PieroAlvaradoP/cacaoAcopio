@@ -2,12 +2,17 @@
 
 namespace Pidia\Apps\Demo\Entity;
 
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Pidia\Apps\Demo\Entity\Traits\EntityTrait;
 use Pidia\Apps\Demo\Repository\TipoAlmacenRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TipoAlmacenRepository::class)]
+#[HasLifecycleCallbacks]
 class TipoAlmacen
 {
+    use EntityTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
