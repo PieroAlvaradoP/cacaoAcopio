@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/empresaTransporte')]
+#[Route('/admin/empresaTransporte')]
 class EmpresaTransporteController extends BaseController
 {
     #[Route('/', name: 'empresa_transporte_index', defaults: ['page' => '1'], methods: ['GET'])]

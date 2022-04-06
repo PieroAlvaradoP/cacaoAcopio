@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/unidadTransporte')]
+#[Route('/admin/unidadTransporte')]
 class UnidadTransporteController extends BaseController
 {
     #[Route(path: '/', name: 'unidad_transporte_index', defaults: ['page' => '1'], methods: ['GET'])]

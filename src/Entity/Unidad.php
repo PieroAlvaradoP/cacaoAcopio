@@ -2,12 +2,17 @@
 
 namespace Pidia\Apps\Demo\Entity;
 
-use Pidia\Apps\Demo\Repository\UnidadRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Pidia\Apps\Demo\Entity\Traits\EntityTrait;
+use Pidia\Apps\Demo\Repository\UnidadRepository;
 
 #[ORM\Entity(repositoryClass: UnidadRepository::class)]
+#[HasLifecycleCallbacks]
 class Unidad
 {
+    use EntityTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
