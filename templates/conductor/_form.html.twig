@@ -1,0 +1,44 @@
+{% import 'macro/action.html.twig' as action %}
+
+{{ action.frm_start(form) }}
+
+    {{ action.frm_column(
+        action.frm_column_field(form.licencia),
+        action.frm_column_field(form.nombres),
+        null,
+        null,
+        2
+    ) }}
+
+    {{ action.frm_column(
+        action.frm_column_field(form.apellidoPaterno),
+        action.frm_column_field(form.apellidoMaterno),
+        null,
+        null,
+        2
+    ) }}
+
+    {{ action.frm_column(
+        action.frm_column_field(form.tipoDocumento),
+        action.frm_column_field(form.numDocumento),
+        null,
+        null,
+        2
+    ) }}
+
+    {{ action.frm_column(
+        action.frm_column_field(form.localidad),
+        null,
+        null,
+        null,
+        2
+    ) }}
+
+    {{ action.frm_column(
+        action.frm_column_btn(button_label|default('Guardar')),
+        null,
+        null,
+        null,
+        2
+    ) }}
+{{ action.frm_end(form) }}
