@@ -2,9 +2,9 @@
 {% import 'macro/breadcrumb.html.twig' as breadcrumb %}
 {% import 'macro/action.html.twig' as action %}
 
-{% set _title = 'Tipo de Empresa' %}
+{% set _title = 'Tipo de Documento Tramite' %}
 {% set _main_title = 'Nuevo' %}
-{% set _section =  'tipo_empresa_index'%}
+{% set _section =  'tipo_documento_tramite_index'%}
 
 {% block _breadcrumb %}
     {{ breadcrumb.show2(_title,_section,'Nuevo') }}
@@ -12,7 +12,7 @@
 
 {% form_theme form _self %}
 
-{% block _tipo_empresa_label -%}
+{% block _tipo_documento_tramite_label -%}
 {% endblock %}
 
 {% block _config_menus_entry_widget -%}
@@ -21,7 +21,7 @@
 {%- endblock %}
 
 {% block _main %}
-    {{ include('tipo_empresa/_form.html.twig') }}
+    {{ include('tipo_documento_tramite/_form.html.twig') }}
 {% endblock %}
 
 {% block _main_tools %}
@@ -29,15 +29,15 @@
 {% endblock %}
 
 {% block _body_tools %}
-    {% include 'crud/_new_links_ico.html.twig' with {'route_base':'tipo_empresa'} %}
+    {% include 'crud/_new_links_ico.html.twig' with {'route_base':'tipo_documento_tramite'} %}
 {% endblock %}
 
 {% block _body_tools_ico %}
-    {% include 'crud/_new_links_tool.html.twig' with {'route_base': 'tipo_empresa'}  %}
+    {% include 'crud/_new_links_tool.html.twig' with {'route_base': 'tipo_documento_tramite'}  %}
 {% endblock %}
 
 {% block _main_footer %}
-    {% include 'crud/_new_links.html.twig' with {'route_base':'tipo_empresa'} %}
+    {% include 'crud/_new_links.html.twig' with {'route_base':'tipo_documento_tramite'} %}
 {% endblock %}
 
 {% block _javascripts %}

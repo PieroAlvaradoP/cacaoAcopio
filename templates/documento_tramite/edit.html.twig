@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit DocumentoTramite{% endblock %}
+
+{% block body %}
+    <h1>Edit DocumentoTramite</h1>
+
+    {{ include('documento_tramite/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_documento_tramite_index') }}">back to list</a>
+
+    {{ include('documento_tramite/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New DocumentoTramite{% endblock %}
+
+{% block body %}
+    <h1>Create new DocumentoTramite</h1>
+
+    {{ include('documento_tramite/_form.html.twig') }}
+
+    <a href="{{ path('app_documento_tramite_index') }}">back to list</a>
+{% endblock %}
