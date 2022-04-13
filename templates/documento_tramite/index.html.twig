@@ -1,37 +1,96 @@
 {% extends 'base.html.twig' %}
+{% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+{% import 'macro/action.html.twig' as action %}
+{% import 'macro/pagination.html.twig' as pagination %}
 
-{% block title %}DocumentoTramite index{% endblock %}
+{% set _title = 'Documento Tramite' %}
+{% set _main_title = 'Listado' %}
+{% set _section =  'documento_tramite_index' %}
 
-{% block body %}
-    <h1>DocumentoTramite index</h1>
+{% block _breadcrumb %}
+    {{ breadcrumb.show(_title) }}
+{% endblock %}
 
-    <table class="table">
-        <thead>
+{% block _main %}
+    <div class="table-responsive">
+        {{ action.tbl_start() }}
+        {{ action.thead_start() }}
+        <tr>
+            {{ action.th('Tipo de documento', true) }}
+            {{ action.th('Serie', true) }}
+            {{ action.th('Numero', true) }}
+            {{ action.th('Activo', true, 'text-center') }}
+            <th></th>
+        </tr>
+        {{ action.thead_end() }}
+        {{ action.tbody_start() }}
+        {% for documento_tramite in paginator.results %}
             <tr>
-                <th>Id</th>
-                <th>Serie</th>
-                <th>Numero</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for documento_tramite in documento_tramites %}
-            <tr>
-                <td>{{ documento_tramite.id }}</td>
+                <td>{{ documento_tramite.tipoDocumentoTramite }}</td>
                 <td>{{ documento_tramite.serie }}</td>
                 <td>{{ documento_tramite.numero }}</td>
+                <td class="text-center">{{ documento_tramite.activo | yesnocustom | raw }}</td>
                 <td>
-                    <a href="{{ path('app_documento_tramite_show', {'id': documento_tramite.id}) }}">show</a>
-                    <a href="{{ path('app_documento_tramite_edit', {'id': documento_tramite.id}) }}">edit</a>
+                    {% if access.has('view') %}
+                        {{ action.btn_show_link2_ico(path('documento_tramite_show', {'id': documento_tramite.id})) }}
+                    {% endif %}
+                    {% if access.has('edit', documento_tramite) %}
+                        {{ action.btn_edit_link2_ico(path('documento_tramite_edit', {'id': documento_tramite.id})) }}
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="4">No hay registros</td>
             </tr>
         {% endfor %}
-        </tbody>
-    </table>
+        {{ action.tbody_end() }}
+        {{ action.tbl_end() }}
+    </div>
 
-    <a href="{{ path('app_documento_tramite_new') }}">Create new</a>
+    {{ pagination.show(paginator, _section) }}
+{% endblock %}
+
+{% block _main_footer %}
+    {% include 'crud/_index_links.html.twig' with {'route_base': 'documento_tramite'} %}
+{% endblock%}
+
+{% block _main_options %}
+    {% include 'crud/_index_filter.html.twig' %}
+{% endblock %}
+
+{% block _main_tools %}
+    {% include 'crud/_tools_ico.html.twig' %}
+{% endblock %}
+
+{% block _body_tools_ico %}
+    {% include 'crud/_index_links_tool.html.twig' with {'route_base': 'documento_tramite'}  %}
+{% endblock %}
+
+{% block _body_tools %}
+    {% include 'crud/_index_links_ico.html.twig' with {'route_base': 'documento_tramite'}  %}
+{% endblock %}
+
+{% block _stylesheets %}
+{% endblock %}
+
+{% block _javascripts %}
+    <script>
+        $(document).ready(function () {
+            $(document).on('change', '#filter_size', function () {
+                let route = '{{ path('documento_tramite_index') }}';
+                route = route + "?" + 'n=' + $('#filter_size option:selected').val();
+                route = route + "&" + 'b=' + $('#filter_text').val();
+                window.location = route;
+            });
+
+            $(document).on('click', '.btn-send', function () {
+                window.location = '{{ path('documento_tramite_index') }}';
+            });
+
+            $(document).on('click', '.btn-clean', function () {
+                window.location.href = '{{ path('documento_tramite_index') }}';
+            });
+        });
+    </script>
 {% endblock %}

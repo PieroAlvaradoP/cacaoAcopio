@@ -2,11 +2,13 @@
 
 namespace Pidia\Apps\Demo\Repository;
 
+use Doctrine\ORM\QueryBuilder;
 use Pidia\Apps\Demo\Entity\DocumentoTramite;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
+use Pidia\Apps\Demo\Util\Paginator;
 
 /**
  * @method DocumentoTramite|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,63 +16,39 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method DocumentoTramite[]    findAll()
  * @method DocumentoTramite[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class DocumentoTramiteRepository extends ServiceEntityRepository
+class DocumentoTramiteRepository extends ServiceEntityRepository implements BaseRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, DocumentoTramite::class);
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function add(DocumentoTramite $entity, bool $flush = true): void
+    public function findLatest(array $params): Paginator
     {
-        $this->_em->persist($entity);
-        if ($flush) {
-            $this->_em->flush();
+        $queryBuilder = $this->filterQuery($params);
+
+        return Paginator::create($queryBuilder, $params);
+    }
+
+    public function filter(array $params, bool $inArray = true): array
+    {
+        $queryBuilder = $this->filterQuery($params);
+
+        if (true === $inArray) {
+            return $queryBuilder->getQuery()->getArrayResult();
         }
+
+        return $queryBuilder->getQuery()->getResult();
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function remove(DocumentoTramite $entity, bool $flush = true): void
+    private function filterQuery(array $params): QueryBuilder
     {
-        $this->_em->remove($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
-    }
-
-    // /**
-    //  * @return DocumentoTramite[] Returns an array of DocumentoTramite objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('d')
-            ->andWhere('d.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('d.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
+        $queryBuilder = $this->createQueryBuilder('documento_tramite')
+            ->orderBy('documento_tramite.serie', 'ASC')
         ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?DocumentoTramite
-    {
-        return $this->createQueryBuilder('d')
-            ->andWhere('d.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        Paginator::queryTexts($queryBuilder, $params, ['documento_tramite.serie']);
+
+        return $queryBuilder;
     }
-    */
 }
