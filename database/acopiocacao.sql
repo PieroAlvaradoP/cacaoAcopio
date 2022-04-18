@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 09-03-2022 a las 23:07:17
+-- Tiempo de generación: 18-04-2022 a las 07:17:41
 -- Versión del servidor: 8.0.27
 -- Versión de PHP: 8.0.13
 
@@ -20,6 +20,51 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `acopiocacao`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `acopio`
+--
+
+DROP TABLE IF EXISTS `acopio`;
+CREATE TABLE IF NOT EXISTS `acopio` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `periodo_id` int NOT NULL,
+  `socio_id` int NOT NULL,
+  `certificacion_id` int NOT NULL,
+  `almacen_id` int NOT NULL,
+  `unidad_peso_bruto_id` int NOT NULL,
+  `cantidad_unidad_id` int NOT NULL,
+  `tara_total_unidad_id` int NOT NULL,
+  `peso_neto_unidad_id` int NOT NULL,
+  `propietario_id` int DEFAULT NULL,
+  `config_id` int DEFAULT NULL,
+  `fecha` date NOT NULL,
+  `ticket` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `peso_bruto` decimal(10,2) NOT NULL,
+  `cantidad` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tara` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tara_total` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `peso_neto` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `observaciones` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `activo` tinyint(1) NOT NULL,
+  `uuid` binary(16) NOT NULL COMMENT '(DC2Type:uuid)',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_F27E53E3D17F50A6` (`uuid`),
+  KEY `IDX_F27E53E39C3921AB` (`periodo_id`),
+  KEY `IDX_F27E53E3DA04E6A9` (`socio_id`),
+  KEY `IDX_F27E53E3693EA4CA` (`certificacion_id`),
+  KEY `IDX_F27E53E39C9C9E68` (`almacen_id`),
+  KEY `IDX_F27E53E381BEBA7B` (`unidad_peso_bruto_id`),
+  KEY `IDX_F27E53E387DA088A` (`cantidad_unidad_id`),
+  KEY `IDX_F27E53E3BAD2C4ED` (`tara_total_unidad_id`),
+  KEY `IDX_F27E53E3788E7DBD` (`peso_neto_unidad_id`),
+  KEY `IDX_F27E53E353C8D32C` (`propietario_id`),
+  KEY `IDX_F27E53E324DB0683` (`config_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -56,6 +101,35 @@ CREATE TABLE IF NOT EXISTS `almacen` (
 
 INSERT INTO `almacen` (`id`, `empresa_id`, `propietario_id`, `config_id`, `nombre`, `direccion`, `created_at`, `updated_at`, `activo`, `uuid`, `tipo_almacen_id`, `ubicacion_id`) VALUES
 (1, 1, 2, 2, 'Sol y Cafe', 'Urb G20', '2022-02-25 05:13:43', '2022-03-01 21:08:40', 1, 0xd514eed4a5f84c9c8948180a8b94f635, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `analisis_fisico`
+--
+
+DROP TABLE IF EXISTS `analisis_fisico`;
+CREATE TABLE IF NOT EXISTS `analisis_fisico` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `periodo_id` int NOT NULL,
+  `propietario_id` int DEFAULT NULL,
+  `config_id` int DEFAULT NULL,
+  `fecha` date NOT NULL,
+  `ticket` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `muestra` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `exportable` varchar(3) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `humedad` varchar(3) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exportable_porcentaje` decimal(10,2) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `activo` tinyint(1) NOT NULL,
+  `uuid` binary(16) NOT NULL COMMENT '(DC2Type:uuid)',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_43D689E8D17F50A6` (`uuid`),
+  KEY `IDX_43D689E89C3921AB` (`periodo_id`),
+  KEY `IDX_43D689E853C8D32C` (`propietario_id`),
+  KEY `IDX_43D689E824DB0683` (`config_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -153,6 +227,43 @@ INSERT INTO `certificacion` (`id`, `padre_id`, `propietario_id`, `config_id`, `n
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `conductor`
+--
+
+DROP TABLE IF EXISTS `conductor`;
+CREATE TABLE IF NOT EXISTS `conductor` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `tipo_documento_id` int NOT NULL,
+  `localidad_id` int NOT NULL,
+  `propietario_id` int DEFAULT NULL,
+  `config_id` int DEFAULT NULL,
+  `licencia` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nombres` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `apellido_paterno` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `apellido_materno` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `num_documento` varchar(13) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `activo` tinyint(1) NOT NULL,
+  `uuid` binary(16) NOT NULL COMMENT '(DC2Type:uuid)',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_D5F7F18AD17F50A6` (`uuid`),
+  KEY `IDX_D5F7F18AF6939175` (`tipo_documento_id`),
+  KEY `IDX_D5F7F18A67707C89` (`localidad_id`),
+  KEY `IDX_D5F7F18A53C8D32C` (`propietario_id`),
+  KEY `IDX_D5F7F18A24DB0683` (`config_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `conductor`
+--
+
+INSERT INTO `conductor` (`id`, `tipo_documento_id`, `localidad_id`, `propietario_id`, `config_id`, `licencia`, `nombres`, `apellido_paterno`, `apellido_materno`, `num_documento`, `created_at`, `updated_at`, `activo`, `uuid`) VALUES
+(1, 1, 1762, 2, 2, 'A74696328B', 'Piero', 'Alvarado', 'Palomino', '74696328', '2022-04-07 16:56:20', '2022-04-07 16:56:20', 1, 0xcc65eb3e22f6423ab0c53f63cd4d1291);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `config`
 --
 
@@ -179,7 +290,7 @@ CREATE TABLE IF NOT EXISTS `config` (
 --
 
 INSERT INTO `config` (`id`, `propietario_id`, `config_id`, `alias`, `nombre`, `nombre_corto`, `created_at`, `updated_at`, `activo`, `uuid`) VALUES
-(2, NULL, NULL, 'Cacao', 'Acopio Cacao', 'Cacao', '2022-02-21 05:13:50', '2022-02-25 10:10:34', 1, 0xa5efa1d74bec4c8894c52c21ae4f5342);
+(2, NULL, NULL, 'Cacao', 'Acopio Cacao', 'Cacao', '2022-02-21 05:13:50', '2022-04-13 05:30:24', 1, 0xa5efa1d74bec4c8894c52c21ae4f5342);
 
 -- --------------------------------------------------------
 
@@ -213,7 +324,19 @@ INSERT INTO `config_config_menu_menus` (`config_id`, `config_menu_id`) VALUES
 (2, 14),
 (2, 15),
 (2, 16),
-(2, 17);
+(2, 17),
+(2, 18),
+(2, 19),
+(2, 20),
+(2, 21),
+(2, 22),
+(2, 23),
+(2, 24),
+(2, 25),
+(2, 26),
+(2, 27),
+(2, 28),
+(2, 29);
 
 -- --------------------------------------------------------
 
@@ -228,7 +351,7 @@ CREATE TABLE IF NOT EXISTS `config_menu` (
   `route` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `activo` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `config_menu`
@@ -247,7 +370,19 @@ INSERT INTO `config_menu` (`id`, `name`, `route`, `activo`) VALUES
 (14, 'Certificación Listado', 'certificacion_index', 1),
 (15, 'Almacen Listado', 'almacen_index', 1),
 (16, 'Localidad Listado', 'localidad_index', 1),
-(17, 'Bases Listado', 'base_social_index', 1);
+(17, 'Bases Listado', 'base_social_index', 1),
+(18, 'Acopio Listado', 'acopio_index', 1),
+(19, 'Empresa Transporte Listado', 'empresa_transporte_index', 1),
+(20, 'Tipo de Vehiculos Listado', 'tipo_vehiculo_index', 1),
+(21, 'Marca Listado', 'marca_vehiculo_index', 1),
+(22, 'Unidad de Transporte Listado', 'unidad_transporte_index', 1),
+(23, 'Unidad Listado', 'unidad_index', 1),
+(24, 'Tipos de Almacen Listado', 'tipo_almacen_index', 1),
+(25, 'Tipos de Empresa Listado', 'tipo_empresa_index', 1),
+(26, 'Tipos de Documento Listado', 'tipo_documento_index', 1),
+(27, 'Conductor Listado', 'conductor_index', 1),
+(28, 'Tipo Documento Tramite Listado', 'tipo_documento_tramite_index', 1),
+(29, 'Documento Tramite Listado', 'documento_tramite_index', 1);
 
 -- --------------------------------------------------------
 
@@ -285,34 +420,53 @@ CREATE TABLE IF NOT EXISTS `doctrine_migration_versions` (
 --
 
 INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_time`) VALUES
-('DoctrineMigrations\\Version20220221045355', '2022-02-21 04:54:03', 1677),
-('DoctrineMigrations\\Version20220221061225', '2022-02-21 06:12:54', 263),
-('DoctrineMigrations\\Version20220221064857', '2022-02-21 06:49:03', 412),
-('DoctrineMigrations\\Version20220221205828', '2022-02-21 20:58:33', 767),
-('DoctrineMigrations\\Version20220222232713', '2022-02-23 19:20:30', 166),
-('DoctrineMigrations\\Version20220222233325', '2022-02-23 19:20:30', 488),
-('DoctrineMigrations\\Version20220223010532', '2022-02-23 01:05:49', 914),
-('DoctrineMigrations\\Version20220223084452', '2022-02-23 08:44:56', 218),
-('DoctrineMigrations\\Version20220223165740', '2022-02-23 16:57:48', 609),
-('DoctrineMigrations\\Version20220223192118', '2022-02-23 19:21:22', 580),
-('DoctrineMigrations\\Version20220223225703', '2022-02-23 22:57:15', 351),
-('DoctrineMigrations\\Version20220223230001', '2022-02-23 23:00:05', 83),
-('DoctrineMigrations\\Version20220223233735', '2022-02-23 23:37:39', 567),
-('DoctrineMigrations\\Version20220224233558', '2022-02-24 23:36:11', 1248),
-('DoctrineMigrations\\Version20220224235857', '2022-02-24 23:59:00', 294),
-('DoctrineMigrations\\Version20220225000111', '2022-02-25 00:01:17', 248),
-('DoctrineMigrations\\Version20220225030150', '2022-02-25 03:24:45', 117),
-('DoctrineMigrations\\Version20220225032535', '2022-02-25 03:25:44', 333),
-('DoctrineMigrations\\Version20220225034238', '2022-02-25 03:42:43', 362),
-('DoctrineMigrations\\Version20220225040330', '2022-02-25 04:03:33', 567),
-('DoctrineMigrations\\Version20220225041224', '2022-02-25 04:12:28', 152),
-('DoctrineMigrations\\Version20220225051057', '2022-02-25 05:11:02', 656),
-('DoctrineMigrations\\Version20220225073025', '2022-02-25 07:30:38', 562),
-('DoctrineMigrations\\Version20220225082021', '2022-02-25 08:20:25', 576),
-('DoctrineMigrations\\Version20220225101109', '2022-02-25 10:11:26', 534),
-('DoctrineMigrations\\Version20220228203432', '2022-02-28 20:34:43', 145),
-('DoctrineMigrations\\Version20220301234346', '2022-03-01 23:44:11', 906),
-('DoctrineMigrations\\Version20220303163005', '2022-03-03 16:30:17', 915);
+('DoctrineMigrations\\Version20220311231949', '2022-03-11 23:19:53', 866),
+('DoctrineMigrations\\Version20220403192359', '2022-04-03 19:24:13', 327),
+('DoctrineMigrations\\Version20220404165017', '2022-04-04 16:50:28', 369),
+('DoctrineMigrations\\Version20220404190438', '2022-04-04 19:04:50', 423),
+('DoctrineMigrations\\Version20220405005633', '2022-04-05 00:56:38', 451),
+('DoctrineMigrations\\Version20220406042148', '2022-04-06 04:21:54', 626),
+('DoctrineMigrations\\Version20220406053415', '2022-04-06 05:34:19', 144),
+('DoctrineMigrations\\Version20220406174456', '2022-04-06 17:45:02', 505),
+('DoctrineMigrations\\Version20220406213413', '2022-04-06 21:34:16', 72),
+('DoctrineMigrations\\Version20220407165219', '2022-04-07 16:52:29', 556),
+('DoctrineMigrations\\Version20220407204002', '2022-04-07 20:41:00', 251),
+('DoctrineMigrations\\Version20220407210945', '2022-04-07 21:09:49', 348),
+('DoctrineMigrations\\Version20220414060352', '2022-04-14 06:04:03', 540),
+('DoctrineMigrations\\Version20220414061524', '2022-04-14 06:15:27', 278);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `documento_tramite`
+--
+
+DROP TABLE IF EXISTS `documento_tramite`;
+CREATE TABLE IF NOT EXISTS `documento_tramite` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `tipo_documento_tramite_id` int NOT NULL,
+  `propietario_id` int DEFAULT NULL,
+  `config_id` int DEFAULT NULL,
+  `serie` varchar(4) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `numero` int NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `activo` tinyint(1) NOT NULL,
+  `uuid` binary(16) NOT NULL COMMENT '(DC2Type:uuid)',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_4A8AFFD3D17F50A6` (`uuid`),
+  KEY `IDX_4A8AFFD3D9504328` (`tipo_documento_tramite_id`),
+  KEY `IDX_4A8AFFD353C8D32C` (`propietario_id`),
+  KEY `IDX_4A8AFFD324DB0683` (`config_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `documento_tramite`
+--
+
+INSERT INTO `documento_tramite` (`id`, `tipo_documento_tramite_id`, `propietario_id`, `config_id`, `serie`, `numero`, `created_at`, `updated_at`, `activo`, `uuid`) VALUES
+(1, 1, 2, 2, '001', 1, '2022-04-13 05:29:16', '2022-04-13 05:29:17', 1, 0x56d66a68fd944ee181a17a3ceaf96985),
+(2, 1, 2, 2, '002', 1, '2022-04-13 05:29:23', '2022-04-13 05:29:23', 1, 0xd11c973d55e64a4588b9d704bb21bf57);
 
 -- --------------------------------------------------------
 
@@ -345,6 +499,37 @@ CREATE TABLE IF NOT EXISTS `empresa` (
 
 INSERT INTO `empresa` (`id`, `propietario_id`, `config_id`, `nombre`, `ruc`, `direccion`, `email`, `created_at`, `updated_at`, `activo`, `uuid`) VALUES
 (1, 2, 2, 'ACUSTICA PROYECTOS EIRL', '20602760945', 'Urb. Popular G - 20', 'info@acusticaproyectos.com', '2022-02-25 03:29:33', '2022-02-25 03:29:33', 1, 0xb12e534efe5249ca84cd208403a57afd);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `empresa_transporte`
+--
+
+DROP TABLE IF EXISTS `empresa_transporte`;
+CREATE TABLE IF NOT EXISTS `empresa_transporte` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `propietario_id` int DEFAULT NULL,
+  `config_id` int DEFAULT NULL,
+  `nombre` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ruc` varchar(11) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `activo` tinyint(1) NOT NULL,
+  `uuid` binary(16) NOT NULL COMMENT '(DC2Type:uuid)',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_F3DC068BD17F50A6` (`uuid`),
+  KEY `IDX_F3DC068B53C8D32C` (`propietario_id`),
+  KEY `IDX_F3DC068B24DB0683` (`config_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `empresa_transporte`
+--
+
+INSERT INTO `empresa_transporte` (`id`, `propietario_id`, `config_id`, `nombre`, `ruc`, `created_at`, `updated_at`, `activo`, `uuid`) VALUES
+(1, 2, 2, 'Shallom Transportes', '32123455324', '2022-04-04 14:57:45', '2022-04-04 14:57:45', 1, 0x0884a0e515994153b8cfe77cf0edbb51),
+(2, 2, 2, 'Olva Couriers', '43124124124', '2022-04-04 15:00:24', '2022-04-04 15:00:24', 1, 0xa1812e27e4fd4c21841a67651c977d01);
 
 -- --------------------------------------------------------
 
@@ -425,7 +610,7 @@ CREATE TABLE IF NOT EXISTS `estimacion` (
   PRIMARY KEY (`id`),
   KEY `IDX_1D9C1F02693EA4CA` (`certificacion_id`),
   KEY `IDX_1D9C1F0292A0549A` (`socio_periodos_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `estimacion`
@@ -433,7 +618,40 @@ CREATE TABLE IF NOT EXISTS `estimacion` (
 
 INSERT INTO `estimacion` (`id`, `certificacion_id`, `cantidad`, `socio_periodos_id`) VALUES
 (7, 1, '23.00', 10),
-(8, 1, '15.00', 9);
+(8, 1, '15.00', 9),
+(9, 2, '35.00', 10);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `guia_remision`
+--
+
+DROP TABLE IF EXISTS `guia_remision`;
+CREATE TABLE IF NOT EXISTS `guia_remision` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `periodo_id` int NOT NULL,
+  `almacen_origen_id` int NOT NULL,
+  `almacen_destino_id` int NOT NULL,
+  `unidad_transporte_id` int NOT NULL,
+  `conductor_id` int NOT NULL,
+  `fecha_traslado` date NOT NULL,
+  `propietario_id` int DEFAULT NULL,
+  `config_id` int DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `activo` tinyint(1) NOT NULL,
+  `uuid` binary(16) NOT NULL COMMENT '(DC2Type:uuid)',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_191A1DC9D17F50A6` (`uuid`),
+  KEY `IDX_191A1DC99C3921AB` (`periodo_id`),
+  KEY `IDX_191A1DC930032D1F` (`almacen_origen_id`),
+  KEY `IDX_191A1DC98C48E45E` (`almacen_destino_id`),
+  KEY `IDX_191A1DC9E35A899` (`unidad_transporte_id`),
+  KEY `IDX_191A1DC9A49DECF0` (`conductor_id`),
+  KEY `IDX_191A1DC953C8D32C` (`propietario_id`),
+  KEY `IDX_191A1DC924DB0683` (`config_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -2831,6 +3049,41 @@ CREATE TABLE IF NOT EXISTS `lote` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `marca_vehiculo`
+--
+
+DROP TABLE IF EXISTS `marca_vehiculo`;
+CREATE TABLE IF NOT EXISTS `marca_vehiculo` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `propietario_id` int DEFAULT NULL,
+  `config_id` int DEFAULT NULL,
+  `nombre` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `activo` tinyint(1) NOT NULL,
+  `uuid` binary(16) NOT NULL COMMENT '(DC2Type:uuid)',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_7A842BFD17F50A6` (`uuid`),
+  KEY `IDX_7A842BF53C8D32C` (`propietario_id`),
+  KEY `IDX_7A842BF24DB0683` (`config_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `marca_vehiculo`
+--
+
+INSERT INTO `marca_vehiculo` (`id`, `propietario_id`, `config_id`, `nombre`, `created_at`, `updated_at`, `activo`, `uuid`) VALUES
+(1, 2, 2, 'Ford', '2022-04-04 19:32:11', '2022-04-04 19:32:11', 1, 0x9ea3de70bb044c7b806fa9e920c0c4fa),
+(2, 2, 2, 'Chevrolet', '2022-04-04 19:32:18', '2022-04-04 19:32:18', 1, 0x92b213384f5243f1b538f2b695e1a0ed),
+(3, 2, 2, 'Mercedes-Benz', '2022-04-04 19:32:27', '2022-04-04 19:32:27', 1, 0xd32e691472904e30b9f82f4d61ff4f98),
+(4, 2, 2, 'Volvo', '2022-04-04 19:32:34', '2022-04-04 19:32:34', 1, 0x8a375ea314384df3b00ec490744615db),
+(5, 2, 2, 'Hummer', '2022-04-04 19:32:40', '2022-04-04 19:32:40', 1, 0xa0bbbe42146a442eae5ea8ef3882d088),
+(6, 2, 2, 'Mitsubishi Trucks', '2022-04-04 19:32:59', '2022-04-04 19:33:04', 1, 0x7d63945b8a854bfeb7f2b4ccf2ab48ce),
+(7, 2, 2, 'Peterbilt', '2022-04-04 19:33:15', '2022-04-04 19:33:15', 1, 0x6642b8b41f814efa8f7d906fccc0ddb8);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `menu`
 --
 
@@ -2853,19 +3106,19 @@ CREATE TABLE IF NOT EXISTS `menu` (
   KEY `IDX_7D053A93613CEC58` (`padre_id`),
   KEY `IDX_7D053A9353C8D32C` (`propietario_id`),
   KEY `IDX_7D053A9324DB0683` (`config_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `menu`
 --
 
 INSERT INTO `menu` (`id`, `padre_id`, `propietario_id`, `config_id`, `nombre`, `ruta`, `icono`, `orden`, `created_at`, `updated_at`, `activo`, `uuid`) VALUES
-(3, NULL, 2, 2, 'Configuración', NULL, 'fas fa-cog', 3, '2022-02-21 05:14:17', '2022-02-28 18:07:35', 1, 0xd71ac483752d4104bdf19a91b54f0728),
+(3, NULL, 2, 2, 'Configuración', NULL, 'fas fa-cog', 4, '2022-02-21 05:14:17', '2022-04-03 18:55:03', 1, 0xd71ac483752d4104bdf19a91b54f0728),
 (4, 3, 2, 2, 'Usuarios', 'usuario_index', 'fas fa-user', 1, '2022-02-21 05:33:06', '2022-02-21 05:33:06', 1, 0x3b9dc4e0a0b1416cb8ceff277967d886),
 (5, 3, 2, 2, 'Menús', 'menu_index', NULL, 3, '2022-02-21 05:34:45', '2022-02-21 05:34:45', 1, 0x9a2cb7216ae14f48a92a8a38c5fceee8),
 (6, 3, 2, 2, 'Roles', 'usuario_rol_index', NULL, 2, '2022-02-21 05:34:56', '2022-02-21 05:34:56', 1, 0xd037f378e8454cadbd563f174f5458c4),
 (7, 3, 2, 2, 'Menu Configuración', 'config_menu_index', NULL, 4, '2022-02-21 05:35:39', '2022-02-21 05:35:39', 1, 0x6d4f4254c28448d9a2ddb205f2f5fdd6),
-(8, NULL, 2, 2, 'Acopio', NULL, 'fa-solid fa-industry', 2, '2022-02-21 05:39:09', '2022-02-28 18:08:01', 1, 0x53e569c3b6494844acb65519db8067e4),
+(8, NULL, 2, 2, 'Acopio', NULL, 'fas fa-business-time', 2, '2022-02-21 05:39:09', '2022-04-04 16:59:44', 1, 0x53e569c3b6494844acb65519db8067e4),
 (9, 8, 2, 2, 'Socios', 'socio_index', NULL, 0, '2022-02-21 06:15:00', '2022-02-21 06:15:15', 1, 0xd00ca5836ac541cc847c57e4d952ac6d),
 (10, 8, 2, 2, 'Empresa', 'empresa_index', NULL, 0, '2022-02-21 21:04:57', '2022-02-21 21:04:57', 1, 0xb1e37625a962472a930fd495d5a70d56),
 (11, 18, 2, 2, 'Lote', 'lote_index', NULL, 0, '2022-02-21 21:05:12', '2022-02-28 18:08:31', 1, 0xe855dfcb2b634ffcbb336286b36eb884),
@@ -2875,7 +3128,21 @@ INSERT INTO `menu` (`id`, `padre_id`, `propietario_id`, `config_id`, `nombre`, `
 (15, 8, 2, 2, 'Almacen', 'almacen_index', NULL, 0, '2022-02-25 04:30:34', '2022-02-25 04:30:34', 1, 0xca1e25b0a83f4aea941228c110790e6c),
 (16, 8, 2, 2, 'Localidades', 'localidad_index', NULL, 0, '2022-02-25 04:32:42', '2022-02-25 04:32:42', 1, 0x05f9c57aa9684d0bb73adc25ad0abb61),
 (17, 8, 2, 2, 'Base Social', 'base_social_index', NULL, 0, '2022-02-25 10:10:52', '2022-02-25 10:10:52', 1, 0x3f99aedd36ca44388664e55127da7e97),
-(18, NULL, 2, 2, 'Sistema', NULL, 'fad fa-mug-hot', 1, '2022-02-28 18:05:52', '2022-02-28 18:08:40', 1, 0x04cb0c16c9b1496fb6fc14de3791434b);
+(18, NULL, 2, 2, 'Sistema', NULL, 'fas fa-chart-line', 1, '2022-02-28 18:05:52', '2022-04-04 16:59:16', 1, 0x04cb0c16c9b1496fb6fc14de3791434b),
+(19, 8, 2, 2, 'Acopio Listado', 'acopio_index', NULL, 0, '2022-03-11 20:28:20', '2022-03-11 20:28:20', 1, 0x429ad45338114dca8e56119b8fc300c5),
+(20, NULL, 2, 2, 'Transporte', NULL, 'fas fa-car', 3, '2022-04-03 18:53:18', '2022-04-03 18:55:11', 1, 0x30e59acd0eb84db398815af9712dcc87),
+(21, 20, 2, 2, 'Empresa Transporte', 'empresa_transporte_index', NULL, 0, '2022-04-03 19:17:29', '2022-04-03 19:17:29', 1, 0x2e693e4e9dc444a1aeeec09726db9e33),
+(22, NULL, 2, 2, 'Administración', NULL, 'fas fa-border-all', 6, '2022-04-04 16:52:19', '2022-04-04 16:52:19', 1, 0x4b68915626d246b7aa5b0952e93b525b),
+(23, 22, 2, 2, 'Tipos de vehículo', 'tipo_vehiculo_index', NULL, 0, '2022-04-04 16:52:57', '2022-04-12 05:48:18', 1, 0xb6a9f8547e3e440c82be4a6da5374256),
+(24, 22, 2, 2, 'Marcas de Vehiculos', 'marca_vehiculo_index', NULL, 0, '2022-04-04 19:07:20', '2022-04-04 19:07:20', 1, 0x320351231e3740a69a34707208260b69),
+(25, 20, 2, 2, 'Unidad Transporte', 'unidad_transporte_index', NULL, 0, '2022-04-06 02:15:01', '2022-04-06 02:15:17', 1, 0x3d1ae09467134012b2f3e7353b1017ed),
+(26, 22, 2, 2, 'Unidades de Medida', 'unidad_index', NULL, 0, '2022-04-06 17:46:30', '2022-04-06 17:46:30', 1, 0x904f062950d448f3a12cf2d787933347),
+(27, 22, 2, 2, 'Tipos de Almacen', 'tipo_almacen_index', NULL, 0, '2022-04-06 21:25:28', '2022-04-06 21:25:28', 1, 0x9accea6af99f483fa6d3d07ac4894fa2),
+(28, 22, 2, 2, 'Tipos de Empresa', 'tipo_empresa_index', NULL, 0, '2022-04-06 21:47:11', '2022-04-06 21:47:11', 1, 0xe309cfd373404ae582ee7a77b887267b),
+(29, 22, 2, 2, 'Tipos de Documento', 'tipo_documento_index', NULL, 0, '2022-04-06 21:59:21', '2022-04-06 21:59:21', 1, 0x32b7b103ff0e4fc2b2d6ab4bcba341e7),
+(30, 20, 2, 2, 'Conductores', 'conductor_index', NULL, 0, '2022-04-07 17:04:15', '2022-04-07 17:04:43', 1, 0x02854ec15e024f9191fd0a291b970aac),
+(31, 22, 2, 2, 'Tipos de Tramite', 'tipo_documento_tramite_index', NULL, 0, '2022-04-12 05:47:15', '2022-04-12 05:47:58', 1, 0xb208cea4a8c84f12a5a1ace6a87a15d9),
+(32, 22, 2, 2, 'Documentos Tramite', 'documento_tramite_index', NULL, 0, '2022-04-13 05:30:50', '2022-04-13 05:30:50', 1, 0xdc6df989407c4fa39e70ef36e763ba5f);
 
 -- --------------------------------------------------------
 
@@ -2888,12 +3155,14 @@ CREATE TABLE IF NOT EXISTS `messenger_messages` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `body` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `headers` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue_name` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `available_at` datetime NOT NULL,
   `delivered_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `IDX_75EA56E016BA31DB` (`delivered_at`)
+  KEY `IDX_75EA56E016BA31DB` (`delivered_at`),
+  KEY `IDX_75EA56E0FB7336F0` (`queue_name`),
+  KEY `IDX_75EA56E0E3BD61CE` (`available_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -3042,6 +3311,25 @@ INSERT INTO `persona` (`id`, `sexo_id`, `tipo_documento_id`, `tipo_empresa_id`, 
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `placa`
+--
+
+DROP TABLE IF EXISTS `placa`;
+CREATE TABLE IF NOT EXISTS `placa` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `marca_id` int NOT NULL,
+  `unidad_transporte_id` int NOT NULL,
+  `num_placa` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `constancia_inscripcion` varchar(9) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `year_fabricacion` varchar(4) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_737097D481EF0041` (`marca_id`),
+  KEY `IDX_737097D4E35A899` (`unidad_transporte_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `producto`
 --
 
@@ -3170,7 +3458,7 @@ CREATE TABLE IF NOT EXISTS `socio` (
 --
 
 INSERT INTO `socio` (`id`, `propietario_id`, `config_id`, `created_at`, `updated_at`, `activo`, `uuid`, `tipo_persona_id`, `persona_id`, `codigo_socio`, `estado_socio_id`) VALUES
-(5, NULL, NULL, '2022-03-01 23:52:14', '2022-03-09 22:36:11', 1, 0x6d13f50484c948b49616bb061abd307a, 1, 5, '0000000001', 1),
+(5, NULL, NULL, '2022-03-01 23:52:14', '2022-03-11 23:24:51', 1, 0x6d13f50484c948b49616bb061abd307a, 1, 5, '0000000001', 1),
 (6, NULL, NULL, '2022-03-02 00:49:04', '2022-03-03 16:37:50', 1, 0x7e3514aca4594d0d8a9ec6c16d743815, 1, 6, '0000000002', 1),
 (7, NULL, NULL, '2022-03-09 21:16:25', '2022-03-09 21:16:25', 1, 0xf29b166d9c6f483e88138e0fb71f082d, 2, 7, '0000000003', 1);
 
@@ -3208,17 +3496,26 @@ DROP TABLE IF EXISTS `tipo_almacen`;
 CREATE TABLE IF NOT EXISTS `tipo_almacen` (
   `id` int NOT NULL AUTO_INCREMENT,
   `tipo_almacen` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
+  `propietario_id` int DEFAULT NULL,
+  `config_id` int DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `activo` tinyint(1) NOT NULL,
+  `uuid` binary(16) NOT NULL COMMENT '(DC2Type:uuid)',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_C64BF3F0D17F50A6` (`uuid`),
+  KEY `IDX_C64BF3F053C8D32C` (`propietario_id`),
+  KEY `IDX_C64BF3F024DB0683` (`config_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `tipo_almacen`
 --
 
-INSERT INTO `tipo_almacen` (`id`, `tipo_almacen`) VALUES
-(1, 'Centro de Acopio'),
-(2, 'Planta de Beneficio Húmedo'),
-(3, 'Planta Procesadora');
+INSERT INTO `tipo_almacen` (`id`, `tipo_almacen`, `propietario_id`, `config_id`, `created_at`, `updated_at`, `activo`, `uuid`) VALUES
+(1, 'Centro de Acopio', 2, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 0x00000000000000000000000000000000),
+(2, 'Planta de Beneficio Húmedo', 2, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 0x00000000000000000000000000000001),
+(3, 'Planta Procesadora', 2, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 0x00000000000000000000000000000002);
 
 -- --------------------------------------------------------
 
@@ -3229,18 +3526,58 @@ INSERT INTO `tipo_almacen` (`id`, `tipo_almacen`) VALUES
 DROP TABLE IF EXISTS `tipo_documento`;
 CREATE TABLE IF NOT EXISTS `tipo_documento` (
   `id` int NOT NULL AUTO_INCREMENT,
+  `propietario_id` int DEFAULT NULL,
+  `config_id` int DEFAULT NULL,
   `tipo_documento` varchar(25) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `activo` tinyint(1) NOT NULL,
+  `uuid` binary(16) NOT NULL COMMENT '(DC2Type:uuid)',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_54DF9189D17F50A6` (`uuid`),
+  KEY `IDX_54DF918953C8D32C` (`propietario_id`),
+  KEY `IDX_54DF918924DB0683` (`config_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `tipo_documento`
 --
 
-INSERT INTO `tipo_documento` (`id`, `tipo_documento`) VALUES
-(1, 'DNI'),
-(2, 'Carnet de Extranjería'),
-(3, 'Pasaporte');
+INSERT INTO `tipo_documento` (`id`, `propietario_id`, `config_id`, `tipo_documento`, `created_at`, `updated_at`, `activo`, `uuid`) VALUES
+(1, 2, 2, 'DNI', '2022-04-07 20:40:17', '2022-04-07 20:40:17', 1, 0x03123124120000000000000000000000),
+(2, 2, 2, 'Carnet de Extranjería', '2022-04-07 20:40:17', '2022-04-07 20:40:17', 1, 0x04353412412400000000000000000000),
+(3, 2, 2, 'Pasaporte', '2022-04-07 20:44:56', '2022-04-07 20:44:56', 1, 0xec653ca3558545439296f618f2ebd48e);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipo_documento_tramite`
+--
+
+DROP TABLE IF EXISTS `tipo_documento_tramite`;
+CREATE TABLE IF NOT EXISTS `tipo_documento_tramite` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `propietario_id` int DEFAULT NULL,
+  `config_id` int DEFAULT NULL,
+  `tipo_documento_tramite` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `activo` tinyint(1) NOT NULL,
+  `uuid` binary(16) NOT NULL COMMENT '(DC2Type:uuid)',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_C04AEAD0D17F50A6` (`uuid`),
+  KEY `IDX_C04AEAD053C8D32C` (`propietario_id`),
+  KEY `IDX_C04AEAD024DB0683` (`config_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `tipo_documento_tramite`
+--
+
+INSERT INTO `tipo_documento_tramite` (`id`, `propietario_id`, `config_id`, `tipo_documento_tramite`, `created_at`, `updated_at`, `activo`, `uuid`) VALUES
+(1, 2, 2, 'Ticket', '2022-04-12 05:54:53', '2022-04-12 05:54:53', 1, 0x718f52e41d0e4faa82139e7aeb2a4c15),
+(2, 2, 2, 'Traslado', '2022-04-12 05:55:00', '2022-04-12 05:55:00', 1, 0x2491a8dece6e4feeb8de2c81d454c319),
+(3, 2, 2, 'Ingreso', '2022-04-12 05:55:08', '2022-04-12 05:55:08', 1, 0x9c0afcf9c77749948cfcb84010f3fe18);
 
 -- --------------------------------------------------------
 
@@ -3252,17 +3589,26 @@ DROP TABLE IF EXISTS `tipo_empresa`;
 CREATE TABLE IF NOT EXISTS `tipo_empresa` (
   `id` int NOT NULL AUTO_INCREMENT,
   `tipo_empresa` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
+  `propietario_id` int DEFAULT NULL,
+  `config_id` int DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `activo` tinyint(1) NOT NULL,
+  `uuid` binary(16) NOT NULL COMMENT '(DC2Type:uuid)',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_AB2E7BF0D17F50A6` (`uuid`),
+  KEY `IDX_AB2E7BF053C8D32C` (`propietario_id`),
+  KEY `IDX_AB2E7BF024DB0683` (`config_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `tipo_empresa`
 --
 
-INSERT INTO `tipo_empresa` (`id`, `tipo_empresa`) VALUES
-(1, 'Asociación'),
-(2, 'Cooperativa'),
-(3, 'Retirado');
+INSERT INTO `tipo_empresa` (`id`, `tipo_empresa`, `propietario_id`, `config_id`, `created_at`, `updated_at`, `activo`, `uuid`) VALUES
+(1, 'Asociación', 2, 2, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 0x85346324120000000000000000000000),
+(2, 'Cooperativa', 2, 2, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 0x00007435634200000000000000000000),
+(3, 'Retirado', 2, 2, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 0x02415324634673412400000000000000);
 
 -- --------------------------------------------------------
 
@@ -3288,6 +3634,41 @@ INSERT INTO `tipo_persona` (`id`, `tipo_persona`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tipo_vehiculo`
+--
+
+DROP TABLE IF EXISTS `tipo_vehiculo`;
+CREATE TABLE IF NOT EXISTS `tipo_vehiculo` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `propietario_id` int DEFAULT NULL,
+  `config_id` int DEFAULT NULL,
+  `tipo_vehiculo` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `siglas` varchar(7) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `activo` tinyint(1) NOT NULL,
+  `uuid` binary(16) NOT NULL COMMENT '(DC2Type:uuid)',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_1F3F4CCAD17F50A6` (`uuid`),
+  KEY `IDX_1F3F4CCA53C8D32C` (`propietario_id`),
+  KEY `IDX_1F3F4CCA24DB0683` (`config_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `tipo_vehiculo`
+--
+
+INSERT INTO `tipo_vehiculo` (`id`, `propietario_id`, `config_id`, `tipo_vehiculo`, `siglas`, `created_at`, `updated_at`, `activo`, `uuid`) VALUES
+(1, 2, 2, 'Camión con eje dual trasero', 'C2', '2022-04-04 16:54:41', '2022-04-04 16:54:41', 1, 0xf0e15f135db24ead9033ffa45a8600f0),
+(2, 2, 2, 'Camión con eje simple trasero', 'C2+', '2022-04-04 16:54:57', '2022-04-04 16:54:57', 1, 0x35bb8572f0334f2d92553dd0cd300d51),
+(3, 2, 2, 'Camión con eje tándem trasero', 'C3', '2022-04-04 16:55:13', '2022-04-04 16:55:13', 1, 0xf010fcaef0b14709a2bd13212dea7f8c),
+(4, 2, 2, 'Camión con eje trídem trasero', 'C4', '2022-04-04 16:55:30', '2022-04-04 16:55:30', 1, 0xf7d1f556624145dc830ac8e2097e2680),
+(5, 2, 2, 'Camión con eje tándem trasero', 'T3 - S2', '2022-04-04 16:57:44', '2022-04-04 16:57:44', 1, 0x9c1d15d89ba74170a515afd75b6548ec),
+(6, 2, 2, 'Camión con eje trídem trasero', 'T3 - S3', '2022-04-04 16:57:58', '2022-04-04 16:57:58', 1, 0xc8c5b730e5034b6f928f84d73bbdeee3);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `unidad`
 --
 
@@ -3295,15 +3676,57 @@ DROP TABLE IF EXISTS `unidad`;
 CREATE TABLE IF NOT EXISTS `unidad` (
   `id` int NOT NULL AUTO_INCREMENT,
   `unidad` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
+  `propietario_id` int DEFAULT NULL,
+  `config_id` int DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `activo` tinyint(1) NOT NULL,
+  `uuid` binary(16) NOT NULL COMMENT '(DC2Type:uuid)',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_F3E6D02FD17F50A6` (`uuid`),
+  KEY `IDX_F3E6D02F53C8D32C` (`propietario_id`),
+  KEY `IDX_F3E6D02F24DB0683` (`config_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `unidad`
 --
 
-INSERT INTO `unidad` (`id`, `unidad`) VALUES
-(1, 'Kilogramos');
+INSERT INTO `unidad` (`id`, `unidad`, `propietario_id`, `config_id`, `created_at`, `updated_at`, `activo`, `uuid`) VALUES
+(1, 'Kilogramos', NULL, NULL, '0000-00-00 00:00:00', '2022-04-06 17:45:20', 1, 0x00000000000000000000000000000000);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `unidad_transporte`
+--
+
+DROP TABLE IF EXISTS `unidad_transporte`;
+CREATE TABLE IF NOT EXISTS `unidad_transporte` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `empresa_transporte_id` int NOT NULL,
+  `tipo_vehiculo_id` int NOT NULL,
+  `num_ejes` int NOT NULL,
+  `propietario_id` int DEFAULT NULL,
+  `config_id` int DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `activo` tinyint(1) NOT NULL,
+  `uuid` binary(16) NOT NULL COMMENT '(DC2Type:uuid)',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_229C335CD17F50A6` (`uuid`),
+  KEY `IDX_229C335C521E08DB` (`empresa_transporte_id`),
+  KEY `IDX_229C335C10D3FB8D` (`tipo_vehiculo_id`),
+  KEY `IDX_229C335C53C8D32C` (`propietario_id`),
+  KEY `IDX_229C335C24DB0683` (`config_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `unidad_transporte`
+--
+
+INSERT INTO `unidad_transporte` (`id`, `empresa_transporte_id`, `tipo_vehiculo_id`, `num_ejes`, `propietario_id`, `config_id`, `created_at`, `updated_at`, `activo`, `uuid`) VALUES
+(4, 1, 1, 2, 2, 2, '2022-04-06 02:45:37', '2022-04-06 02:45:37', 1, 0x0b53905098f9488eb6950dae444933cd);
 
 -- --------------------------------------------------------
 
@@ -3433,6 +3856,21 @@ INSERT INTO `usuario_usuario_rol` (`usuario_id`, `usuario_rol_id`) VALUES
 --
 
 --
+-- Filtros para la tabla `acopio`
+--
+ALTER TABLE `acopio`
+  ADD CONSTRAINT `FK_F27E53E324DB0683` FOREIGN KEY (`config_id`) REFERENCES `config` (`id`),
+  ADD CONSTRAINT `FK_F27E53E353C8D32C` FOREIGN KEY (`propietario_id`) REFERENCES `usuario` (`id`),
+  ADD CONSTRAINT `FK_F27E53E3693EA4CA` FOREIGN KEY (`certificacion_id`) REFERENCES `certificacion` (`id`),
+  ADD CONSTRAINT `FK_F27E53E3788E7DBD` FOREIGN KEY (`peso_neto_unidad_id`) REFERENCES `unidad` (`id`),
+  ADD CONSTRAINT `FK_F27E53E381BEBA7B` FOREIGN KEY (`unidad_peso_bruto_id`) REFERENCES `unidad` (`id`),
+  ADD CONSTRAINT `FK_F27E53E387DA088A` FOREIGN KEY (`cantidad_unidad_id`) REFERENCES `unidad` (`id`),
+  ADD CONSTRAINT `FK_F27E53E39C3921AB` FOREIGN KEY (`periodo_id`) REFERENCES `periodo` (`id`),
+  ADD CONSTRAINT `FK_F27E53E39C9C9E68` FOREIGN KEY (`almacen_id`) REFERENCES `almacen` (`id`),
+  ADD CONSTRAINT `FK_F27E53E3BAD2C4ED` FOREIGN KEY (`tara_total_unidad_id`) REFERENCES `unidad` (`id`),
+  ADD CONSTRAINT `FK_F27E53E3DA04E6A9` FOREIGN KEY (`socio_id`) REFERENCES `socio` (`id`);
+
+--
 -- Filtros para la tabla `almacen`
 --
 ALTER TABLE `almacen`
@@ -3441,6 +3879,14 @@ ALTER TABLE `almacen`
   ADD CONSTRAINT `FK_D5B2D25053C8D32C` FOREIGN KEY (`propietario_id`) REFERENCES `usuario` (`id`),
   ADD CONSTRAINT `FK_D5B2D25057E759E8` FOREIGN KEY (`ubicacion_id`) REFERENCES `localidad` (`id`),
   ADD CONSTRAINT `FK_D5B2D250D1A9C40` FOREIGN KEY (`tipo_almacen_id`) REFERENCES `tipo_almacen` (`id`);
+
+--
+-- Filtros para la tabla `analisis_fisico`
+--
+ALTER TABLE `analisis_fisico`
+  ADD CONSTRAINT `FK_43D689E824DB0683` FOREIGN KEY (`config_id`) REFERENCES `config` (`id`),
+  ADD CONSTRAINT `FK_43D689E853C8D32C` FOREIGN KEY (`propietario_id`) REFERENCES `usuario` (`id`),
+  ADD CONSTRAINT `FK_43D689E89C3921AB` FOREIGN KEY (`periodo_id`) REFERENCES `periodo` (`id`);
 
 --
 -- Filtros para la tabla `base_social`
@@ -3458,6 +3904,15 @@ ALTER TABLE `certificacion`
   ADD CONSTRAINT `FK_A1F2025324DB0683` FOREIGN KEY (`config_id`) REFERENCES `config` (`id`),
   ADD CONSTRAINT `FK_A1F2025353C8D32C` FOREIGN KEY (`propietario_id`) REFERENCES `usuario` (`id`),
   ADD CONSTRAINT `FK_A1F20253613CEC58` FOREIGN KEY (`padre_id`) REFERENCES `certificacion` (`id`);
+
+--
+-- Filtros para la tabla `conductor`
+--
+ALTER TABLE `conductor`
+  ADD CONSTRAINT `FK_D5F7F18A24DB0683` FOREIGN KEY (`config_id`) REFERENCES `config` (`id`),
+  ADD CONSTRAINT `FK_D5F7F18A53C8D32C` FOREIGN KEY (`propietario_id`) REFERENCES `usuario` (`id`),
+  ADD CONSTRAINT `FK_D5F7F18A67707C89` FOREIGN KEY (`localidad_id`) REFERENCES `localidad` (`id`),
+  ADD CONSTRAINT `FK_D5F7F18AF6939175` FOREIGN KEY (`tipo_documento_id`) REFERENCES `tipo_documento` (`id`);
 
 --
 -- Filtros para la tabla `config`
@@ -3480,6 +3935,14 @@ ALTER TABLE `coordenadas`
   ADD CONSTRAINT `FK_979E70791491307D` FOREIGN KEY (`parcela_id`) REFERENCES `parcela` (`id`);
 
 --
+-- Filtros para la tabla `documento_tramite`
+--
+ALTER TABLE `documento_tramite`
+  ADD CONSTRAINT `FK_4A8AFFD324DB0683` FOREIGN KEY (`config_id`) REFERENCES `config` (`id`),
+  ADD CONSTRAINT `FK_4A8AFFD353C8D32C` FOREIGN KEY (`propietario_id`) REFERENCES `usuario` (`id`),
+  ADD CONSTRAINT `FK_4A8AFFD3D9504328` FOREIGN KEY (`tipo_documento_tramite_id`) REFERENCES `tipo_documento_tramite` (`id`);
+
+--
 -- Filtros para la tabla `empresa`
 --
 ALTER TABLE `empresa`
@@ -3487,11 +3950,30 @@ ALTER TABLE `empresa`
   ADD CONSTRAINT `FK_B8D75A5053C8D32C` FOREIGN KEY (`propietario_id`) REFERENCES `usuario` (`id`);
 
 --
+-- Filtros para la tabla `empresa_transporte`
+--
+ALTER TABLE `empresa_transporte`
+  ADD CONSTRAINT `FK_F3DC068B24DB0683` FOREIGN KEY (`config_id`) REFERENCES `config` (`id`),
+  ADD CONSTRAINT `FK_F3DC068B53C8D32C` FOREIGN KEY (`propietario_id`) REFERENCES `usuario` (`id`);
+
+--
 -- Filtros para la tabla `estimacion`
 --
 ALTER TABLE `estimacion`
   ADD CONSTRAINT `FK_1D9C1F02693EA4CA` FOREIGN KEY (`certificacion_id`) REFERENCES `certificacion` (`id`),
   ADD CONSTRAINT `FK_1D9C1F0292A0549A` FOREIGN KEY (`socio_periodos_id`) REFERENCES `socio_periodo` (`id`);
+
+--
+-- Filtros para la tabla `guia_remision`
+--
+ALTER TABLE `guia_remision`
+  ADD CONSTRAINT `FK_191A1DC924DB0683` FOREIGN KEY (`config_id`) REFERENCES `config` (`id`),
+  ADD CONSTRAINT `FK_191A1DC930032D1F` FOREIGN KEY (`almacen_origen_id`) REFERENCES `almacen` (`id`),
+  ADD CONSTRAINT `FK_191A1DC953C8D32C` FOREIGN KEY (`propietario_id`) REFERENCES `usuario` (`id`),
+  ADD CONSTRAINT `FK_191A1DC98C48E45E` FOREIGN KEY (`almacen_destino_id`) REFERENCES `almacen` (`id`),
+  ADD CONSTRAINT `FK_191A1DC99C3921AB` FOREIGN KEY (`periodo_id`) REFERENCES `periodo` (`id`),
+  ADD CONSTRAINT `FK_191A1DC9A49DECF0` FOREIGN KEY (`conductor_id`) REFERENCES `conductor` (`id`),
+  ADD CONSTRAINT `FK_191A1DC9E35A899` FOREIGN KEY (`unidad_transporte_id`) REFERENCES `unidad_transporte` (`id`);
 
 --
 -- Filtros para la tabla `localidad`
@@ -3507,6 +3989,13 @@ ALTER TABLE `localidad`
 ALTER TABLE `lote`
   ADD CONSTRAINT `FK_65B4329F24DB0683` FOREIGN KEY (`config_id`) REFERENCES `config` (`id`),
   ADD CONSTRAINT `FK_65B4329F53C8D32C` FOREIGN KEY (`propietario_id`) REFERENCES `usuario` (`id`);
+
+--
+-- Filtros para la tabla `marca_vehiculo`
+--
+ALTER TABLE `marca_vehiculo`
+  ADD CONSTRAINT `FK_7A842BF24DB0683` FOREIGN KEY (`config_id`) REFERENCES `config` (`id`),
+  ADD CONSTRAINT `FK_7A842BF53C8D32C` FOREIGN KEY (`propietario_id`) REFERENCES `usuario` (`id`);
 
 --
 -- Filtros para la tabla `menu`
@@ -3557,6 +4046,13 @@ ALTER TABLE `persona`
   ADD CONSTRAINT `FK_51E5B69BF6939175` FOREIGN KEY (`tipo_documento_id`) REFERENCES `tipo_documento` (`id`);
 
 --
+-- Filtros para la tabla `placa`
+--
+ALTER TABLE `placa`
+  ADD CONSTRAINT `FK_737097D481EF0041` FOREIGN KEY (`marca_id`) REFERENCES `marca_vehiculo` (`id`),
+  ADD CONSTRAINT `FK_737097D4E35A899` FOREIGN KEY (`unidad_transporte_id`) REFERENCES `unidad_transporte` (`id`);
+
+--
 -- Filtros para la tabla `producto`
 --
 ALTER TABLE `producto`
@@ -3594,6 +4090,57 @@ ALTER TABLE `socio`
 ALTER TABLE `socio_periodo`
   ADD CONSTRAINT `FK_57EECEBE9C3921AB` FOREIGN KEY (`periodo_id`) REFERENCES `periodo` (`id`),
   ADD CONSTRAINT `FK_57EECEBEDA04E6A9` FOREIGN KEY (`socio_id`) REFERENCES `socio` (`id`);
+
+--
+-- Filtros para la tabla `tipo_almacen`
+--
+ALTER TABLE `tipo_almacen`
+  ADD CONSTRAINT `FK_C64BF3F024DB0683` FOREIGN KEY (`config_id`) REFERENCES `config` (`id`),
+  ADD CONSTRAINT `FK_C64BF3F053C8D32C` FOREIGN KEY (`propietario_id`) REFERENCES `usuario` (`id`);
+
+--
+-- Filtros para la tabla `tipo_documento`
+--
+ALTER TABLE `tipo_documento`
+  ADD CONSTRAINT `FK_54DF918924DB0683` FOREIGN KEY (`config_id`) REFERENCES `config` (`id`),
+  ADD CONSTRAINT `FK_54DF918953C8D32C` FOREIGN KEY (`propietario_id`) REFERENCES `usuario` (`id`);
+
+--
+-- Filtros para la tabla `tipo_documento_tramite`
+--
+ALTER TABLE `tipo_documento_tramite`
+  ADD CONSTRAINT `FK_C04AEAD024DB0683` FOREIGN KEY (`config_id`) REFERENCES `config` (`id`),
+  ADD CONSTRAINT `FK_C04AEAD053C8D32C` FOREIGN KEY (`propietario_id`) REFERENCES `usuario` (`id`);
+
+--
+-- Filtros para la tabla `tipo_empresa`
+--
+ALTER TABLE `tipo_empresa`
+  ADD CONSTRAINT `FK_AB2E7BF024DB0683` FOREIGN KEY (`config_id`) REFERENCES `config` (`id`),
+  ADD CONSTRAINT `FK_AB2E7BF053C8D32C` FOREIGN KEY (`propietario_id`) REFERENCES `usuario` (`id`);
+
+--
+-- Filtros para la tabla `tipo_vehiculo`
+--
+ALTER TABLE `tipo_vehiculo`
+  ADD CONSTRAINT `FK_1F3F4CCA24DB0683` FOREIGN KEY (`config_id`) REFERENCES `config` (`id`),
+  ADD CONSTRAINT `FK_1F3F4CCA53C8D32C` FOREIGN KEY (`propietario_id`) REFERENCES `usuario` (`id`);
+
+--
+-- Filtros para la tabla `unidad`
+--
+ALTER TABLE `unidad`
+  ADD CONSTRAINT `FK_F3E6D02F24DB0683` FOREIGN KEY (`config_id`) REFERENCES `config` (`id`),
+  ADD CONSTRAINT `FK_F3E6D02F53C8D32C` FOREIGN KEY (`propietario_id`) REFERENCES `usuario` (`id`);
+
+--
+-- Filtros para la tabla `unidad_transporte`
+--
+ALTER TABLE `unidad_transporte`
+  ADD CONSTRAINT `FK_229C335C10D3FB8D` FOREIGN KEY (`tipo_vehiculo_id`) REFERENCES `tipo_vehiculo` (`id`),
+  ADD CONSTRAINT `FK_229C335C24DB0683` FOREIGN KEY (`config_id`) REFERENCES `config` (`id`),
+  ADD CONSTRAINT `FK_229C335C521E08DB` FOREIGN KEY (`empresa_transporte_id`) REFERENCES `empresa_transporte` (`id`),
+  ADD CONSTRAINT `FK_229C335C53C8D32C` FOREIGN KEY (`propietario_id`) REFERENCES `usuario` (`id`);
 
 --
 -- Filtros para la tabla `usuario`
