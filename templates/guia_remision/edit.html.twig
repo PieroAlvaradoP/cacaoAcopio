@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit GuiaRemision{% endblock %}
+
+{% block body %}
+    <h1>Edit GuiaRemision</h1>
+
+    {{ include('guia_remision/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_guia_remision_index') }}">back to list</a>
+
+    {{ include('guia_remision/_delete_form.html.twig') }}
+{% endblock %}

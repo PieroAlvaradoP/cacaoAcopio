@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}GuiaRemision{% endblock %}
+
+{% block body %}
+    <h1>GuiaRemision</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ guia_remision.id }}</td>
+            </tr>
+            <tr>
+                <th>FechaTraslado</th>
+                <td>{{ guia_remision.fechaTraslado ? guia_remision.fechaTraslado|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_guia_remision_index') }}">back to list</a>
+
+    <a href="{{ path('app_guia_remision_edit', {'id': guia_remision.id}) }}">edit</a>
+
+    {{ include('guia_remision/_delete_form.html.twig') }}
+{% endblock %}
