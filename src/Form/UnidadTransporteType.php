@@ -20,7 +20,8 @@ class UnidadTransporteType extends AbstractType
             ->add('placas', CollectionType::class, [
                 'entry_type' => PlacaType::class,
                 'allow_add' => true,
-                'by_reference' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
                 'label' => 'Placas del vehículo',
                 'prototype_data' => new Placa(),
                 'prototype_name' => '__placas__',

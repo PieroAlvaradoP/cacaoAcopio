@@ -1,4 +1,43 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+{% import 'macro/action.html.twig' as action %}
+
+{{ action.frm_start(form) }}
+
+    {{ action.frm_column(
+        action.frm_column_field_date(form.fechaTraslado),
+        action.frm_column_field_select(form.periodo)
+    ) }}
+
+    {{ action.frm_column(
+        action.frm_column_field_select(form.conductor),
+        action.frm_column_field_select(form.unidadTransporte)
+    ) }}
+
+    {{ action.frm_column(
+        action.frm_column_field_select(form.almacenOrigen),
+        action.frm_column_field_select(form.almacenDestino)
+    ) }}
+
+    {{ action.frm_column(
+        action.frm_column_field_select(form.motivoTraslado, '', '', 2),
+        null,
+        null,
+        null,
+        1
+    ) }}
+
+    {{ action.frm_column(
+        action.frm_column_field_collection(form.producto, '', '', '', 2),
+        null,
+        null,
+        null,
+        1
+    ) }}
+
+    {{ action.frm_column(
+        action.frm_column_btn(button_label|default('Guardar')),
+        null,
+        null,
+        null,
+        2
+    ) }}
+{{ action.frm_end(form) }}

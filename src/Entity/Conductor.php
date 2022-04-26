@@ -2,10 +2,10 @@
 
 namespace Pidia\Apps\Demo\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Pidia\Apps\Demo\Entity\Traits\EntityTrait;
 use Pidia\Apps\Demo\Repository\ConductorRepository;
-use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ConductorRepository::class)]
 #[HasLifecycleCallbacks]
@@ -127,5 +127,10 @@ class Conductor
         $this->localidad = $localidad;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getNombres().' '.$this->getApellidoPaterno().' '.$this->getApellidoMaterno();
     }
 }

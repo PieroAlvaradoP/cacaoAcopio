@@ -2,10 +2,12 @@
 
 namespace Pidia\Apps\Demo\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Pidia\Apps\Demo\Entity\Traits\EntityTrait;
 use Pidia\Apps\Demo\Repository\GuiaRemisionRepository;
-use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: GuiaRemisionRepository::class)]
 #[HasLifecycleCallbacks]
@@ -39,6 +41,19 @@ class GuiaRemision
     #[ORM\ManyToOne(targetEntity: Conductor::class)]
     #[ORM\JoinColumn(nullable: false)]
     private $conductor;
+
+    #[ORM\OneToOne(targetEntity: MotivoTraslado::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private $motivoTraslado;
+
+    #[ORM\ManyToMany(targetEntity: ProductoTraslado::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private $producto;
+
+    public function __construct()
+    {
+        $this->fechaTraslado = new \DateTime();
+        $this->producto = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -113,6 +128,42 @@ class GuiaRemision
     public function setConductor(?Conductor $conductor): self
     {
         $this->conductor = $conductor;
+
+        return $this;
+    }
+
+    public function getMotivoTraslado(): ?MotivoTraslado
+    {
+        return $this->motivoTraslado;
+    }
+
+    public function setMotivoTraslado(MotivoTraslado $motivoTraslado): self
+    {
+        $this->motivoTraslado = $motivoTraslado;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductoTraslado>
+     */
+    public function getProducto(): Collection
+    {
+        return $this->producto;
+    }
+
+    public function addProducto(ProductoTraslado $producto): self
+    {
+        if (!$this->producto->contains($producto)) {
+            $this->producto[] = $producto;
+        }
+
+        return $this;
+    }
+
+    public function removeProducto(ProductoTraslado $producto): self
+    {
+        $this->producto->removeElement($producto);
 
         return $this;
     }

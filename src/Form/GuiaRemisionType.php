@@ -3,7 +3,11 @@
 namespace Pidia\Apps\Demo\Form;
 
 use Pidia\Apps\Demo\Entity\GuiaRemision;
+use Pidia\Apps\Demo\Entity\ProductoTraslado;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,12 +16,28 @@ class GuiaRemisionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('fechaTraslado')
+            ->add('fechaTraslado', DateType::class, [
+                'widget' => 'single_text',
+                'required' => false,
+                'html5' => false,
+            ])
             ->add('periodo')
             ->add('almacenOrigen')
             ->add('almacenDestino')
             ->add('unidadTransporte')
             ->add('conductor')
+            ->add('motivoTraslado')
+//            ->add('producto')
+            ->add('producto', CollectionType::class, [
+                'entry_type' => ProductoTrasladoType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'label' => 'Productos',
+                'prototype_data' => new ProductoTraslado(),
+                'prototype_name' => '__producto_traslado__',
+            ]);
+
         ;
     }
 

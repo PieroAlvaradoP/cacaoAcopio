@@ -34,7 +34,6 @@ class UnidadTransporte
     #[ORM\OneToMany(mappedBy: 'unidadTransporte', targetEntity: Placa::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $placas;
 
-
     public function __construct()
     {
         $this->placas = new ArrayCollection();
@@ -83,8 +82,19 @@ class UnidadTransporte
 
     public function __toString(): string
     {
-        // TODO: Implement __toString() method.
-        return $this->getTipoVehiculo();
+        return $this->getEmpresaTransporte().' / '.$this->getTipoVehiculo().$this->tomarPlaca();
+    }
+
+    public function tomarPlaca(): string
+    {
+        $text = '';
+        if ($this->getPlacas()->count() >= 1) {
+            foreach ($this->getPlacas() as $plac) {
+                $text .= ' / '.$plac->getNumPlaca();
+            }
+        }
+
+        return $text;
     }
 
     /**
@@ -108,7 +118,6 @@ class UnidadTransporte
     public function removePlaca(Placa $placa): self
     {
         if ($this->placas->removeElement($placa)) {
-            // set the owning side to null (unless already changed)
             if ($placa->getUnidadTransporte() === $this) {
                 $placa->setUnidadTransporte(null);
             }

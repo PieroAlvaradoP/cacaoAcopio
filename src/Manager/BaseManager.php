@@ -66,17 +66,17 @@ abstract class BaseManager
 
     public function save(object $entity): bool
     {
-        try {
+//        try {
             $entity->updatedDatetime();
             $this->entityManager->persist($entity);
             $this->entityManager->flush();
 
             return true;
-        } catch (Exception $exception) {
-            $this->errors[] = new Error($exception->getMessage());
-        }
+//        } catch (Exception $exception) {
+//            $this->errors[] = new Error($exception->getMessage());
+//        }
 
-        return false;
+//        return false;
     }
 
     public function remove(object $entity): bool

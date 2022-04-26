@@ -3,9 +3,9 @@
 {% import 'macro/action.html.twig' as action %}
 {% import 'macro/pagination.html.twig' as pagination %}
 
-{% set _title = 'Guia de Remisión' %}
+{% set _title = 'Motivo de Traslado' %}
 {% set _main_title = 'Listado' %}
-{% set _section =  'guia_remision_index' %}
+{% set _section =  'motivo_traslado_index' %}
 
 {% block _breadcrumb %}
     {{ breadcrumb.show(_title) }}
@@ -17,37 +17,29 @@
         {{ action.thead_start() }}
         <tr>
             {{ action.th('ID', true,  'text-center') }}
-            {{ action.th('Fecha Traslado', true) }}
-            {{ action.th('Periodo', true) }}
-            {{ action.th('Conductor', true) }}
-            {{ action.th('Origen', true) }}
-            {{ action.th('Destino', true) }}
-            {{ action.th('Activo', true) }}
+            {{ action.th('Motivo de Traslado', true) }}
+            {{ action.th('Activo', true, 'text-center') }}
             <th></th>
         </tr>
         {{ action.thead_end() }}
         {{ action.tbody_start() }}
-        {% for guia_remision in paginator.results %}
+        {% for motivo_traslado in paginator.results %}
             <tr>
-                <td>{{ guia_remision.id }}</td>
-                <td>{{ guia_remision.fechaTraslado | date('d-m-Y')}}</td>
-                <td>{{ guia_remision.periodo}}</td>
-                <td>{{ guia_remision.conductor}}</td>
-                <td>{{ guia_remision.almacenOrigen}}</td>
-                <td>{{ guia_remision.almacenDestino}}</td>
-                <td class="text-center">{{ guia_remision.activo | yesnocustom | raw }}</td>
+                <td>{{ motivo_traslado.id }}</td>
+                <td>{{ motivo_traslado.nombreMotivo}}</td>
+                <td class="text-center">{{ motivo_traslado.activo | yesnocustom | raw }}</td>
                 <td>
                     {% if access.has('view') %}
-                        {{ action.btn_show_link2_ico(path('guia_remision_show', {'id': guia_remision.id})) }}
+                        {{ action.btn_show_link2_ico(path('motivo_traslado_show', {'id': motivo_traslado.id})) }}
                     {% endif %}
-                    {% if access.has('edit', guia_remision) %}
-                        {{ action.btn_edit_link2_ico(path('guia_remision_edit', {'id': guia_remision.id})) }}
+                    {% if access.has('edit', motivo_traslado) %}
+                        {{ action.btn_edit_link2_ico(path('motivo_traslado_edit', {'id': motivo_traslado.id})) }}
                     {% endif %}
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="7">No hay registros</td>
+                <td colspan="3">No hay registros</td>
             </tr>
         {% endfor %}
         {{ action.tbody_end() }}
@@ -58,7 +50,7 @@
 {% endblock %}
 
 {% block _main_footer %}
-    {% include 'crud/_index_links.html.twig' with {'route_base': 'guia_remision'} %}
+    {% include 'crud/_index_links.html.twig' with {'route_base': 'motivo_traslado'} %}
 {% endblock%}
 
 {% block _main_options %}
@@ -70,11 +62,11 @@
 {% endblock %}
 
 {% block _body_tools_ico %}
-    {% include 'crud/_index_links_tool.html.twig' with {'route_base': 'guia_remision'}  %}
+    {% include 'crud/_index_links_tool.html.twig' with {'route_base': 'motivo_traslado'}  %}
 {% endblock %}
 
 {% block _body_tools %}
-    {% include 'crud/_index_links_ico.html.twig' with {'route_base': 'guia_remision'}  %}
+    {% include 'crud/_index_links_ico.html.twig' with {'route_base': 'motivo_traslado'}  %}
 {% endblock %}
 
 {% block _stylesheets %}
@@ -84,18 +76,18 @@
     <script>
         $(document).ready(function () {
             $(document).on('change', '#filter_size', function () {
-                let route = '{{ path('guia_remision_index') }}';
+                let route = '{{ path('motivo_traslado_index') }}';
                 route = route + "?" + 'n=' + $('#filter_size option:selected').val();
                 route = route + "&" + 'b=' + $('#filter_text').val();
                 window.location = route;
             });
 
             $(document).on('click', '.btn-send', function () {
-                window.location = '{{ path('guia_remision_index') }}';
+                window.location = '{{ path('motivo_traslado_index') }}';
             });
 
             $(document).on('click', '.btn-clean', function () {
-                window.location.href = '{{ path('guia_remision_index') }}';
+                window.location.href = '{{ path('motivo_traslado_index') }}';
             });
         });
     </script>

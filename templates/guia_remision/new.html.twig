@@ -1,11 +1,78 @@
 {% extends 'base.html.twig' %}
+{% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+{% import 'macro/action.html.twig' as action %}
 
-{% block title %}New GuiaRemision{% endblock %}
+{% set _title = 'Guia de Remisión' %}
+{% set _main_title = 'Nuevo' %}
+{% set _section =  'guia_remision_index'%}
 
-{% block body %}
-    <h1>Create new GuiaRemision</h1>
+{% block _breadcrumb %}
+    {{ breadcrumb.show2(_title,_section,'Nuevo') }}
+{% endblock %}
 
+{% form_theme form _self %}
+
+{% block _guia_remision_label -%}
+{% endblock %}
+
+{% block _guia_remision_entry_widget -%}
+    {% import 'macro/action.html.twig' as actions %}
+    {{ actions.frm_field_two_with_label(form.name,form.route, 'mb-0','form-control-sm') }}
+{%- endblock %}
+
+{% block _guia_remision_producto_label -%}
+{% endblock %}
+
+{% block _guia_remision_producto_entry_widget -%}
+    {% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+    {% import 'macro/action.html.twig' as actions %}
+    {{ actions.frm_column(
+        actions.frm_column_field_select(form.productoT),
+        actions.frm_column_field_select(form.certificacion),
+    ) }}
+    {{ actions.frm_column(
+        actions.frm_column_field(form.cantSacos),
+        actions.frm_column_field(form.pesoBruto),
+    ) }}
+    {{ action.frm_column(
+        action.frm_column_field(form.tara),
+        null,
+        null,
+        null,
+        2
+    ) }}
+{%- endblock %}
+
+{% block _main %}
     {{ include('guia_remision/_form.html.twig') }}
+{% endblock %}
 
-    <a href="{{ path('app_guia_remision_index') }}">back to list</a>
+{% block _main_tools %}
+    {% include 'crud/_tools_ico.html.twig' %}
+{% endblock %}
+
+{% block _body_tools %}
+    {% include 'crud/_new_links_ico.html.twig' with {'route_base':'guia_remision'} %}
+{% endblock %}
+
+{% block _body_tools_ico %}
+    {% include 'crud/_new_links_tool.html.twig' with {'route_base': 'guia_remision'}  %}
+{% endblock %}
+
+{% block _main_footer %}
+    {% include 'crud/_new_links.html.twig' with {'route_base':'guia_remision'} %}
+{% endblock %}
+
+{% block _javascripts %}
+    <script src = "{{ asset('js/collection.js') }}"></script>
+    <script src="{{ asset('js/select2.js') }}"></script>
+    <script src = "{{ asset('js/flatpickr.js') }}" type="text/javascript"></script>
+    <script>
+        jQuery(document).ready(function (){
+            Flatpickr();
+            $('#guia_remision_fechaTraslado').flatpickr();
+            Collection.init('#guia_remision_producto');
+            Select2();
+        });
+    </script>
 {% endblock %}
