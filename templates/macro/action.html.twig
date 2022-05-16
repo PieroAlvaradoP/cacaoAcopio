@@ -682,7 +682,7 @@
     <div class="form-group row mb-1 p-1 {{ class }} {{ actions.frm_errors_class(value) }}">
         {{ actions.frm_label(value,'col-sm-' ~ col ~ ' col-4') }}
         <div class="col-sm-{{ 12-col }} col-8">
-            {{ form_widget(value, {attr: {class: 'js-select2 form-control ' ~ class_widget ~ actions.frm_errors_class(value), 'data-placeholder': placeholder | gtrans} }) }}
+            {{ form_widget(value, {attr: {class: 'js-select2 form-select ' ~ class_widget ~ actions.frm_errors_class(value), 'data-placeholder': placeholder | gtrans} }) }}
             {{ actions.frm_help(value) }}
             {{ actions.frm_errors(value) }}
         </div>
@@ -831,14 +831,19 @@
         {{ actions.frm_label(value,'col-sm-' ~ col ~ ' col-4') }}
         <div class="col-sm-{{ 12-col }} col-8">
             {% for child in value.vars.form.children %}
-                <label class="css-control css-control-primary css-checkbox">
-                    {{ form_widget(child, {attr: {class: 'css-control-input ' ~ class_widget} }) }}
-                    <span class="css-control-indicator"></span> {{ actions.frm_label_single(child) }}
-                </label>
+
+                <div class="form-check form-check-inline form-check-solid ">
+                    {{ form_widget(child, {attr: {class: 'form-check-input ' ~ class_widget} }) }}
+                    <label class="form-check-label">
+                        {{ actions.frm_label_single(child) }}
+                    </label>
+                </div>
             {% endfor %}
             {{ actions.frm_help(value) }}
         </div>
     </div>
+
+
 {% endmacro %}
 
 {% macro frm_column_field_slider(value, class='', class_widget='', col=4) %}

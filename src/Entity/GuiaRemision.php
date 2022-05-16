@@ -42,17 +42,18 @@ class GuiaRemision
     #[ORM\JoinColumn(nullable: false)]
     private $conductor;
 
-    #[ORM\OneToOne(targetEntity: MotivoTraslado::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private $motivoTraslado;
 
     #[ORM\ManyToMany(targetEntity: ProductoTraslado::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $producto;
+
+    #[ORM\ManyToMany(targetEntity: MotivoTraslado::class)]
+    private $motivos;
 
     public function __construct()
     {
         $this->fechaTraslado = new \DateTime();
         $this->producto = new ArrayCollection();
+        $this->motivos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -132,17 +133,7 @@ class GuiaRemision
         return $this;
     }
 
-    public function getMotivoTraslado(): ?MotivoTraslado
-    {
-        return $this->motivoTraslado;
-    }
-
-    public function setMotivoTraslado(MotivoTraslado $motivoTraslado): self
-    {
-        $this->motivoTraslado = $motivoTraslado;
-
-        return $this;
-    }
+    
 
     /**
      * @return Collection<int, ProductoTraslado>
@@ -164,6 +155,30 @@ class GuiaRemision
     public function removeProducto(ProductoTraslado $producto): self
     {
         $this->producto->removeElement($producto);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MotivoTraslado>
+     */
+    public function getMotivos(): Collection
+    {
+        return $this->motivos;
+    }
+
+    public function addMotivo(MotivoTraslado $motivo): self
+    {
+        if (!$this->motivos->contains($motivo)) {
+            $this->motivos[] = $motivo;
+        }
+
+        return $this;
+    }
+
+    public function removeMotivo(MotivoTraslado $motivo): self
+    {
+        $this->motivos->removeElement($motivo);
 
         return $this;
     }
