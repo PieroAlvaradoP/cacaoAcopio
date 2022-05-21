@@ -8,6 +8,14 @@
     ) }}
 
     {{ action.frm_column(
+        action.frm_column_field_ticket(form.docTramiteSerie,form.numeroGuia),
+        null,
+        null,
+        null,
+        2
+    ) }}
+
+    {{ action.frm_column(
         action.frm_column_field_select(form.conductor),
         action.frm_column_field_select(form.unidadTransporte)
     ) }}

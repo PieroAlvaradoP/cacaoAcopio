@@ -2,10 +2,10 @@
 
 namespace Pidia\Apps\Demo\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Pidia\Apps\Demo\Entity\Traits\EntityTrait;
 use Pidia\Apps\Demo\Repository\DocumentoTramiteRepository;
-use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DocumentoTramiteRepository::class)]
 #[HasLifecycleCallbacks]
@@ -67,5 +67,9 @@ class DocumentoTramite
 
         return $this;
     }
-    
+
+    public function __toString(): string
+    {
+        return $this->getSerie();
+    }
 }

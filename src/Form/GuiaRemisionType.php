@@ -2,12 +2,13 @@
 
 namespace Pidia\Apps\Demo\Form;
 
+use Pidia\Apps\Demo\Entity\DocumentoTramite;
 use Pidia\Apps\Demo\Entity\GuiaRemision;
 use Pidia\Apps\Demo\Entity\MotivoTraslado;
 use Pidia\Apps\Demo\Entity\ProductoTraslado;
+use Pidia\Apps\Demo\Repository\DocumentoTramiteRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -23,6 +24,16 @@ class GuiaRemisionType extends AbstractType
                 'required' => false,
                 'html5' => false,
             ])
+            ->add('docTramiteSerie', EntityType::class, [
+                'class' => DocumentoTramite::class,
+                'query_builder' => function (DocumentoTramiteRepository $repository) {
+                    return $repository->createQueryBuilder('DocumentoTramite')
+                                        ->join('DocumentoTramite.tipoDocumentoTramite', 'TipoDocumentoTramite')
+                                        ->where('TipoDocumentoTramite.id= :tipoId')
+                                        ->setParameter('tipoId', 1);
+                },
+            ])
+            ->add('numeroGuia')
             ->add('periodo')
             ->add('almacenOrigen')
             ->add('almacenDestino')
@@ -42,8 +53,6 @@ class GuiaRemisionType extends AbstractType
                 'prototype_data' => new ProductoTraslado(),
                 'prototype_name' => '__producto_traslado__',
             ]);
-
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -82,7 +82,7 @@ class UnidadTransporte
 
     public function __toString(): string
     {
-        return $this->getEmpresaTransporte().' / '.$this->getTipoVehiculo().$this->tomarPlaca();
+        return $this->getEmpresaTransporte().' - '.$this->getTipoVehiculo().$this->tomarPlaca();
     }
 
     public function tomarPlaca(): string
@@ -90,11 +90,11 @@ class UnidadTransporte
         $text = '';
         if ($this->getPlacas()->count() >= 1) {
             foreach ($this->getPlacas() as $plac) {
-                $text .= ' / '.$plac->getNumPlaca();
+                $text .= $plac->getNumPlaca().' - ';
             }
         }
 
-        return $text;
+        return ' ('.rtrim($text, '- ').')';
     }
 
     /**

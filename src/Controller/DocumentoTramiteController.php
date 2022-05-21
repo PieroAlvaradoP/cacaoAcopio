@@ -8,7 +8,6 @@ use Pidia\Apps\Demo\Manager\DocumentoTramiteManager;
 use Pidia\Apps\Demo\Repository\DocumentoTramiteRepository;
 use Pidia\Apps\Demo\Security\Access;
 use Pidia\Apps\Demo\Util\Paginator;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -141,5 +140,22 @@ class DocumentoTramiteController extends BaseController
         }
 
         return $this->redirectToRoute('documento_tramite_index');
+    }
+
+    #[Route(path: '/documento_tramite/serie_ajax', name: 'documento_tramite_serie_numero', methods: ['POST'])]
+    public function pedidoAjax(Request $request, DocumentoTramiteRepository $repository): Response
+    {
+        $serie = $request->request->get('serie');
+        $numero = $repository->findNumero($serie);
+
+        if (null === $numero) {
+            return $this->json(['status' => false, 'message' => 'No se encontró']);
+        }
+
+        $data = [
+            'numero' => $numero,
+        ];
+
+        return $this->json(['status' => true, 'data' => $data]);
     }
 }

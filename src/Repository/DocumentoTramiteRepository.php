@@ -2,6 +2,7 @@
 
 namespace Pidia\Apps\Demo\Repository;
 
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 use Pidia\Apps\Demo\Entity\DocumentoTramite;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -51,4 +52,21 @@ class DocumentoTramiteRepository extends ServiceEntityRepository implements Base
 
         return $queryBuilder;
     }
+
+    public function findNumero(string $serie): ?array
+    {
+        try {
+            return $this->createQueryBuilder('documento_tramite')
+                ->select('documento_tramite.numero')
+                ->andWhere('documento_tramite.serie=:serie')
+                ->setParameter('serie', $serie)
+                ->getQuery()
+                ->getArrayResult();
+
+        } catch (NonUniqueResultException) {
+        }
+
+        return null;
+    }
+
 }

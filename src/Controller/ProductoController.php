@@ -20,6 +20,7 @@ class ProductoController extends BaseController
     {
         $this->denyAccess(Access::LIST, 'producto_index');
         $paginator = $manager->list($request->query->all(), $page);
+
         return $this->render('producto/index.html.twig', [
             'paginator' => $paginator,
         ]);
@@ -47,30 +48,6 @@ class ProductoController extends BaseController
 
         return $manager->export($data, $headers, 'Reporte de Productos');
     }
-
-//    #[Route('/new', name: 'producto_new', methods: ['GET', 'POST'])]
-//    public function new(Request $request, ProductoManager $manager): Response
-//    {
-//        $this->denyAccess(Access::NEW, 'producto_index');
-//        $producto = new Producto();
-//        $form = $this->createForm(ProductoType::class, $producto);
-//        $form->handleRequest($request);
-//
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $producto->setPropietario($this->getUser());
-//            if ($manager->save($producto)) {
-//                $this->addFlash('success', 'Registro creado!!!');
-//            } else {
-//                $this->addErrors($manager->errors());
-//            }
-//            return $this->redirectToRoute('producto_index');
-//        }
-//
-//        return $this->render('producto/new.html.twig', [
-//            'producto' => $producto,
-//            'form' => $form->createView(),
-//        ]);
-//    }
 
     #[Route('/new', name: 'producto_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ProductoManager $manager): Response
@@ -100,6 +77,7 @@ class ProductoController extends BaseController
     public function show(Producto $producto): Response
     {
         $this->denyAccess(Access::VIEW, 'producto_index');
+
         return $this->render('producto/show.html.twig', [
             'producto' => $producto,
         ]);

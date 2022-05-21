@@ -42,12 +42,18 @@ class GuiaRemision
     #[ORM\JoinColumn(nullable: false)]
     private $conductor;
 
-
     #[ORM\ManyToMany(targetEntity: ProductoTraslado::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $producto;
 
     #[ORM\ManyToMany(targetEntity: MotivoTraslado::class)]
     private $motivos;
+
+    #[ORM\ManyToOne(targetEntity: DocumentoTramite::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private $docTramiteSerie;
+
+    #[ORM\Column(type: 'string', length: 6)]
+    private $numeroGuia;
 
     public function __construct()
     {
@@ -133,8 +139,6 @@ class GuiaRemision
         return $this;
     }
 
-    
-
     /**
      * @return Collection<int, ProductoTraslado>
      */
@@ -179,6 +183,30 @@ class GuiaRemision
     public function removeMotivo(MotivoTraslado $motivo): self
     {
         $this->motivos->removeElement($motivo);
+
+        return $this;
+    }
+
+    public function getDocTramiteSerie(): ?DocumentoTramite
+    {
+        return $this->docTramiteSerie;
+    }
+
+    public function setDocTramiteSerie(?DocumentoTramite $docTramiteSerie): self
+    {
+        $this->docTramiteSerie = $docTramiteSerie;
+
+        return $this;
+    }
+
+    public function getNumeroGuia(): ?string
+    {
+        return $this->numeroGuia;
+    }
+
+    public function setNumeroGuia(string $numeroGuia): self
+    {
+        $this->numeroGuia = $numeroGuia;
 
         return $this;
     }

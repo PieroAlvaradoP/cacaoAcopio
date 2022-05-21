@@ -73,6 +73,38 @@
             $('#guia_remision_fechaTraslado').flatpickr();
             Collection.init('#guia_remision_producto');
             Select2();
+            let $serie = $("#guia_remision_docTramiteSerie").children("option:selected").text();
+            $.ajax({
+                type:'POST',
+                url:'{{ path('documento_tramite_serie_numero') }}',
+                data:{
+                    serie:$serie,
+                },
+                success:function (response){
+                    let num=response.data.numero[0].numero.toString();
+                    let numeroGuia='00000'.concat(num);
+                    $('#guia_remision_numeroGuia').val(numeroGuia.substr(-5));
+                    $('#guia_remision_numeroGuia').attr('disabled',true);
+                    console.log(numeroGuia);
+                }
+            });
+            $(document).on('change','#guia_remision_docTramiteSerie',function (){
+                let $serie = $("#guia_remision_docTramiteSerie").children("option:selected").text();
+                $.ajax({
+                    type:'POST',
+                    url:'{{ path('documento_tramite_serie_numero') }}',
+                    data:{
+                        serie:$serie,
+                    },
+                    success:function (response){
+                        let num=response.data.numero[0].numero.toString();
+                        let numeroGuia='00000'.concat(num);
+                        $('#guia_remision_numeroGuia').val(numeroGuia.substr(-5));
+                        $('#guia_remision_numeroGuia').attr('disabled',true);
+                        console.log(numeroGuia);
+                    }
+                });
+            })
         });
     </script>
 {% endblock %}
