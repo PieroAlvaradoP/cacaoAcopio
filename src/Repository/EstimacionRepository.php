@@ -2,11 +2,10 @@
 
 namespace Pidia\Apps\Demo\Repository;
 
-use Doctrine\DBAL\Query;
-use Doctrine\ORM\NonUniqueResultException;
-use Pidia\Apps\Demo\Entity\Estimacion;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
+use Pidia\Apps\Demo\Entity\Estimacion;
 
 /**
  * @method Estimacion|null find($id, $lockMode = null, $lockVersion = null)
@@ -32,11 +31,25 @@ class EstimacionRepository extends ServiceEntityRepository
                 ->setParameter('idSocio', $idSocio)
                 ->getQuery()
                 ->getArrayResult();
-
         } catch (NonUniqueResultException) {
         }
 
         return null;
     }
 
+    public function estimacionesByCertificacion(): ?array
+    {
+        try {
+            return $this->createQueryBuilder('estimacion')
+                ->select(['certificacion.nombre', 'estimacion.cantidad'])
+                ->join('estimacion.certificacion', 'certificacion')
+                ->groupBy('certificacion.id')
+                ->getQuery()
+                ->getArrayResult();
+        } catch (NonUniqueResultException) {
+
+        }
+
+        return null;
+    }
 }

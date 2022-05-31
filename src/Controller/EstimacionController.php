@@ -33,4 +33,21 @@ class EstimacionController extends AbstractController
 
         return $this->json(['status' => true, 'data' => $data]);
     }
+
+    #[Route(path: '/documento_tramite/serie_ajax', name: 'documento_tramite_serie_numero', methods: ['POST'])]
+    public function estimacionByCertificacion(Request $request, EstimacionRepository $repository): Response
+    {
+        $estimacion = $repository->estimacionesByCertificacion();
+
+        if (null === $estimacion) {
+            return $this->json(['status' => false, 'message' => 'No se encontró']);
+        }
+
+        $data = [
+            'estimacion' => $estimacion,
+        ];
+
+        return $this->json(['status' => true, 'data' => $data]);
+    }
+
 }
